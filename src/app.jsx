@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './app.module.css';
+import { Routes, Route } from 'react-router-dom';
+import Walk from './routes/Walk/Walk';
 
 const App = () => {
   const [message, setMessage] = useState();
@@ -14,7 +16,16 @@ const App = () => {
         }
       });
   }, []);
-  return <div className='App'>멍냥일보 프론트엔드입니당:{message}</div>;
+  return (
+    <>
+      <div className='App'>
+        <div>멍냥일보 프론트엔드입니당:{message}</div>
+        <Routes>
+          <Route path='/walk' element={<Walk />}></Route>
+        </Routes>
+      </div>
+    </>
+  );
 };
 
 export default App;
