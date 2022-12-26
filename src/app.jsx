@@ -19,7 +19,7 @@ const App = () => {
   return (
     <>
       <div className='App'>
-        <div>멍냥일보 프론트엔드입니당:{message}</div>
+        <div>멍냥일보 프론트엔드입니당 {message}</div>
         <Routes>
           <Route path='/walk' element={<Walk />}></Route>
         </Routes>
