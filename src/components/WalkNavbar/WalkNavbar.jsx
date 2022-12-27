@@ -1,9 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './WalkNavbar.module.css';
 
 const WalkNavbar = (props) => {
   const searchRef = useRef();
+  const [tabState, setTabState] = useState('');
 
+  const handleTabStateChanged = (e) => {
+    setTabState(e);
+  };
   const handleSearchInput = () => {
     console.log('검색결과:', searchRef.current.value);
   };
@@ -30,12 +34,17 @@ const WalkNavbar = (props) => {
             </div>
             <button className={styles.searchButton}>검색버튼</button>
           </div>
-          <div className={styles.navTab}>
-            <button>검색</button>
-            <button>루트</button>
-            <button>MY</button>
+          <div className={styles.navTabButton}>
+            <button onClick={() => handleTabStateChanged('검색')}>검색</button>
+            <button onClick={() => handleTabStateChanged('루트')}>루트</button>
+            <button onClick={() => handleTabStateChanged('MY')}>MY</button>
           </div>
-          <div className={styles.exploreTab}>
+        </div>
+        <div className={styles.navbarBody}>
+          <div
+            style={tabState === '검색' ? null : { display: 'none' }}
+            className={styles.navigateTab}
+          >
             <div className={styles.infoWeather}>이거슨 날씨여</div>
             <div className={styles.infoAround}>
               <h3>주변 탐색</h3>
@@ -62,6 +71,18 @@ const WalkNavbar = (props) => {
                 </li>
               </ul>
             </div>
+          </div>
+          <div
+            style={tabState === '루트' ? null : { display: 'none' }}
+            className={styles.directionsTab}
+          >
+            이건 길찾기
+          </div>
+          <div
+            style={tabState === 'MY' ? null : { display: 'none' }}
+            className={styles.myRouteTab}
+          >
+            이건 마이루트
           </div>
         </div>
       </div>
