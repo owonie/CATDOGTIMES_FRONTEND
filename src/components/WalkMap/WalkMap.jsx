@@ -15,11 +15,9 @@ const WalkMap = (props) => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.leftTab}>leftTab</div>
-        <div className={styles.mainTab}>
+        <div className={styles.mapWrapper}>
           <div id='map' className={styles.walkMap}></div>
         </div>
-        <div className={styles.rightTab}>rightTab</div>
       </div>
     </>
   );

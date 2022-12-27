@@ -1,16 +1,20 @@
 import React from 'react';
 import WalkMap from '../../components/WalkMap/WalkMap';
+import WalkNavbar from '../../components/WalkNavbar/WalkNavbar';
+import styles from './Walk.module.css';
 
 const Walk = (props) => {
-  const onHandleClick = () => {
-    console.log('be clicked!');
-  };
   return (
     <>
-      <div>walk page</div>
-      <WalkMap />
-
-      <button onClick={() => onHandleClick()}>click!</button>
+      <header>walk page</header>
+      <div className={styles.container}>
+        <div className={styles.walkNavbar}>
+          <WalkNavbar />
+        </div>
+        <div className={styles.walkMap}>
+          <WalkMap />
+        </div>
+      </div>
     </>
   );
 };
