@@ -1,5 +1,5 @@
 import React from 'react';
-import WalkMap from '../../components/map/WalkMap';
+import WalkMap from '../../components/WalkMap/WalkMap';
 
 const Walk = (props) => {
   const onHandleClick = () => {
