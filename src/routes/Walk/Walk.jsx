@@ -1,4 +1,5 @@
 import React from 'react';
+import WalkMap from '../../components/map/WalkMap';
 
 const Walk = (props) => {
   const onHandleClick = () => {
@@ -7,6 +8,8 @@ const Walk = (props) => {
   return (
     <>
       <div>walk page</div>
+      <WalkMap />
+
       <button onClick={() => onHandleClick()}>click!</button>
     </>
   );
