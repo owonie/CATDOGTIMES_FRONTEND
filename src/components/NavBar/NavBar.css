@@ -1,0 +1,35 @@
+.title {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.menu__row {
+  font-size: 20px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 895px) {
+  .thumbnail {
+    display: none;
+  }
+  .menu__row span {
+    display: none;
+  }
+  .title {
+    display: none;
+  }
+  .title img {
+    display: block;
+  }
+}
+
+.menu__row span {
+  font-size: 15px;
+}
+
+.menu__row i {
+  margin-right: 15px;
+}

@@ -1,0 +1,17 @@
+.SNS {
+  display: flex;
+}
+
+#nav {
+  max-width: 245px;
+  border-right: 2px solid rgba(150, 150, 150, 0.15);
+  padding: 32px 15px 15px 32px;
+}
+
+@media (max-width: 895px) {
+  #nav {
+    width: 190px;
+    border-right: 2px solid rgba(150, 150, 150, 0.15);
+    padding: 32px 15px 15px 32px;
+  }
+}
