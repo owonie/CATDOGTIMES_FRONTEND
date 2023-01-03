@@ -1,0 +1,50 @@
+.recentSearchBox {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.recentTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px;
+  font-weight: bold;
+}
+.text1 {
+  font-size: 15px;
+}
+.text2 {
+  font-size: 14px;
+  color: #0095f6;
+}
+
+.recentUser {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.recentUserProfile {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+.userImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 70%;
+  margin: 0px 15px;
+}
+
+.userName1 {
+  font-weight: bold;
+  padding-bottom: 3px;
+}
+
+.userName2 {
+  color: #9e9e9e;
+}
+
+.recentUser i {
+  margin-right: 15px;
+}

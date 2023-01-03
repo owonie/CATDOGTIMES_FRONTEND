@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="assets/images/catdog3.png">
+  <title>멍냥일보 - mypage</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:300,300i,400,400i,500,500i&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/font-icon.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/defined.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/home-fashion-vertical.css">
+  <script src="https://kit.fontawesome.com/0eafa41d97.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* 공통 레이아웃 */
+    a {
+      transition: all 0.3s;
+    }
+
+    .logo {
+      width: 100%;
+    }
+
+    .fas {
+      padding-right: 8px;
+    }
+
+    #nav_header7 a:hover,
+    #nav_header7 a:active,
+    #nav_header7 a:focus {
+      font-weight: bold;
+    }
+
+    /* 정보수정 */
+    #photo{
+      border-radius: 999px;
+    }
+    .nick_name{
+      font-size: 1.5em;
+    }
+    #photofile{
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+    
+    .member_info label[for="photofile"]:hover{ color: #56cfe1; cursor: pointer;}
+    .member_info .btn_link{
+      border-radius: 8px;
+      padding: 7px;
+      background: #eee;
+      border-color: #eee;
+    }
+    .member_info label{font-weight: bold;}
+    .member_info ::placeholder{
+      opacity: 0.35;
+    }
+    
+  </style>
+
+
+</head>
+
+<body
+  class="lazy_icons btnt4_style_2 zoom_tp_2 css_scrollbar template-index cart_pos_side kalles_toolbar_true hover_img2 swatch_style_rounded swatch_list_size_small label_style_rounded wrapper_full_width header_full_true header_sticky_true hide_scrolld_true des_header_7 h_banner_true top_bar_true prs_bordered_grid_1 search_pos_full lazyload">
+
+  <div id="nt_wrapper">
+    <!-- header -->
+
+    <!-- end header -->
+
+    <div id="nt_content" class="mainContent p-5 ">
+      <article class="member_info container">
+        <h3 class="h3 pb-5">내정보 수정</h3>
+
+        <div class="row pb-5">
+          <div class="col-3">
+              <div class="profile-img">
+                <img alt="프로필 사진 바꾸기" id="photo" src="assets/images/photo.jpg">
+              </div>
+          </div>
+
+          <div class="col-9">
+            <form enctype="multipart/form-data" method="POST" role="presentation">
+              <h1 class="nick_name">kookjinshin</h1>
+              <label for="photofile" class="ts__03">프로필 사진 바꾸기</label>
+              <input accept="image/jpeg,image/png" id="photofile" type="file" onchange="document.getElementById('photo').src = window.URL.createObjectURL(this.files[0])">
+            </form>
+          </div>
+        </div>
+
+
+        <form class="myinfo" method="POST">
+          <div class="row pb-3">
+            <aside class="col-sm-3"><label class="d-block text-right" for="name">닉네임(별명)</label></aside>
+            <div class="col-sm-6">
+                <input id="name" placeholder="이름" type="text" class="input-text" value="Kookjin Shin">
+                <div class="hint small">사람들이 이름, 별명 또는 비즈니스 이름 등 회원님의 알려진 이름을 사용하여 회원님의 계정을 찾을 수
+                  있도록 도와주세요.</div>
+            </div>
+            <div class="col-sm-3">
+              <button type="button" class="btn_link">중복확인</button>
+            </div>
+          </div>
+          
+          <div class="row pb-3">
+            <aside class="col-sm-3"><label class="d-block text-right" for="pw1">비밀번호</label></aside>
+            <div class="col-sm-6">
+                <input id="pw1" placeholder="8글자 이상, 영문+숫자+특수문자로 구성" type="password" class="input-text" >
+                <div class="hint small"> </div>
+            </div>
+            <div class="col-sm-3"> </div>
+          </div>
+
+          <div class="row pb-3">
+            <aside class="col-sm-3"><label class="d-block text-right" for="pw2">비밀번호 확인</label></aside>
+            <div class="col-sm-6">
+                <input id="pw2" placeholder="비밀번호 확인" type="password" class="input-text">
+                <div class="hint small"> </div>
+            </div>
+            <div class="col-sm-3"> </div>
+          </div>
+
+          <div class="row pb-3">
+            <aside class="col-sm-3"><label class="d-block text-right" for="addr">주소</label></aside>
+            <div class="col-sm-6">
+                <input id="addr" placeholder="주소" type="text" class="input-text">
+                <div class="hint small"></div>
+            </div>
+            <div class="col-sm-3">
+              <button type="button"  class="btn_link">주소검색</button>
+            </div>
+          </div>
+
+          <div class="row fl_right  pb-3">
+            
+            <div class="col-sm-12 text-center">
+              <button type="button"  class="button button_primary mx-1">정보수정</button> 
+              <button type="button"  class="button button_primary mx-1">탈퇴신청</button>
+            </div>
+            
+          </div>
+
+        </form>
+      </article>
+
+    </div>
+
+    <!-- side -->
+
+    <!-- end side -->
+
+    <footer id="ntfooter" class="p-5 text-center">
+      copyright 멍냥일보 2023
+    </footer>
+  </div>
+
+
+  <!-- back to top button-->
+  <a id="nt_backtop" class="pf br__50 z__100 des_bt1" href="#"><span class="tc br__50 db cw">
+      <i class="pr pegk pe-7s-angle-up"></i></span></a>
+
+  <script src="assets/js/jquery-3.5.1.min.js"></script>
+  <script src="assets/js/jarallax.min.js"></script>
+  <script src="assets/js/packery.pkgd.min.js"></script>
+  <script src="assets/js/jquery.hoverIntent.min.js"></script>
+  <script src="assets/js/magnific-popup.min.js"></script>
+  <script src="assets/js/flickity.pkgd.min.js"></script>
+  <script src="assets/js/lazysizes.min.js"></script>
+  <script src="assets/js/js-cookie.min.js"></script>
+  <script src="assets/js/jquery.countdown.min.js"></script>
+  <script src="assets/js/interface.js"></script>
+
+
+
+
+
+</body>
+
+</html>
