@@ -1,0 +1,52 @@
+a {
+  transition: all 0.3s;
+}
+
+.logo {
+  width: 100%;
+}
+
+.fas {
+  padding-right: 8px;
+}
+
+#nav_header7 a:hover,
+#nav_header7 a:active,
+#nav_header7 a:focus {
+  font-weight: bold;
+}
+
+
+
+/* 마이페이지  메인 */
+#nt_content .profile {
+  align-items: center;
+  justify-content: center;
+}
+
+#nt_content .profile_photo img {
+  width: 200px;
+}
+
+#nt_content .profile_info .summ_cnt>span {
+  display: inline-block;
+  padding: 8px 8px 8px 0;
+}
+
+.tab_cat_title.des_tab_2>li>a,
+.tab_cat_title.des_tab_3>li>a,
+.tab_cat_title.des_tab_11>li>a {
+  border-radius: 0;
+}
+
+.tab_cat_title.des_tab_1>li>a:hover,
+.tab_cat_title.des_tab_2>li>a:hover,
+.tab_cat_title.des_tab_3>li>a:hover,
+.tab_cat_title.des_tab_11>li>a:hover,
+.tab_cat_title.des_tab_1>li>a.tt_active,
+.tab_cat_title.des_tab_2>li>a.tt_active,
+.tab_cat_title.des_tab_3>li>a.tt_active,
+.tab_cat_title.des_tab_11>li>a.tt_active {
+  border: 0;
+  border-bottom: 1px double gray;
+}
