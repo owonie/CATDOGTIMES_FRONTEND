@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import WalkMap from '../../components/WalkMap/WalkMap';
 import styles from './Walk.module.css';
 
-const Walk = (props) => {
+const Walk = ({ weatherKey }) => {
   const [searchPlace, setSearchPlace] = useState();
   const searchRef = useRef();
   const [tabState, setTabState] = useState('검색');
@@ -33,9 +33,8 @@ const Walk = (props) => {
   // 현재 위치 날씨 API 가져오기
   const getWeatherByCurrentLocation = (lat, lon) => {
     // &units=metric => 섭씨 사용
-    const apiKey = 'dcb2faef4419a1705ca95578b43cfc10';
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -101,15 +100,15 @@ const Walk = (props) => {
                   </div>
                   <div className={styles.infoWeatherDetail}>
                     <div>
-                      <i class='fa-solid fa-wind fa-2x'></i>
+                      <i className='fa-solid fa-wind fa-2x'></i>
                       <span>{weather && weather.wind.speed}m/s</span>
                     </div>
                     <div>
-                      <i class='fa-solid fa-water fa-2x'></i>
+                      <i className='fa-solid fa-water fa-2x'></i>
                       <span>{weather && weather.main.humidity}%</span>
                     </div>
                     <div>
-                      <i class='fa-solid fa-cloud fa-2x'></i>
+                      <i className='fa-solid fa-cloud fa-2x'></i>
                       <span>{weather && weather.clouds.all}%</span>
                     </div>
                   </div>
@@ -124,7 +123,7 @@ const Walk = (props) => {
                       className={styles.infoAroundButton}
                       onClick={() => handleExploreStateChanged('공원')}
                     >
-                      <i class='fa-solid fa-tree fa-2x'></i>
+                      <i className='fa-solid fa-tree fa-2x'></i>
                     </button>
                   </li>
                   <li className={styles.infoAroundList}>
@@ -132,7 +131,7 @@ const Walk = (props) => {
                       className={styles.infoAroundButton}
                       onClick={() => handleExploreStateChanged('애완동물카페')}
                     >
-                      <i class='fa-solid fa-mug-saucer fa-2x'></i>
+                      <i className='fa-solid fa-mug-saucer fa-2x'></i>
                     </button>
                   </li>
                   <li className={styles.infoAroundList}>
@@ -140,7 +139,7 @@ const Walk = (props) => {
                       className={styles.infoAroundButton}
                       onClick={() => handleExploreStateChanged('동물병원')}
                     >
-                      <i class='fa-solid fa-hospital fa-2x'></i>
+                      <i className='fa-solid fa-hospital fa-2x'></i>
                     </button>
                   </li>
                   <li className={styles.infoAroundList}>
@@ -148,7 +147,7 @@ const Walk = (props) => {
                       className={styles.infoAroundButton}
                       onClick={() => handleExploreStateChanged('펫샵')}
                     >
-                      <i class='fa-solid fa-bag-shopping fa-2x'></i>
+                      <i className='fa-solid fa-bag-shopping fa-2x'></i>
                     </button>
                   </li>
                 </ul>

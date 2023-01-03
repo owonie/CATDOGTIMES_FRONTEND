@@ -117,7 +117,12 @@ button {
 }
 
 /* info around */
-
+.infoAround {
+  padding-left: 8px;
+  font-size: 12px;
+  color: #222;
+  letter-spacing: -1px;
+}
 .infoAroundButtons {
   list-style: none;
 }
