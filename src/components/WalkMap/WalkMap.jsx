@@ -91,41 +91,6 @@ const WalkMap = ({ searchPlace }) => {
     });
   }, [searchPlace]);
 
-  // 마커표시 함수
-  // useEffect(() => {
-  // if (kakaoMap === null) {
-  //   return;
-  // }
-  // const positions = markerPositions.map(
-  //   (pos) => new kakao.maps.LatLng(...pos)
-  // );
-  // console.log('positions:', positions);
-  // let marker = new kakao.maps.Marker({
-  //   position: new kakao.maps.LatLng(33.450701, 126.570667),
-  // });
-  // marker.setMap(kakaoMap);
-  // setMarkers(marker);
-  // 포지션 정상출력
-  // setMarkers((markers) => {
-  //   markers.forEach((marker) => marker.setMap(null));
-  //   return positions.map(
-  //     (position) =>
-  //       new kakao.maps.Marker({
-  //         map: kakaoMap,
-  //         position,
-  //       })
-  //   );
-  // });
-  //여기 위에 위치설정이 문제
-  // if (positions.length > 0) {
-  //   const bounds = positions.reduce(
-  //     (bounds, latlng) => bounds.extend(latlng),
-  //     new kakao.maps.LatLngBounds()
-  //   );
-  //   kakaoMap.setBounds(bounds);
-  // }
-  // }, [markerPositions]);
-
   return <div id='container' ref={container} className={styles.walkMap} />;
 };
 export default WalkMap;
