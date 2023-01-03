@@ -9,7 +9,7 @@ function NavBar() {
       </div>
       <ul className="menu">
         <li className="menu__row">
-          <a href="#">
+          <a href="/post">
             <i class="fas fa-home fa-lg"></i>
             <span>홈</span>
           </a>
@@ -21,7 +21,7 @@ function NavBar() {
           </a>
         </li>
         <li className="menu__row">
-          <a href="#">
+          <a href="/explore">
             <i class="far fa-compass fa-lg"></i>
             <span>탐색</span>
           </a>
@@ -42,6 +42,20 @@ function NavBar() {
           <a href="#">
             <i class="fas fa-paw fa-lg"></i>
             <span>북마크</span>
+          </a>
+        </li>
+      </ul>
+      <ul className="menu__bottom">
+        <li className="menu__bottom__row">
+          <a href="#">
+            <i class="fa-solid fa-pen-nib fa-lg"></i>
+            <span>글쓰기</span>
+          </a>
+        </li>
+        <li className="menu__bottom__row">
+          <a href="#">
+            <i class="fas fa-dog fa-lg"></i>
+            <span>산 책</span>
           </a>
         </li>
       </ul>

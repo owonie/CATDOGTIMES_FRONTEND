@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import Walk from "./routes/Walk/Walk";
 import SNS from "./routes/SNS/SNS";
 import Search from "./components/Search/Search";
+import ViewDetail from "./components/ViewDetail/ViewDetail";
+import Explore from "./routes/Explore/Explore";
 
 const App = () => {
   const [message, setMessage] = useState();
@@ -23,8 +25,8 @@ const App = () => {
       <div className="App">
         <Routes>
           <Route path="/walk" element={<Walk />}></Route>
-          <Route path="/search" element={<Search />}></Route>
           <Route path="/post" element={<SNS />}></Route>
+          <Route path="/explore" element={<Explore />}></Route>
         </Routes>
       </div>
     </>

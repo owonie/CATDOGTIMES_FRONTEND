@@ -13,6 +13,14 @@
   border: 1.5px solid #e6e6e6;
   border-radius: 3px;
   background-color: #ffffff;
+  background-image: url(/public/img/search.png);
+  background-repeat: no-repeat;
+  background-position: 20%;
+  background-size: 20px;
+}
+
+.searchInput:focus {
+  background-image: none;
 }
 
 .searchInput:focus ~ .pullDownBox {

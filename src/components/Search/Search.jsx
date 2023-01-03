@@ -16,11 +16,11 @@ function Search() {
       <input
         className="searchInput"
         type="text"
-        placeholder="search..."
+        placeholder="Search"
         onChange={(event) => {
           saveSearch(event);
         }}
-      />
+      ></input>
       <div className="pullDownBox">{search === "" ? <PullDown search={search} /> : <PullDownSearch search={search} />}</div>
     </div>
   );

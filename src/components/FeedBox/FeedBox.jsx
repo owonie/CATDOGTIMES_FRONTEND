@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./feedbox.css";
+import "../ViewDetail/ViewDetail.css";
+import ViewDetail from "../ViewDetail/ViewDetail";
 
 function FeedBox({ id }) {
   const linkClick = () => {
@@ -27,7 +29,7 @@ function FeedBox({ id }) {
           <div className="bottomMenu">
             <div className="bottomMenuLeft">
               <i className="fa-regular fa-heart fa-lg"></i>
-              <i className="far fa-comment fa-lg"></i>
+              <ViewDetail />
               <i className="fas fa-share-alt fa-lg"></i>
             </div>
             <div className="bottomMenuRight">

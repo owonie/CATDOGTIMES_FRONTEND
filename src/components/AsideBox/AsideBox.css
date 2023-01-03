@@ -1,0 +1,28 @@
+.AsideBox {
+  margin-top: 20px;
+  padding: 32px 15px 15px 32px;
+}
+
+@media (max-width: 895px) {
+  .AsideBox {
+    display: none;
+  }
+}
+
+.AsideBox__member {
+  margin-left: 25px;
+  margin-top: 30px;
+}
+
+.AsideBox__member-login {
+  margin-right: 15px;
+}
+
+.AsideBox__member-login,
+.AsideBox__member-register {
+  border-radius: 15px;
+  text-align: center;
+  font-size: 17px;
+  padding: 15px;
+  background-color: #f9cdbd;
+}
