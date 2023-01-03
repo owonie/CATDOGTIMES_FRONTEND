@@ -49,129 +49,132 @@ const Walk = ({ weatherKey }) => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.walkNavbar}>
-          <div className={styles.navbarHeader}>
-            <div className={styles.searchBarHeader}>
-              <button className={styles.burgerButton}>
-                <i className='fa-solid fa-bars fa-2x'></i>
-              </button>
-              <button className={styles.homeButton}>멍냥일보</button>
-            </div>
-            <div className={styles.searchBar}>
-              <div className={styles.searchBox}>
-                <input
-                  id='ID'
-                  data-testid='input-box'
-                  placeholder='장소, 주소 검색'
-                  type='text'
-                  className={styles.searchInput}
-                  ref={searchRef}
-                />
-                <button
-                  className={styles.searchButton}
-                  onClick={handleSearchInput}
-                >
-                  <i className='fa-solid fa-magnifying-glass'></i>
+        <div className={styles.navbarWrapper}>
+          <div className={styles.walkNavbar}>
+            <div className={styles.navbarHeader}>
+              <div className={styles.searchBarHeader}>
+                <button className={styles.burgerButton}>
+                  <i className='fa-solid fa-bars '></i>
                 </button>
+                <button className={styles.homeButton}>멍냥일보</button>
+              </div>
+              <div className={styles.searchBar}>
+                <div className={styles.searchBox}>
+                  <input
+                    id='ID'
+                    data-testid='input-box'
+                    placeholder='장소, 주소 검색'
+                    type='text'
+                    className={styles.searchInput}
+                    ref={searchRef}
+                  />
+                  <button
+                    className={styles.searchButton}
+                    onClick={handleSearchInput}
+                  >
+                    <i className='fa-solid fa-magnifying-glass'></i>
+                  </button>
+                </div>
+              </div>
+              <div className={styles.navTabButton}>
+                <button onClick={() => handleTabStateChanged('검색')}>
+                  검색
+                </button>
+                <button onClick={() => handleTabStateChanged('루트')}>
+                  루트
+                </button>
+                <button onClick={() => handleTabStateChanged('MY')}>MY</button>
               </div>
             </div>
-            <div className={styles.navTabButton}>
-              <button onClick={() => handleTabStateChanged('검색')}>
-                검색
-              </button>
-              <button onClick={() => handleTabStateChanged('루트')}>
-                루트
-              </button>
-              <button onClick={() => handleTabStateChanged('MY')}>MY</button>
-            </div>
-          </div>
-          <div className={styles.navbarBody}>
-            <div
-              style={tabState === '검색' ? null : { display: 'none' }}
-              className={styles.navigateTab}
-            >
-              <div className={styles.infoWeather}>
-                <div className={styles.weatherBox}>
-                  <div>
-                    <i className='fa-solid fa-cloud-sun fa-2x'></i>
-                    <span className={styles.infoWeatherTemp}>
-                      {weather && Math.round(weather.main.temp)}°C
-                    </span>
-                  </div>
-                  <div className={styles.infoWeatherDetail}>
+            <div className={styles.navbarBody}>
+              <div
+                style={tabState === '검색' ? null : { display: 'none' }}
+                className={styles.navigateTab}
+              >
+                <div className={styles.infoWeather}>
+                  <div className={styles.weatherBox}>
                     <div>
-                      <i className='fa-solid fa-wind fa-2x'></i>
-                      <span>{weather && weather.wind.speed}m/s</span>
+                      <i className='fa-solid fa-cloud-sun fa-2x'></i>
+                      <span className={styles.infoWeatherTemp}>
+                        {weather && Math.round(weather.main.temp)}°C
+                      </span>
                     </div>
-                    <div>
-                      <i className='fa-solid fa-water fa-2x'></i>
-                      <span>{weather && weather.main.humidity}%</span>
-                    </div>
-                    <div>
-                      <i className='fa-solid fa-cloud fa-2x'></i>
-                      <span>{weather && weather.clouds.all}%</span>
+                    <div className={styles.infoWeatherDetail}>
+                      <div>
+                        <i className='fa-solid fa-wind fa-2x'></i>
+                        <span>{weather && weather.wind.speed}m/s</span>
+                      </div>
+                      <div>
+                        <i className='fa-solid fa-water fa-2x'></i>
+                        <span>{weather && weather.main.humidity}%</span>
+                      </div>
+                      <div>
+                        <i className='fa-solid fa-cloud fa-2x'></i>
+                        <span>{weather && weather.clouds.all}%</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className={styles.infoAround}>
-                <h3>주변 탐색</h3>
-                <ul className={styles.infoAroundButtons}>
-                  <li className={styles.infoAroundList}>
-                    <button
-                      className={styles.infoAroundButton}
-                      onClick={() => handleExploreStateChanged('공원')}
-                    >
-                      <i className='fa-solid fa-tree fa-2x'></i>
-                    </button>
-                  </li>
-                  <li className={styles.infoAroundList}>
-                    <button
-                      className={styles.infoAroundButton}
-                      onClick={() => handleExploreStateChanged('애완동물카페')}
-                    >
-                      <i className='fa-solid fa-mug-saucer fa-2x'></i>
-                    </button>
-                  </li>
-                  <li className={styles.infoAroundList}>
-                    <button
-                      className={styles.infoAroundButton}
-                      onClick={() => handleExploreStateChanged('동물병원')}
-                    >
-                      <i className='fa-solid fa-hospital fa-2x'></i>
-                    </button>
-                  </li>
-                  <li className={styles.infoAroundList}>
-                    <button
-                      className={styles.infoAroundButton}
-                      onClick={() => handleExploreStateChanged('펫샵')}
-                    >
-                      <i className='fa-solid fa-bag-shopping fa-2x'></i>
-                    </button>
-                  </li>
-                </ul>
-                <div>{searchPlace}</div>
-              </div>
-            </div>
-            <div
-              style={tabState === '루트' ? null : { display: 'none' }}
-              className={styles.directionsTab}
-            >
-              이건 길찾기
-              <div className={styles.infoRouteSearchBox}>
-                <div className={styles.infoRouteList}>
-                  <div className={styles.infoRouteStart}>출발지</div>
-                  <div className={styles.infoRouteVia}>경유지</div>
-                  <div className={styles.infoRouteEnd}>도착지</div>
+                <div className={styles.infoAround}>
+                  <h3>주변 탐색</h3>
+                  <ul className={styles.infoAroundButtons}>
+                    <li className={styles.infoAroundList}>
+                      <button
+                        className={styles.infoAroundButton}
+                        onClick={() => handleExploreStateChanged('공원')}
+                      >
+                        <i className='fa-solid fa-tree fa-2x'></i>
+                      </button>
+                    </li>
+                    <li className={styles.infoAroundList}>
+                      <button
+                        className={styles.infoAroundButton}
+                        onClick={() =>
+                          handleExploreStateChanged('애완동물카페')
+                        }
+                      >
+                        <i className='fa-solid fa-mug-saucer fa-2x'></i>
+                      </button>
+                    </li>
+                    <li className={styles.infoAroundList}>
+                      <button
+                        className={styles.infoAroundButton}
+                        onClick={() => handleExploreStateChanged('동물병원')}
+                      >
+                        <i className='fa-solid fa-hospital fa-2x'></i>
+                      </button>
+                    </li>
+                    <li className={styles.infoAroundList}>
+                      <button
+                        className={styles.infoAroundButton}
+                        onClick={() => handleExploreStateChanged('펫샵')}
+                      >
+                        <i className='fa-solid fa-bag-shopping fa-2x'></i>
+                      </button>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
-            <div
-              style={tabState === 'MY' ? null : { display: 'none' }}
-              className={styles.myRouteTab}
-            >
-              이건 마이루트
+              <div
+                style={tabState === '루트' ? null : { display: 'none' }}
+                className={styles.directionsTab}
+              >
+                이건 길찾기
+                <div className={styles.infoRouteSearchBox}>
+                  <div className={styles.infoRouteList}>
+                    <div className={styles.infoRouteStart}>출발지</div>
+                    <div className={styles.infoRouteVia}>경유지</div>
+                    <div className={styles.infoRouteEnd}>도착지</div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style={tabState === 'MY' ? null : { display: 'none' }}
+                className={styles.myRouteTab}
+              >
+                이건 마이루트
+              </div>
             </div>
           </div>
         </div>
