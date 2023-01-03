@@ -26,7 +26,7 @@ const ViewDetail = ({ user }) => {
       <div className={`modal-overlay ${isOpen ? "modal-open" : "modal-closed"}`}>
         <div className="modal-footer">
           <a onClick={hideModal} href="#">
-            <i class="fas fa-times fa-xl"></i>
+            <i className="fas fa-times fa-xl"></i>
           </a>
         </div>
         <div className="modal-content">
