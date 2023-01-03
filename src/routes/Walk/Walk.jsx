@@ -6,6 +6,8 @@ const Walk = ({ weatherKey }) => {
   const [searchPlace, setSearchPlace] = useState();
   const searchRef = useRef();
   const [tabState, setTabState] = useState('검색');
+  const [routeList, setRouteList] = useState([]);
+  const [myRouteList, setMyRouteList] = useState([]);
 
   const handleTabStateChanged = (e) => {
     setTabState(e);
@@ -122,7 +124,7 @@ const Walk = ({ weatherKey }) => {
                     <li className={styles.infoAroundList}>
                       <button
                         className={styles.infoAroundButton}
-                        onClick={() => handleExploreStateChanged('공원')}
+                        onClick={() => handleExploreStateChanged('안중 공원')}
                       >
                         <i className='fa-solid fa-tree fa-2x'></i>
                       </button>
@@ -131,7 +133,7 @@ const Walk = ({ weatherKey }) => {
                       <button
                         className={styles.infoAroundButton}
                         onClick={() =>
-                          handleExploreStateChanged('애완동물카페')
+                          handleExploreStateChanged('안중 애완동물카페')
                         }
                       >
                         <i className='fa-solid fa-mug-saucer fa-2x'></i>
@@ -140,7 +142,9 @@ const Walk = ({ weatherKey }) => {
                     <li className={styles.infoAroundList}>
                       <button
                         className={styles.infoAroundButton}
-                        onClick={() => handleExploreStateChanged('동물병원')}
+                        onClick={() =>
+                          handleExploreStateChanged('안중 동물병원')
+                        }
                       >
                         <i className='fa-solid fa-hospital fa-2x'></i>
                       </button>
@@ -148,7 +152,7 @@ const Walk = ({ weatherKey }) => {
                     <li className={styles.infoAroundList}>
                       <button
                         className={styles.infoAroundButton}
-                        onClick={() => handleExploreStateChanged('펫샵')}
+                        onClick={() => handleExploreStateChanged('안중 펫샵')}
                       >
                         <i className='fa-solid fa-bag-shopping fa-2x'></i>
                       </button>
@@ -160,21 +164,20 @@ const Walk = ({ weatherKey }) => {
                 style={tabState === '루트' ? null : { display: 'none' }}
                 className={styles.directionsTab}
               >
-                이건 길찾기
                 <div className={styles.infoRouteSearchBox}>
                   <div className={styles.infoRouteList}>
-                    <div className={styles.infoRouteStart}>출발지</div>
-                    <div className={styles.infoRouteVia}>경유지</div>
-                    <div className={styles.infoRouteEnd}>도착지</div>
+                    <div className={styles.routeBox}>
+                      <ul className={styles.routeList}>
+                        <li className={styles.routeListItem}></li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
               <div
                 style={tabState === 'MY' ? null : { display: 'none' }}
                 className={styles.myRouteTab}
-              >
-                이건 마이루트
-              </div>
+              ></div>
             </div>
           </div>
         </div>
