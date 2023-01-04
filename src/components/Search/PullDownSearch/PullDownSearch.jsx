@@ -5,7 +5,7 @@ function PullDownSearch({ search }) {
   return (
     <>
       <div className="PullDownBox">
-        <div className="searchUserProfile" onclick="#">
+        <div className="searchUserProfile" onClick="#">
           <img src="/img/userdog.jpg" alt="user" className="userImg" />
           <div>
             <div className="userName">user_name</div>

@@ -104,7 +104,7 @@ const ViewDetail = ({ user }) => {
                 </div>
               </div>
               <form className="commentInputBox2">
-                <input defaultValue="" type="text" placeholder="댓글..." className="commentInput2" />
+                <input defaultValue="" type="text" placeholder="댓글..." id="commentInput2" />
                 <button>게시</button>
               </form>
             </div>

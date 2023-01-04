@@ -180,10 +180,11 @@
   margin-top: 10px;
 }
 
-.commentInput2 {
+#commentInput2 {
   border: 0;
   outline: 0;
   width: 85%;
+  font-size: inherit;
 }
 
 .commentInputBox2 button {
@@ -192,4 +193,5 @@
   background-color: transparent;
   color: #93c0e9;
   cursor: grabbing;
+  padding: 0;
 }

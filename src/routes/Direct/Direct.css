@@ -1,0 +1,54 @@
+.direct-message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 400px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.direct-message form {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.direct-message form input {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.direct-message form button {
+  width: 20%;
+  padding: 8px;
+  background-color: #3897f0;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.direct-message .message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.direct-message .message img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.direct-message .message p {
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}

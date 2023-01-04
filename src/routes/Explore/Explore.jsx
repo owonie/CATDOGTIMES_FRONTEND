@@ -1,81 +1,133 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { PlusOutlined } from "@ant-design/icons";
+import { Modal, Upload } from "antd";
 import NavBar from "../../components/NavBar/NavBar";
+import Search from "../../components/Search/Search";
 import "./Explore.css";
 
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+
 const Explore = () => {
-  const [posts, setPosts] = useState([
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState([
     {
-      id: 1,
-      imageSrc: "/img/explore/puppy.jpg",
-      caption: "산책하는 댕댕이",
+      uid: 1,
+      name: "산책하는 댕댕이",
+      status: "done",
+      url: "/img/explore/puppy.jpg",
     },
     {
-      id: 2,
-      imageSrc: "/img/explore/kitten2.jpg",
-      caption: "기다리는 고양이",
+      uid: 2,
+      name: "기다리는 고양이",
+      status: "done",
+      url: "/img/explore/kitten2.jpg",
     },
     {
-      id: 3,
-      imageSrc: "/img/explore/dog1.jpg",
-      caption: "댕댕이 남친짤",
+      uid: 3,
+      name: "댕댕이 남친짤",
+      status: "done",
+      url: "/img/explore/dog1.jpg",
     },
     {
-      id: 4,
-      imageSrc: "/img/explore/dog2.jpg",
-      caption: "dog with flowers",
+      uid: 4,
+      name: "dog with flowers",
+      status: "done",
+      url: "/img/explore/dog2.jpg",
     },
     {
-      id: 5,
-      imageSrc: "/img/explore/kitten3.jpg",
-      caption: "다소곳한 고양이",
+      uid: 5,
+      name: "다소곳한 고양이",
+      status: "done",
+      url: "/img/explore/kitten3.jpg",
     },
     {
-      id: 6,
-      imageSrc: "/img/explore/cat1.jpg",
-      caption: "선글라스 쓴 고양이",
+      uid: 6,
+      name: "선글라스 쓴 고양이",
+      status: "done",
+      url: "/img/explore/cat1.jpg",
     },
     {
-      id: 7,
-      imageSrc: "/img/explore/cat1.jpg",
-      caption: "선글라스 쓴 고양이",
+      uid: 7,
+      name: "선글라스 쓴 고양이",
+      status: "done",
+      url: "/img/explore/cat1.jpg",
     },
     {
-      id: 8,
-      imageSrc: "/img/explore/cat1.jpg",
-      caption: "선글라스 쓴 고양이",
+      uid: 8,
+      name: "선글라스 쓴 고양이",
+      status: "done",
+      url: "/img/explore/cat1.jpg",
     },
     {
       id: 9,
-      imageSrc: "/img/explore/cat1.jpg",
-      caption: "선글라스 쓴 고양이",
+      name: "선글라스 쓴 고양이",
+      status: "done",
+      url: "/img/explore/cat1.jpg",
     },
   ]);
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch();
-      const data = await res.json();
-      console.log(data);
-      setPosts(data);
+  const handleCancel = () => setPreviewOpen(false);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
     }
-    fetchData();
-  }, []);
-
-  return (
-    <div className="explore">
-      <nav id="nav">
-        <NavBar />
-      </nav>
-      <section className="explore__content">
-        {posts.map((post) => (
-          <a href="#">
-            <div key={post.id} className="post2">
-              <img src={post.imageSrc} alt={post.caption} />
-            </div>
-          </a>
-        ))}
-      </section>
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf("/") + 1));
+  };
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
     </div>
   );
+  return (
+    <>
+      <div className="explore">
+        <nav id="nav">
+          <NavBar />
+        </nav>
+        <section className="center">
+          <div className="search">
+            <Search />
+          </div>
+          <div className="explore__content">
+            <Upload
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+              <img
+                alt="example"
+                style={{
+                  width: "100%",
+                }}
+                src={previewImage}
+              />
+            </Modal>
+          </div>
+        </section>
+      </div>
+    </>
+  );
 };
-
 export default Explore;

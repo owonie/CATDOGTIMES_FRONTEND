@@ -1,9 +1,10 @@
 .AsideBox {
   margin-top: 20px;
-  padding: 32px 15px 15px 32px;
+  margin-left: 20px;
+  padding: 25px 0px 15px 0px;
 }
 
-@media (max-width: 895px) {
+@media (max-width: 950px) {
   .AsideBox {
     display: none;
   }

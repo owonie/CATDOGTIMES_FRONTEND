@@ -1,4 +1,5 @@
 import React from "react";
+import Notification from "../Notification/Notification";
 import "./NavBar.css";
 
 function NavBar() {
@@ -15,22 +16,13 @@ function NavBar() {
           </a>
         </li>
         <li className="menu__row">
-          <a href="#">
-            <i className="fas fa-search fa-lg"></i>
-            <span>검색</span>
-          </a>
-        </li>
-        <li className="menu__row">
           <a href="/explore">
             <i className="far fa-compass fa-lg"></i>
             <span>탐색</span>
           </a>
         </li>
         <li className="menu__row">
-          <a href="#">
-            <i className="far fa-bell fa-lg"></i>
-            <span>알림</span>
-          </a>
+          <Notification />
         </li>
         <li className="menu__row">
           <a href="#">
@@ -53,7 +45,7 @@ function NavBar() {
           </a>
         </li>
         <li className="menu__bottom__row">
-          <a href="#">
+          <a href="/walk">
             <i className="fas fa-dog fa-lg"></i>
             <span>산 책</span>
           </a>

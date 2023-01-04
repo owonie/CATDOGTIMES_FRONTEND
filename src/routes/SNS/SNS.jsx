@@ -16,7 +16,7 @@ function SNS() {
           <Search />
           <FeedBox />
         </section>
-        <aside id="asideBox" className="col-3">
+        <aside id="asideBox">
           <AsideBox />
         </aside>
       </div>
