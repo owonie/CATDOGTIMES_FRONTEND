@@ -1,4 +1,3 @@
-import { current } from '@reduxjs/toolkit';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WalkMap from '../../components/WalkMap/WalkMap';
@@ -11,11 +10,7 @@ const Walk = ({ weatherKey }) => {
   const [searchPlace, setSearchPlace] = useState();
   const searchRef = useRef();
   const [tabState, setTabState] = useState('검색');
-  const [routeList, setRouteList] = useState([
-    [126.91819368838091, 36.98654607004041],
-    [126.9209006816433, 36.98658394792954],
-    [126.92080561346718, 36.980771888609524],
-  ]);
+  const [routeList, setRouteList] = useState([]);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [myRouteList, setMyRouteList] = useState([]);
 
@@ -26,11 +21,26 @@ const Walk = ({ weatherKey }) => {
   const [kakaoPs, setKakaoPs] = useState(null);
   const [kakaoMapSettings, setKakaoMapSettings] = useState(false);
   const [markerPositions, setMarkerPositions] = useState([]);
+  const [kakaoDrawingManager, setKakaoDrawingManager] = useState(null);
+
+  const [centerMarkerOverlay, setCenterMarkerOverlay] = useState(null);
+
+  const strokeColor = '#39f',
+    fillColor = '#cce6ff',
+    fillOpacity = 0.5,
+    hintStrokeStyle = 'dash';
+  // drawing manager 옵션 설정
+
+  const content =
+    '<button class ="label"><span class="left"></span><span class="center">카카오!</span><span class="right"></span></button>';
 
   const container = useRef();
 
   const handleTabStateChanged = (e) => {
     setTabState(e);
+    if (tabState === '루트') {
+      createCenterMarker();
+    }
   };
   const handleSearchInput = () => {
     setSearchPlace(searchRef.current.value);
@@ -86,12 +96,78 @@ const Walk = ({ weatherKey }) => {
     const ps = new kakao.maps.services.Places();
     const mapTypeControl = new kakao.maps.MapTypeControl();
     const zoomControl = new kakao.maps.ZoomControl();
+
     // 객체 상태저장 (재활용)
     setKakaoMap(map);
     setKakaoInfoWindow(infowindow);
     setKakaoPs(ps);
     setKakaoMapTypeControl(mapTypeControl);
     setKakaoZoomControl(zoomControl);
+    const drawingManagerOptions = {
+      map: map,
+      drawingMode: [
+        kakao.maps.Drawing.OverlayType.MARKER,
+        kakao.maps.Drawing.OverlayType.ARROW,
+        kakao.maps.Drawing.OverlayType.POLYLINE,
+        kakao.maps.Drawing.OverlayType.RECTANGLE,
+        kakao.maps.Drawing.OverlayType.CIRCLE,
+        kakao.maps.Drawing.OverlayType.ELLIPSE,
+        kakao.maps.Drawing.OverlayType.POLYGON,
+      ],
+      // 사용자에게 제공할 그리기 가이드 툴팁입니다
+      // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
+      guideTooltip: ['draw', 'drag', 'edit'],
+      markerOptions: {
+        draggable: true,
+        removable: true,
+      },
+      arrowOptions: {
+        draggable: true,
+        removable: true,
+        strokeColor: strokeColor,
+        hintStrokeStyle: hintStrokeStyle,
+      },
+      polylineOptions: {
+        draggable: true,
+        removable: true,
+        strokeColor: strokeColor,
+        hintStrokeStyle: hintStrokeStyle,
+      },
+      rectangleOptions: {
+        draggable: true,
+        removable: true,
+        strokeColor: strokeColor,
+        fillColor: fillColor,
+        fillOpacity: fillOpacity,
+      },
+      circleOptions: {
+        draggable: true,
+        removable: true,
+        strokeColor: strokeColor,
+        fillColor: fillColor,
+        fillOpacity: fillOpacity,
+      },
+      ellipseOptions: {
+        draggable: true,
+        removable: true,
+        strokeColor: strokeColor,
+        fillColor: fillColor,
+        fillOpacity: fillOpacity,
+      },
+      polygonOptions: {
+        draggable: true,
+        removable: true,
+        strokeColor: strokeColor,
+        fillColor: fillColor,
+        fillOpacity: fillOpacity,
+      },
+    };
+
+    const drawingManager = new kakao.maps.Drawing.DrawingManager(
+      drawingManagerOptions
+    );
+
+    setKakaoDrawingManager(drawingManager);
     console.log('맵 생성!');
   }, [container, currentLocation]);
 
@@ -99,7 +175,15 @@ const Walk = ({ weatherKey }) => {
     if (kakaoMap === null || kakaoMapSettings === true) {
       return;
     }
+
     setKakaoMapSettings(true);
+
+    const overlay = new kakao.maps.CustomOverlay({
+      content: content,
+      position: kakaoMap.getCenter(),
+    });
+    setCenterMarkerOverlay(overlay);
+
     // 맵에 컨트롤러 추가
     kakaoMap.addControl(
       kakaoMapTypeControl,
@@ -115,6 +199,12 @@ const Walk = ({ weatherKey }) => {
 
     // 컨트롤러, 마우스 이벤트 중복추가 방지
     setKakaoMapSettings(true);
+
+    //drawing manager 컨트롤러 등록
+    const toolbox = new kakao.maps.Drawing.Toolbox({
+      drawingManager: kakaoDrawingManager,
+    });
+    kakaoMap.addControl(toolbox.getElement(), kakao.maps.ControlPosition.TOP);
   });
 
   useEffect(() => {
@@ -149,6 +239,22 @@ const Walk = ({ weatherKey }) => {
     kakaoPs.keywordSearch(searchPlace, placesSearchCB);
   }, [searchPlace]);
 
+  // 마커생성 중앙 오버레이
+  const displayCenterMarker = () => {
+    centerMarkerOverlay.setMap(kakaoMap);
+  };
+  const createCenterMarker = () => {
+    let marker = new kakao.maps.Marker({
+      map: kakaoMap,
+      position: kakaoMap.getCenter(),
+      draggable: true,
+      removable: true,
+    });
+    const position = kakaoMap.getCenter();
+    console.log(position.Ma, position.La);
+    setRouteList([...routeList, [position.Ma, position.La]]);
+    marker.setMap(kakaoMap);
+  };
   return (
     <>
       <div className={styles.container}>
@@ -303,9 +409,16 @@ const Walk = ({ weatherKey }) => {
             </div>
           </div>
         </div>
+
         <div className={styles.walkMap}>
           <div id='container' ref={container} className={styles.mapComponent} />
-          ;
+          {tabState === '루트' && (
+            <img
+              alt='centerMarker'
+              className={styles.centerMarker}
+              src='./img/footprint.png'
+            />
+          )}
         </div>
       </div>
     </>

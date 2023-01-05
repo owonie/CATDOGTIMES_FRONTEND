@@ -9,7 +9,9 @@
 }
 
 .walkMap {
+  position: relative;
   width: 80%;
+  height: 100vh;
   margin-right: auto;
 }
 .walkNavbar {
@@ -249,4 +251,14 @@ button {
   margin: auto;
   background-position: 0 -30px;
   cursor: pointer;
+}
+
+/* center marker */
+.centerMarker {
+  position: absolute;
+  z-index: 1000;
+  width: 25px;
+  height: 30px;
+  top: 46%;
+  left: 49%;
 }
