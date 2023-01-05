@@ -1,5 +1,6 @@
 import React from "react";
 import Notification from "../Notification/Notification";
+import Write from "../Add/Write";
 import "./NavBar.css";
 
 function NavBar() {
@@ -39,10 +40,7 @@ function NavBar() {
       </ul>
       <ul className="menu__bottom">
         <li className="menu__bottom__row">
-          <a href="#">
-            <i className="fa-solid fa-pen-nib fa-lg"></i>
-            <span>글쓰기</span>
-          </a>
+          <Write />
         </li>
         <li className="menu__bottom__row">
           <a href="/walk">
