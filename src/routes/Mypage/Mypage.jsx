@@ -6,10 +6,11 @@ import Mobilemenu from '../../components/mypage/Mobilemenu';
 import Backtobtn from '../../components/mypage/Backtobtn';
 import Footer from '../../components/mypage/Footer';
 import Searchbox from '../../components/mypage/Searchbox';
-import Main_header from '../../components/mypage/Main_header';
-import Tab_section from '../../components/mypage/Tab_section';
 import Mywalks from '../../components/mypage/Mywalks';
-import Joined_walks from '../../components/mypage/Joined_walks';
+import MainHeader from '../../components/mypage/MainHeader';
+import TabSection from '../../components/mypage/TabSection';
+import JoinedWalks from '../../components/mypage/JoinedWalks';
+
 
 
 const Mypage = ({user,sessionInfo}) => {
@@ -42,11 +43,12 @@ return (
     <div id="nt_wrapper">
     <Header users={users} />
     <div id="nt_content" className="mainContent p-5">
+        
         <div>Mypage page</div>
-            <Main_header users={users}/>
-            <Tab_section users={users}/>
+            <MainHeader users={users}/>
+            <TabSection users={users}/>
             <Mywalks users={users}/>
-            <Joined_walks users={users}/>
+            <JoinedWalks users={users}/>
 
         </div>
         <Side  users={users}/>
