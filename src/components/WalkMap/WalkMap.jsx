@@ -10,15 +10,27 @@ const WalkMap = ({ searchPlace }) => {
   const [kakaoZoomControl, setKakaoZoomControl] = useState(null);
   const [kakaoPs, setKakaoPs] = useState(null);
   const [kakaoMapSettings, setKakaoMapSettings] = useState(false);
-
   const [markerPositions, setMarkerPositions] = useState([]);
-  const [markers, setMarkers] = useState([]);
 
   const container = useRef();
+
+  const getCurrentLocation = () => {
+    // 현재 위치 가져오기
+    let lat;
+    let lon;
+    navigator.geolocation.getCurrentPosition((position) => {
+      lat = position.coords.latitude;
+      lon = position.coords.longitude;
+    });
+    console.log([lat, lon]);
+  };
+
   // 맵 및 초기설정 생성
   useEffect(() => {
+    const currentLocation = getCurrentLocation();
+    console.log('current', currentLocation);
     const options = {
-      center: new kakao.maps.LatLng(36.97320659, 126.938864432),
+      center: new kakao.maps.LatLng(1, 2),
       level: 3,
     };
 
@@ -41,6 +53,7 @@ const WalkMap = ({ searchPlace }) => {
     if (kakaoMap === null || kakaoMapSettings === true) {
       return;
     }
+    setKakaoMapSettings(true);
     // 맵에 컨트롤러 추가
     kakaoMap.addControl(
       kakaoMapTypeControl,
@@ -86,9 +99,8 @@ const WalkMap = ({ searchPlace }) => {
         position: new kakao.maps.LatLng(place.y, place.x),
       });
     };
-    kakaoPs.keywordSearch(searchPlace, placesSearchCB, {
-      position: new kakao.maps.LatLng(36.97320659, 126.938864432),
-    });
+
+    kakaoPs.keywordSearch(searchPlace, placesSearchCB);
   }, [searchPlace]);
 
   return <div id='container' ref={container} className={styles.walkMap} />;
