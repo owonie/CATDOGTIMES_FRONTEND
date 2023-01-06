@@ -1,9 +1,13 @@
 import React from 'react';
+import { useSelector, useDispatch } from "react-redux";
 
-const Header = ({users}) => {
-  return <>
+const Header = (props) => {
+    const users = useSelector((state) => {
+        return state.memberInfo.data;
+    });
+    return <>
 
-<header id="ntheader" className="ntheader header_7 h_icon_iccl p-3">
+        <header id="ntheader" className="ntheader header_7 h_icon_iccl p-3">
             <div className="ntheader_wrapper pr z_200">
                 <div id="kalles-section-header_7" className="kalles-section sp_header_mid">
                     <div className="header__mid pl__15 pr__15">
@@ -42,10 +46,10 @@ const Header = ({users}) => {
                                                 HOME</span></a>
                                         </li>
                                         <li className="menu-item ">
-                                            <a href="#" className="icon_search push_side cb chp"  data-id="#nt_search_canvas" >
-                                            <span className="nav_link_txt flex al_center">
-                                                <i className='fas fa-search'></i>
-                                                검색</span></a>
+                                            <a href="#" className="icon_search push_side cb chp" data-id="#nt_search_canvas" >
+                                                <span className="nav_link_txt flex al_center">
+                                                    <i className='fas fa-search'></i>
+                                                    검색</span></a>
                                         </li>
                                         <li className="menu-item ">
                                             <a href="#" className="chp"><span className="nav_link_txt flex al_center">
@@ -67,7 +71,7 @@ const Header = ({users}) => {
                                                 <i className='fas fa-bookmark'></i>
                                                 북마크</span></a>
                                         </li>
-                                        
+
                                     </ul>
                                 </nav>
                             </div>
@@ -75,7 +79,7 @@ const Header = ({users}) => {
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div className="d-flex flex-column text-center p-3">
                 <a className="button p-3 m-3" href="#">새글쓰기</a>
@@ -83,7 +87,7 @@ const Header = ({users}) => {
             </div>
         </header>
 
-  </>;
+    </>;
 };
 
 export default Header;

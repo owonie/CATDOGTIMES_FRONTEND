@@ -1,0 +1,39 @@
+.tabs{
+  display: flex;
+  justify-content: center;
+}
+.tabs li{
+  font-size: 1rem;
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+.tabs li.active{
+  font-weight: bold;
+  border-bottom: 1px solid #666;
+}
+
+.contents{
+  padding-top: 32px;
+  padding-bottom: 52px;
+}
+
+.contents ul li a{
+  display: flex;
+  align-items: center;
+}
+.myPost{
+  background: yellow;
+}
+
+.likedlist{
+  background-color: antiquewhite;
+}
+.bookmarklist{
+  background-color: #ccc;
+}
+
+.listthum{
+  width: 120px;
+}
