@@ -34,7 +34,7 @@ const App = () => {
   return (
     <>
       <div className="App">
-        {/* <div className="text-center">
+        <div className="text-center">
           <div>멍냥일보 프론트엔드입니당 {message}</div>
           <Link to="/testlogin" className="button">
             테스트 로그인
@@ -46,7 +46,7 @@ const App = () => {
             {" "}
             정보수정
           </Link>
-        </div> */}
+        </div>
         <Routes>
           <Route path="/walk" element={<Walk />}></Route>
           <Route path="/post" element={<SNS />}></Route>
