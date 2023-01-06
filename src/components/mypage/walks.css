@@ -1,0 +1,9 @@
+.list h5{
+  font-weight: bold;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.table-hover tbody tr:hover{
+  background-color: rgba(0,0,0,.01);
+}
