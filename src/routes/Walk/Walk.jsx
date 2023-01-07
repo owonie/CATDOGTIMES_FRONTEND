@@ -38,9 +38,9 @@ const Walk = ({ weatherKey }) => {
 
   const handleTabStateChanged = (e) => {
     setTabState(e);
-    if (tabState === '루트') {
-      createCenterMarker();
-    }
+    // if (tabState === '루트') {
+    //   createCenterMarker();
+    // }
   };
   const handleSearchInput = () => {
     setSearchPlace(searchRef.current.value);
@@ -240,21 +240,27 @@ const Walk = ({ weatherKey }) => {
   }, [searchPlace]);
 
   // 마커생성 중앙 오버레이
-  const displayCenterMarker = () => {
-    centerMarkerOverlay.setMap(kakaoMap);
+  // const displayCenterMarker = () => {
+  //   centerMarkerOverlay.setMap(kakaoMap);
+  // };
+  // const createCenterMarker = () => {
+  //   let marker = new kakao.maps.Marker({
+  //     map: kakaoMap,
+  //     position: kakaoMap.getCenter(),
+  //     draggable: true,
+  //     removable: true,
+  //   });
+  //   const position = kakaoMap.getCenter();
+  //   console.log(position.Ma, position.La);
+  //   setRouteList([...routeList, [position.Ma, position.La]]);
+  //   marker.setMap(kakaoMap);
+  // };
+
+  const handleData = () => {
+    const data = kakaoDrawingManager.getData();
+    console.log(data);
   };
-  const createCenterMarker = () => {
-    let marker = new kakao.maps.Marker({
-      map: kakaoMap,
-      position: kakaoMap.getCenter(),
-      draggable: true,
-      removable: true,
-    });
-    const position = kakaoMap.getCenter();
-    console.log(position.Ma, position.La);
-    setRouteList([...routeList, [position.Ma, position.La]]);
-    marker.setMap(kakaoMap);
-  };
+
   return (
     <>
       <div className={styles.container}>
@@ -378,6 +384,7 @@ const Walk = ({ weatherKey }) => {
               >
                 <div className={styles.infoRoute}>
                   <div className={styles.routeSearchBox}>
+                    <button onClick={() => handleData()}>가져오기</button>
                     <ul className={styles.routeList}>
                       {Object.keys(routeList).map((key) => (
                         <div className={styles.routePointBox}>
@@ -412,13 +419,13 @@ const Walk = ({ weatherKey }) => {
 
         <div className={styles.walkMap}>
           <div id='container' ref={container} className={styles.mapComponent} />
-          {tabState === '루트' && (
+          {/* {tabState === '루트' && (
             <img
               alt='centerMarker'
               className={styles.centerMarker}
               src='./img/footprint.png'
             />
-          )}
+          )} */}
         </div>
       </div>
     </>
