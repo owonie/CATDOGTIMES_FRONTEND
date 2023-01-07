@@ -11,20 +11,9 @@ import Mypage_updatemyinfo from "./routes/Mypage/Mypage_updatemyinfo";
 import DirectMessage from "./routes/Direct/Direct";
 
 const App = () => {
-  const [message, setMessage] = useState();
-  useEffect(() => {
-    fetch("/")
-      .then((res) => {
-        return res.status;
-      })
-      .then((data) => {
-        if (data === 200) {
-          setMessage("백엔드와 연결 성공!");
-        }
-      });
-  }, []);
-
+  const weatherKey = process.env.REACT_APP_WEATHER_API_KEY;
   const [user, setUser] = useState(null);
+
   const sessionInfo = (user) => {
     console.log("--------");
     console.log(user);
@@ -35,7 +24,7 @@ const App = () => {
     <>
       <div className="App">
         <div className="text-center">
-          <div>멍냥일보 프론트엔드입니당 {message}</div>
+          <div>멍냥일보 프론트엔드입니당</div>
           <Link to="/testlogin" className="button">
             테스트 로그인
           </Link>
@@ -48,7 +37,7 @@ const App = () => {
           </Link>
         </div>
         <Routes>
-          <Route path="/walk" element={<Walk />}></Route>
+          <Route path="/walk" element={<Walk weatherKey={weatherKey} />}></Route>
           <Route path="/post" element={<SNS />}></Route>
           <Route path="/explore" element={<Explore />}></Route>
           <Route path="/direct" element={<DirectMessage />}></Route>
