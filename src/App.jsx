@@ -11,6 +11,17 @@ import Mypage_updatemyinfo from "./routes/Mypage/Mypage_updatemyinfo";
 import DirectMessage from "./routes/Direct/Direct";
 
 const App = () => {
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    fetch("hello")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setMessage(data);
+      });
+  }, []);
+
   const weatherKey = process.env.REACT_APP_WEATHER_API_KEY;
   const [user, setUser] = useState(null);
 
@@ -24,7 +35,8 @@ const App = () => {
     <>
       <div className="App">
         <div className="text-center">
-          <div>멍냥일보 프론트엔드입니당</div>
+          <div>멍냥일보 프론트엔드입니당 </div>
+          <div id="data">{message}</div>
           <Link to="/testlogin" className="button">
             테스트 로그인
           </Link>

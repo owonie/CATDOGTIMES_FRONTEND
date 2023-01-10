@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
-import WriteUpload from "./WirteUpload";
 import WriteInput from "./WriteInput";
-import "./Write.css";
+import styles from "./Write.module.css";
+import WriteHashtagInput from "./WriteHashtagInput";
+import UploadPicture from "./UploadPicture";
 const Write = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -19,6 +20,18 @@ const Write = () => {
   const handleCancel = () => {
     setOpen(false);
   };
+
+  const [add, setAdd] = useState([]);
+  useEffect(() => {
+    fetch("post/add")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
+
   return (
     <>
       <a href="#" onClick={showModal}>
@@ -40,11 +53,14 @@ const Write = () => {
           </Button>,
         ]}
       >
-        <div className="write__upload">
-          <WriteUpload bodyStyle={{ height: 400 }} />
-        </div>
-        <div className="write__text">
-          <WriteInput />
+        <div className={styles.write__upload}>
+          <UploadPicture bodyStyle={{ height: 400 }} />
+          <div className={styles.write__text}>
+            <WriteInput />
+          </div>
+          <div className={styles.write__hashtag}>
+            <WriteHashtagInput />
+          </div>
         </div>
       </Modal>
     </>

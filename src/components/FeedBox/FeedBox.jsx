@@ -1,11 +1,21 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 import "./feedbox.css";
 import "../ViewDetail/ViewDetail.css";
 import ViewDetail from "../ViewDetail/ViewDetail";
 
-function FeedBox({ id }) {
+const FeedBox = ({ id }) => {
+  const [feedData, setData] = useState([]);
+
+  const getFeedData = async () => {
+    const json = await (await fetch("hello")).json();
+    setData(json);
+  };
+  useEffect(() => {
+    getFeedData();
+  }, []);
+
   const linkClick = () => {
     <Link to={`/post/${id}`}></Link>;
   };
@@ -15,15 +25,15 @@ function FeedBox({ id }) {
       <section className="feedBox">
         <div className="feedTop">
           <div className="feedTopLeft" onClick={linkClick}>
-            <img src="./img/cat1.jpg" alt="writer" />
-            <div>King catⅤ</div>
+            <img src="#" alt="writer" />
+            <div>King Cat V</div>
           </div>
           <div className="feedTopRight">
             <i className="fas fa-ellipsis-h fa-lg"></i>
           </div>
         </div>
         <article className="feedMiddleImg">
-          <img src="./img/kitten1.jpg" alt="feed" />
+          <img src="#" alt="feed" />
         </article>
         <div className="feedBottom">
           <div className="bottomMenu">
@@ -37,8 +47,8 @@ function FeedBox({ id }) {
             </div>
           </div>
           <div className="like">
-            <img src="./img/dog1.jpg" alt="liker" />
-            <span className="userName">foolish dog</span>님 외 777명이 좋아합니다
+            <img src="#" alt="liker" />
+            <span className="userName">catDog</span>님 외 777명이 좋아합니다
           </div>
 
           <div className="commentContainer">
@@ -57,7 +67,7 @@ function FeedBox({ id }) {
       </section>
     </div>
   );
-}
+};
 
 // Movie.propTyes = {
 //   id: PropTypes.number.isRequired,
