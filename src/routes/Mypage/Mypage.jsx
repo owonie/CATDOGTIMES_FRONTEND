@@ -20,21 +20,21 @@ const Mypage = (props) => {
 return (
 <>
     <div id="nt_wrapper">
-    <Header users={memberInfo} />
+    <Header/>
     <div id="nt_content" className="mainContent p-5">
         
         <div>Mypage page</div>
             <MainHeader users={memberInfo}/>
-            <TabSection users={memberInfo}/>
-            <Mywalks users={memberInfo}/>
-            <JoinedWalks users={memberInfo}/>
+            <TabSection />
+            <Mywalks/>
+            <JoinedWalks/>
 
         </div>
         <Side  users={memberInfo}/>
         <Footer/>
     </div>
-    <Searchbox users={memberInfo}/>
-    <Mobilemenu users={memberInfo}/>
+    <Searchbox/>
+    <Mobilemenu/>
     <Backtobtn/>
 </>
 );

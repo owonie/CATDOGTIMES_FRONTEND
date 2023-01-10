@@ -1,14 +1,15 @@
 import React from 'react';
 
 const Tab01 = ({data}) => {
-    console.log(data);
+    // console.log(data);
     return <>
 
         <h1>내게시물</h1>
 
         <div className="myPost row fl_center space_30 ">
-            {data.map(da => ( 
-            <div className="col-lg-4 col-md-4 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
+            {
+            data !== null ? data.map((da,i) => ( 
+            <div className="col-lg-4 col-md-4 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1" key={i}>
             <h1>{da.postContent}</h1>
                 <div className="product-inner pr">
                     <div className="product-image pr oh lazyload">
@@ -27,7 +28,7 @@ const Tab01 = ({data}) => {
 
                 </div>
             </div>
-            ))}
+            )) : "NoData"}
         </div>
 
     </>;

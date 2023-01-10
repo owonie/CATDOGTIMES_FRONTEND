@@ -6,8 +6,8 @@ return <>
     <h1>좋아요</h1>            
 
     <ul className="likedlist">
-    {data.map(da => ( 
-        <li>
+    {data !== null ? data.map((da,i) => ( 
+        <li key={i}>
             <a href="#">
             <span className="no"> {da.postId} </span>
             <span className="thum"> <img src="mypage/assets/images/catdog3.png" alt="gg" className="listthum "/> </span>
@@ -16,7 +16,7 @@ return <>
             <span className="lastUpdate">{da.postUpdateDate}</span>
             </a>
         </li>
-    ))}
+    )) : <li>NoData</li>}
     </ul>
 </>;
 };

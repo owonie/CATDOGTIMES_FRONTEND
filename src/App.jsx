@@ -36,9 +36,6 @@ const App = () => {
         <div className="text-center">
           <div>멍냥일보 프론트엔드입니당</div>
           <Link to="/testlogin" className='button'>테스트 로그인</Link>
-          <Link to="/memberinfo" className='button'>멤버인포</Link>
-          <Link to="/mypageupdate" className='button'> 정보수정</Link>
-
         </div>
         <Routes>
           <Route path="/walk" element={<Walk />}></Route>
