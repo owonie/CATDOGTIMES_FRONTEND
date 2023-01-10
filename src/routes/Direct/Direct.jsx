@@ -1,56 +1,80 @@
-import React, { useState, useEffect } from "react";
-import "./Direct.css";
+import React, { useState, useEffect } from 'react';
+import ChatBox from '../../components/DM/ChatBox/ChatBox';
+import DirectMessageList from '../../components/List/DirectMessageList';
+import NavBar from '../../components/NavBar/NavBar';
+import styles from './Direct.module.css';
 
-const DirectMessage = () => {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [recipient, setRecipient] = useState("");
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  updateRoomId,
+  updateInRoom,
+  updateLocation,
+} from '../../reducers/userData';
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(`/api/messages/${recipient}`);
-      const data = await res.json();
-      setMessages(data);
-    }
-    fetchData();
-  }, [recipient]);
+const DirectMessage = ({ roomRepository, messageRepository }) => {
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.userData.userId);
+  const roomId = useSelector((state) => state.userData.roomId);
 
-  const handleChange = (e) => {
-    setInput(e.target.value);
+  // 방추가
+  const addRoom = (room) => {
+    roomRepository.saveRoom(userId, room);
+    messageRepository.initMessage(room);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const message = {
-      text: input,
-      sender: 1,
-      // sender: loggedInUser.id,
-      recipient,
-    };
-    const res = await fetch("/api/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(message),
+  // 방 입장
+  const joinRoom = (room) => {
+    roomRepository.getRoom(room, (data) => {
+      const event = data;
+      if (event === true) {
+        dispatch(updateRoomId(room));
+        //   dispatch(updateLocation('room'));
+        //   dispatch(updateInRoom(true));
+        console.log('direct page room coming');
+      }
     });
-    const data = await res.json();
-    setMessages([...messages, data]);
-    setInput("");
   };
 
   return (
-    <div className="direct-message">
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={input} onChange={handleChange} placeholder="Enter message" />
-        <button type="submit">Send</button>
-      </form>
-      {messages.map((message) => (
-        <div key={message.id} className="message">
-          <img src={message.sender.profileImageUrl} alt={message.sender.username} />
-          <p>{message.text}</p>
+    <div className={styles.DM}>
+      <nav className={styles.navbar}>
+        <NavBar />
+      </nav>
+      <section className={styles.center}>
+        <div className={styles.wrapper}>
+          <div className={styles.dmListBar}>
+            <div className={styles.dmListHeader}>
+              <div>
+                Dev_Owon
+                <button
+                  onClick={() => joinRoom('chatroom')}
+                  className={styles.newMessageButton}
+                >
+                  new message
+                </button>
+              </div>
+            </div>
+            <div className={styles.dmList}>
+              <ul>
+                <li>사람1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+              </ul>
+            </div>
+          </div>
+          <div className={styles.chatRoom}>
+            <div className={styles.chatHeader}>
+              <div className={styles.yourProfile}>
+                <button className={styles.yourProfileButton}>Gowon</button>
+              </div>
+            </div>
+            <div className={styles.chatBox}>
+              <ChatBox messageRepository={messageRepository} />
+            </div>
+          </div>
         </div>
-      ))}
+      </section>
     </div>
   );
 };
