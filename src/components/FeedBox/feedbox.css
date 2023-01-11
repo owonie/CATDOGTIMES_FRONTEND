@@ -1,6 +1,7 @@
 .feedBox {
   border: 1px solid #e6e6e6;
   background-color: #ffffff;
+  margin-bottom: 20px;
 }
 
 .feedTop {
@@ -84,14 +85,27 @@
   margin-right: 5px;
 }
 
+/*코멘트*/
+
 .commentContainer {
   padding: 0 10px;
 }
 
-.commentMore {
+.commentCount {
   font-size: 12px;
   font-weight: bold;
   color: #9e9e9e;
+}
+
+.commentCase {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20px;
+}
+
+.comments {
+  font-size: 13px;
 }
 
 .commentTime {

@@ -1,0 +1,29 @@
+[
+  {
+    "memberNo": 1,
+    "nickName": "King cat V",
+    "photo": "./img/cat1.jpg",
+    "feed_img": "./img/kitten1.jpg",
+    "postLike_nickName": "foolish dog",
+    "postLike_photo": "./img/dog1.jpg",
+    "like_num": 136
+  },
+  {
+    "memberNo": 2,
+    "nickName": "doge",
+    "photo": "./img/doge.jpg",
+    "feed_img": "./img/explore/dog1.jpg",
+    "postLike_nickName": "foolish dog",
+    "postLike_photo": "./img/dog1.jpg",
+    "like_num": 136
+  },
+  {
+    "memberNo": 3,
+    "nickName": "bami",
+    "photo": "./img/bami.jpg",
+    "feed_img": "./img/explore/kitten2.jpg",
+    "postLike_nickName": "foolish dog",
+    "postLike_photo": "./img/dog1.jpg",
+    "like_num": 136
+  }
+]

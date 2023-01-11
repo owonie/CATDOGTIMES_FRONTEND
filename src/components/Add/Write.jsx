@@ -1,16 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
-import WriteInput from "./WriteInput";
+import React, { useState } from "react";
+import { Button, Input, Modal } from "antd";
+import { BorderlessTableOutlined } from "@ant-design/icons";
 import styles from "./Write.module.css";
-import WriteHashtagInput from "./WriteHashtagInput";
 import UploadPicture from "./UploadPicture";
+import TextArea from "antd/es/input/TextArea";
+import axios from "axios";
+
 const Write = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+
+  /* postContent 저장용 */
+  const [postContent, setPostContent] = useState("");
+
   const showModal = () => {
     setOpen(true);
   };
   const handleOk = () => {
+    axios
+      .post("/post/add", {
+        postContent: postContent,
+        memberNo: 1,
+      })
+      .then((res) => {
+        console.log("insert Success");
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -20,17 +39,6 @@ const Write = () => {
   const handleCancel = () => {
     setOpen(false);
   };
-
-  const [add, setAdd] = useState([]);
-  useEffect(() => {
-    fetch("post/add")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
 
   return (
     <>
@@ -56,10 +64,22 @@ const Write = () => {
         <div className={styles.write__upload}>
           <UploadPicture bodyStyle={{ height: 400 }} />
           <div className={styles.write__text}>
-            <WriteInput />
-          </div>
-          <div className={styles.write__hashtag}>
-            <WriteHashtagInput />
+            <TextArea
+              showCount
+              maxLength={100}
+              style={{
+                height: 200,
+              }}
+              size="large"
+              onChange={(e) => {
+                setPostContent(e.target.value);
+                console.log(e.target.value);
+              }}
+              placeholder="오늘은 어땠나요?"
+              allowClear
+              value={postContent}
+            />
+            <Input placeholder="Enter Instagram hashtag" prefix={<BorderlessTableOutlined type="hashtag" style={{ color: "rgba(0,0,0,.25)" }} />} />
           </div>
         </div>
       </Modal>
