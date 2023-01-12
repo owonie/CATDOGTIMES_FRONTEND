@@ -47,3 +47,9 @@ margin: auto;
 .info_gender label{
   padding-right: 16px;
 }
+#email{
+  margin-bottom: 8px;
+}
+#address{
+  margin: 8px 0;
+}

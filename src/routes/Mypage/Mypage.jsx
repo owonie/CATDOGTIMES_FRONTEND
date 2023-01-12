@@ -10,6 +10,8 @@ import MainHeader from '../../components/mypage/MainHeader';
 import TabSection from '../../components/mypage/TabSection';
 import JoinedWalks from '../../components/mypage/JoinedWalks';
 import { useSelector, useDispatch } from "react-redux";    
+import "antd/dist/antd";
+// import { DatePicker } from 'antd';
 
 const Mypage = (props) => {
 
@@ -19,10 +21,11 @@ const Mypage = (props) => {
 
 return (
 <>
+
     <div id="nt_wrapper">
     <Header/>
     <div id="nt_content" className="mainContent p-5">
-        
+    {/* <DatePicker/> */}
         <div>Mypage page</div>
             <MainHeader users={memberInfo}/>
             <TabSection />

@@ -32,41 +32,46 @@ const MypageUpdatemyinfo = (props) => {
   //정보수정 버튼 클릭하면 실행
   const updateInfo = (e)=>{
     e.preventDefault();
-    let photo = document.getElementById('photofile').files.length>0 ? document.getElementById('photofile').files[0].name
-    : null;
+    let photo = document.getElementById('photofile').files.length > 0 ? 
+                document.getElementById('photofile').files[0].name  : null;
 
     let mypage = {
       memberNo :    memberInfo.memberNo,
       memberId :    memberInfo.memberId,
       memberPhoto:  photo,
       memberPw :    document.getElementById('pw1').value,
-      memberName :    document.getElementById('name').value,
-      memberNickname : document.getElementById('nickname').value,
-      memberEmail :   document.getElementById('email').value,
+      memberNickname : nickName,
       memberAddress : document.getElementById('address').value,
       memberZipcode : document.getElementById('zipcode').value,
       memberDetailAddress : document.getElementById('detailAddress').value,
     }
 
-    //모든 체크 중 하나라도 통과하지 못하면 
-    if(!pwCheckOk || !pwCheckDouble){
-      //alert('다시 확인');
-      console.log(pwCheckOk);
-      console.log(pwCheckDouble);
+    const formData = new FormData();
+    formData.append('mypage', new Blob([JSON.stringify(mypage)],{type:"application/json"}));
+    formData.append('photofile',document.getElementById("photofile").files[0]);
 
+    //비밀번호 확인 통과해야 
+    if(pwCheckOk && pwCheckDouble){
+      console.log('OK 확인');
+      //내정보 POST방식으로 서버에 전송하고 리덕스에 저장하기
+      axios.post("/memberUpdate",formData)
+      .then(res=>{
+        console.log(res.data);
+        addMemberInfo(res.data);
+        document.location.href="/memberinfo";
+      })
+      .catch()
+
+    }else{
+      console.log('다시 확인');
     }
-    //내정보 POST방식으로 서버에 전송하고 리덕스에 저장하기
-    // axios.post("/memberUpdate",mypage)
-    // .then(res=>{
-    //   console.log(res.data);
-    //   addMemberInfo(res.data);
-    //   document.location.href="/memberinfo";
-    // })
-    // .catch()
+    
   }
 
   useEffect(() => {
-    memberInfo ? setImgFile("mypage/photo/"+memberInfo.memberPhoto): setImgFile("mypage/photo/undefined.jpg");
+    memberInfo 
+      ? setImgFile("http://localhost:8088/times/resources/upload/"+memberInfo.memberPhoto)
+      : setImgFile("http://localhost:8088/times/resources/upload/undefined.jpg");
     console.log(memberInfo);
   }, []);
 
@@ -85,8 +90,14 @@ const MypageUpdatemyinfo = (props) => {
     console.log(imgFile.name);
   };
 
+
+  // const [name, setName] = useState("");
+  // const handleInputName = (e) => {
+  //   setName(e.target.value)
+  // }
+
   //비밀번호 형식 확인
-  let pwCheckOk = false;
+  const [pwCheckOk, setPwCheckOk] = useState(false);
   const pwCheck =()=>{
     const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
     const pw = document.getElementById('pw1').value;
@@ -96,19 +107,19 @@ const MypageUpdatemyinfo = (props) => {
     }else{
       document.getElementById('re_pw1').innerHTML = '올바른 형식';
       document.getElementById('re_pw1').style.color='green';
-      pwCheckOk = true;
+      setPwCheckOk(true);
       console.log(pwCheckOk);
     }
   }
   //비밀번호 동일 확인
-  let pwCheckDouble = false;
+  const [pwCheckDouble, setPwCheckDouble] = useState(false);
   const pwCheck2 =()=>{
     const pw1 = document.getElementById('pw1').value;
     const pw2 = document.getElementById('pw2').value;
-    if(pw1 === pw2){
+    if(pw1 === pw2 && pw2 !== ''){
       document.getElementById('re_pw2').innerHTML = '비밀번호가 동일합니다';
       document.getElementById('re_pw2').style.color='green';
-      pwCheckDouble = true;
+      setPwCheckDouble(true);
       console.log(pwCheckDouble);
     }else{
       document.getElementById('re_pw2').innerHTML = '비밀번호를 다시 확인하세요';
@@ -123,21 +134,38 @@ const MypageUpdatemyinfo = (props) => {
   const nickNameChange=(e)=>{
     setNickName(e.target.value);
   }
+  const [nickNameCheckOk,setNickNameCheckOk]=useState(true);
   //닉네임 중복확인
   const checkNickName =()=>{
     let nickName = document.getElementById('nickname').value;
     //db에서 가져오기
-    console.log(nickName);
+    axios.post("/member/nickNameCheck",null,{
+      params:{
+        nickName,
+      }})
+    .then(res=>{
+      console.log('res',res);
+      if(res.data === 0){
+        setNickNameCheckOk(true);
+        setNickName(nickName);
+        document.getElementById('re_nickNameCheckValue').innerHTML
+        ='사용가능한 닉네임입니다.';
+        document.getElementById('re_nickNameCheckValue').style.color='green'
+      }else{
+        setNickNameCheckOk(false);
+        document.getElementById('re_nickNameCheckValue').innerHTML
+        ='이미 존재하는 닉네임입니다.';
+        document.getElementById('re_nickNameCheckValue').style.color='red'
+      }
+      return res.data;
+    })
+    .catch()
   }
 
-  //이메일 체크
-  const emailCheck =()=>{
-
-  }
-
-  //주소찾기
-  const execute_daum_address =()=>{
-
+  //주소찾기 - index.html 에 추가, 상세 주소 수정되도록 아래에 코드 추가
+  const [detailAddress,setDetailAddress]=useState("");
+  const detailAddressChange =(e)=>{
+    setDetailAddress(e.target.value);
   }
 
   return (
@@ -207,8 +235,7 @@ const MypageUpdatemyinfo = (props) => {
             <aside className="col-sm-3"><label className="d-block text-right" htmlFor="nickname">닉네임(별명)</label></aside>
             <div className="col-sm-6">
                 <input id="nickname" value={nickName ? nickName : memberInfo.memberNickname} onChange={nickNameChange} placeholder="닉네임" type="text" className="input-text" />
-                <input type="hidden" name="nickNameCheckValue" value="0" />
-                <div className="hint small">사람들이 회원님의 알려진 이름을 사용하여 회원님의 계정을 찾을 수
+                <div id="re_nickNameCheckValue" className="hint small">사람들이 회원님의 알려진 이름을 사용하여 회원님의 계정을 찾을 수
                   있도록 도와주세요. 하루 한번만 변경 가능합니다. </div>
             </div>
             <div className="col-sm-3">
@@ -220,14 +247,10 @@ const MypageUpdatemyinfo = (props) => {
           <div className="row pb-3">
             <aside className="col-sm-3"><label className="d-block text-right" htmlFor="email">이메일</label></aside>
             <div className="col-sm-6">
-                <input type="text" placeholder="Email"  id="email" name="email"/>
-                <input type="text" placeholder="인증번호 6자리 입력" id="email_check" disabled="disabled" maxLength="6"/>
-                <input type="hidden" id="emailCheckValue" name="emailCheckValue" value="0" />
-                <div className="hint small"><span id="mail-check-warn">입력한 이메일 계정에서 인증번호를 확인하세요. </span></div>
+                <input type="text" placeholder="Email"  id="email" name="email" value={memberInfo.memberEmail} disabled/>
+                <div className="hint small"></div>
             </div>
-            <div className="col-sm-3">
-              <button type="button" onClick={emailCheck} className="btn">인증하기</button>
-            </div>
+            <div className="col-sm-3"> </div>
           </div>
           
 
@@ -237,13 +260,14 @@ const MypageUpdatemyinfo = (props) => {
             <aside className="col-sm-3"><label className="d-block text-right" htmlFor="addrSearch">주소</label></aside>
             <div className="col-sm-6">
                 {/* <input id="addr" placeholder="주소" type="text" className="input-text" /> */}
-                <input type="text" placeholder="우편번호" id="zipcode" name="zipcode" disabled/>
-                <input type="text" placeholder="주소"  id="address" name="address" disabled/>
-                <input type="text" placeholder="상세주소" id="detailAddress" name="detailAddress" disabled/>
+                <input type="text" placeholder="우편번호" value={memberInfo.memberZipcode} id="zipcode" name="zipcode" disabled/>
+                <input type="text" placeholder="주소" value={memberInfo.memberAddress} id="address" name="address" disabled/>
+                <input type="text" placeholder="상세주소" value={detailAddress ? detailAddress : memberInfo.memberDetailAddress} id="detailAddress" 
+                    name="detailAddress" onChange={detailAddressChange}/>
                 <div className="hint small"></div>
             </div>
             <div className="col-sm-3">
-              <button type="button" className="btn" id='addrSearch' onClick={execute_daum_address}>주소찾기</button>
+              <button type="button" className="btn" id='addrSearch'>주소찾기</button>
             </div>
           </div>
 

@@ -1,7 +1,8 @@
 import React from 'react';
 
 const Tab01 = ({data}) => {
-    // console.log(data);
+    console.log(data);
+    const imgPath = "http://localhost:8088/times/resources/upload/";
     return <>
 
         <h1>내게시물</h1>
@@ -10,18 +11,19 @@ const Tab01 = ({data}) => {
             {
             data !== null ? data.map((da,i) => ( 
             <div className="col-lg-4 col-md-4 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1" key={i}>
-            <h1>{da.postContent}</h1>
+            {/* <h1>{da.postContent}</h1> */}
                 <div className="product-inner pr">
-                    <div className="product-image pr oh lazyload">
-                        <a className="d-block" href="#">
+                    <div className="product-image pr oh lazyload ">
+                        <a className="d-block post_img" href="#">
                             <div className="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                data-bgset="mypage/assets/images/catdog.jpg"></div>
+                                data-bgset={`${imgPath}${da.imageOriginalName}`}></div>
+                                
                         </a>
 
-                        <div className="hover_button op__0 tc pa flex column ts__03">
+                        <div className="hover_button op__0 tc pa ts__03">
                             <a className="hover_ico" href="#">
-                                <span><i className="facl facl-heart"></i> 5 </span>
-                                <span><i className="fas fa-comment la-flip-horizontal"></i> 7 </span>
+                                <span><i className="facl facl-heart"></i> {da.likeCnt} </span>
+                                <span><i className="fas fa-comment la-flip-horizontal"></i> {da.replyCnt} </span>
                             </a>
                         </div>
                     </div>

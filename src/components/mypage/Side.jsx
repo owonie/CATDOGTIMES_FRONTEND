@@ -22,14 +22,16 @@ return <>
                                 <div className="branding ts__05 lh__1 pb-3">
                                     <a className="dib" href="./memberinfo" title='Go MyPage'>
                                         <img className="w__95 logo_normal dn db_lg rounded-circle " src=
-                                            {users !== null ? `mypage/photo/${users.memberPhoto}` : 
-                                            "mypage/photo/undefined.jpg"}
+                                            {users !== null ? `http://localhost:8088/times/resources/upload/${users.memberPhoto}` : 
+                                            "http://localhost:8088/times/resources/upload/undefined.jpg"}
                                             alt="photo"/>
-                                        <img className="w__100 logo_sticky dn rounded-circle" src={users !== null ? `mypage/photo/${users.memberPhoto}` : 
-                                            "mypage/photo/undefined.jpg"}
+                                        <img className="w__100 logo_sticky dn rounded-circle" src={users !== null 
+                                            ? `http://localhost:8088/times/resources/upload/${users.memberPhoto}` 
+                                            : "http://localhost:8088/times/resources/upload/undefined.jpg"}
                                             alt="photo"/>
-                                        <img className="w__100 logo_mobile dn_lg rounded-circle" src={users !== null ? `mypage/photo/${users.memberPhoto}` : 
-                                            "mypage/photo/undefined.jpg"}
+                                        <img className="w__100 logo_mobile dn_lg rounded-circle" src={users !== null 
+                                            ? `http://localhost:8088/times/resources/upload/${users.memberPhoto}` 
+                                            : "http://localhost:8088/times/resources/upload/undefined.jpg"}
                                             alt="photo"/>
                                         <span className="nickname pt-3 d-inline-block">{users !== null ? users.memberNickname : "NoData"}</span>
                                     </a>
