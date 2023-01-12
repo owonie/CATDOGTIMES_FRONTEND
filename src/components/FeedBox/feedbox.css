@@ -85,6 +85,20 @@
   margin-right: 5px;
 }
 
+/*postContent */
+.postContent {
+  padding: 0 10px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.writer_nickname {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
 /*코멘트*/
 
 .commentContainer {

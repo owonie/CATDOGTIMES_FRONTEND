@@ -11,10 +11,10 @@ const FeedBox = () => {
   useEffect(() => {
     try {
       const loadData = async () => {
-        const response = await axios.get("data/feedData.json");
+        const response = await axios.get("/post/list");
+        console.log(response.data);
         setFeeds(response.data);
       };
-      // call it here
       loadData();
     } catch (error) {
       console.log(error);
@@ -30,18 +30,18 @@ const FeedBox = () => {
   return (
     <div>
       {feeds.map((feed) => (
-        <section className="feedBox">
+        <section className="feedBox" key={feed.feedId}>
           <div className="feedTop">
             <div className="feedTopLeft" onClick={linkClick}>
-              <img src={feed.photo} alt="writer" />
-              <div>{feed.nickName}</div>
+              <img src={feed.writerPhoto} alt="writer" />
+              <div>{feed.writerName}</div>
             </div>
             <div className="feedTopRight">
               <i className="fas fa-ellipsis-h fa-lg"></i>
             </div>
           </div>
           <article className="feedMiddleImg">
-            <img src={feed.feed_img} alt="feed" />
+            <img src={feed.feedImage} alt="feed" />
           </article>
           <div className="feedBottom">
             <div className="bottomMenu">
@@ -55,8 +55,12 @@ const FeedBox = () => {
               </div>
             </div>
             <div className="like">
-              <img src={feed.postLike_photo} alt="liker" />
-              <span className="userName">{feed.postLike_nickName}</span>님 외 {feed.like_num}명이 좋아합니다
+              <img src={feed.likerPhoto} alt="liker" />
+              <span className="userName">{feed.likerName}</span>님 외 {feed.replyLikeCount}명이 좋아합니다
+            </div>
+            <div className="postContent">
+              <span className="writer_nickname">{feed.writerName}</span>
+              <span className="writer_comment">{feed.feedContent}</span>
             </div>
 
             <div className="commentContainer">
@@ -89,7 +93,6 @@ const FeedBox = () => {
                 </div>
               </div>
             </div>
-            <div className="commentTime">77분 전</div>
 
             <form className="commentInputBox">
               <input defaultValue="" type="text" placeholder="댓글 달기..." id="commentInput" />
@@ -103,3 +106,13 @@ const FeedBox = () => {
 };
 
 export default FeedBox;
+
+// axios
+// .get("/post/list")
+// .then((res) => {
+//   console.log("insert Success");
+//   console.log(res.data);
+// })
+// .catch((error) => {
+//   console.log(error);
+// });

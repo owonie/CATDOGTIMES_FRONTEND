@@ -87,3 +87,26 @@ const Write = () => {
   );
 };
 export default Write;
+
+// let insertPost = {
+//   postContent: "들어간다 쭉쭉쭉3",
+//   memberNo: 2, //memberNo는 데이터 있는 것만 가능
+// };
+// axios
+//   .post("/post/add", insertPost)
+//   .then((res) => {
+//     console.log(res.data);
+//   })
+//   .catch();
+
+//삭제 연습
+// axios
+//   .post("/post/delete", null, {
+//     params: {
+//       postId: "4",
+//     },
+//   })
+//   .then((res) => {
+//     console.log(res.data);
+//   })
+//   .catch();
