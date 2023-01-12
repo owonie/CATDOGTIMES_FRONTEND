@@ -1,5 +1,6 @@
 .SNS {
   display: flex;
+  color: black;
 }
 
 #nav {
@@ -9,6 +10,9 @@
 }
 
 .center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-left: auto;
   width: auto;
   margin-right: auto;

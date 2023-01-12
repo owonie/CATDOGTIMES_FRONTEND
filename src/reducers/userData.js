@@ -3,39 +3,35 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export const userDataSlice = createSlice({
   name: 'userData',
   initialState: {
-    userId: null,
-    displayName: null,
-    roomId: null,
-    photoURL: null,
-    currentTime: null,
-    inRoom: false,
-    playedVideo: null,
+    catdogtimes_userId: null,
+    catdogtimes_displayName: null,
+    catdogtimes_roomId: null,
+    catdogtimes_photoURL: null,
+    catdogtimes_currentTime: null,
+    catdogtimes_inRoom: false,
     location: null,
   },
   reducers: {
     updateUserId: (state, action) => {
-      state.userId = action.payload;
+      state.catdogtimes_userId = action.payload;
     },
     updateDisplayName: (state, action) => {
-      state.displayName = action.payload;
+      state.catdogtimes_displayName = action.payload;
     },
     updateRoomId: (state, action) => {
-      state.roomId = action.payload;
+      state.catdogtimes_roomId = action.payload;
     },
     updatePhotoURL: (state, action) => {
-      state.photoURL = action.payload;
+      state.catdogtimes_photoURL = action.payload;
     },
     updateCurrentTime: (state, action) => {
-      state.currentTime = action.payload;
+      state.catdogtimes_currentTime = action.payload;
     },
     updateInRoom: (state, action) => {
-      state.inRoom = action.payload;
-    },
-    updatePlayedVideo: (state, action) => {
-      state.playedVideo = action.payload;
+      state.catdogtimes_inRoom = action.payload;
     },
     updateLocation: (state, action) => {
-      state.location = action.payload;
+      state.catdogtimes_location = action.payload;
     },
   },
 });
@@ -47,7 +43,6 @@ export const {
   updatePhotoURL,
   updateCurrentTime,
   updateInRoom,
-  updatePlayedVideo,
   updateLocation,
 } = userDataSlice.actions;
 

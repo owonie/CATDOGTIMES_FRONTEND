@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-.searchInput {
+#searchInput {
   width: 280px;
   height: 30px;
   text-align: center;
@@ -19,11 +19,11 @@
   background-size: 20px;
 }
 
-.searchInput:focus {
+#searchInput:focus {
   background-image: none;
 }
 
-.searchInput:focus ~ .pullDownBox {
+#searchInput:focus ~ .pullDownBox {
   display: block;
 }
 
@@ -36,6 +36,7 @@
   height: 300px;
   position: absolute;
   background-color: white;
+  z-index: 100;
 }
 
 .pullDownBox::after {

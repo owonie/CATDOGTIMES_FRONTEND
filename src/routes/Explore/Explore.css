@@ -19,19 +19,14 @@
   flex-wrap: wrap;
 }
 
-.post2 {
-  margin-bottom: 15px;
-  margin-right: 15px;
-  box-sizing: border-box;
-}
-
-.post2 img {
+:where(.css-dev-only-do-not-override-k83k30).ant-upload-wrapper.ant-upload-picture-card-wrapper
+  .ant-upload-list.ant-upload-list-picture-card
+  .ant-upload-list-item-container {
+  display: inline-block;
   width: 250px;
-  height: 250px;
-}
-
-.post2 p {
-  font-size: 14px;
-  margin: 8px 0;
-  text-align: center;
+  height: 300px;
+  margin-block: 0 8px;
+  margin-inline: 0 8px;
+  vertical-align: top;
+  margin-right: 20px;
 }

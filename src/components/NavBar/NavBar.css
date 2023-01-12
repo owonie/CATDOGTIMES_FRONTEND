@@ -5,13 +5,24 @@
 }
 
 .menu {
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
 }
 
 .menu__row {
   font-size: 20px;
   padding: 12px;
   margin-bottom: 10px;
+}
+
+/* 메뉴 아이콘 글자 간격조정*/
+.menu__row:nth-child(2) i {
+  margin-right: 23px;
+}
+
+.menu__row:nth-child(3) i {
+  margin-right: 25px;
 }
 
 @media (max-width: 895px) {
@@ -70,7 +81,7 @@
   }
 }
 
-@media (min-width: 980px) {
+@media (min-width: 1000px) {
   .menu__row,
   .menu__row span {
     font-size: 20px;

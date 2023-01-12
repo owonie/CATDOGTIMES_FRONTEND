@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Search.css";
-import "./reset.css";
+import "./reset2.css";
 import PullDown from "./PullDown/PullDown";
 import PullDownSearch from "./PullDownSearch/PullDownSearch";
 
@@ -14,7 +14,7 @@ function Search() {
   return (
     <div className="search">
       <input
-        className="searchInput"
+        id="searchInput"
         type="text"
         placeholder="Search"
         onChange={(event) => {

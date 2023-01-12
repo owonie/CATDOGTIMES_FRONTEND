@@ -50,7 +50,7 @@ function FeedBox({ id }) {
           <div className="commentTime">77분 전</div>
 
           <form className="commentInputBox">
-            <input defaultValue="" type="text" placeholder="댓글 달기..." className="commentInput" />
+            <input defaultValue="" type="text" placeholder="댓글 달기..." id="commentInput" />
             <button>게시</button>
           </form>
         </div>

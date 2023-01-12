@@ -110,10 +110,11 @@
   margin-top: 10px;
 }
 
-.commentInput {
+#commentInput {
   border: 0;
   outline: 0;
   width: 85%;
+  height: auto;
 }
 
 .commentInputBox button {
@@ -122,4 +123,5 @@
   background-color: transparent;
   color: #93c0e9;
   cursor: grabbing;
+  padding: 0px;
 }
