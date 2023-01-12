@@ -1,7 +1,17 @@
 import React from 'react';
+import { useSelector, useDispatch } from "react-redux";   
+import { updateMemberInfo } from "../../reducers/memberInfo";
 
-const Side = ({users}) => {
-    console.log(users)
+const Side = (props) => {
+    const users = useSelector((state) => {
+        return state.memberInfo.data;
+    });
+    // const dispatch = useDispatch();
+    // const delMemberInfo = (e) => {
+    //     e.preventDefault();
+    //     dispatch(updateMemberInfo(null));
+    // };
+
 return <>
 <aside id="ntside" className="ntheader right_side h_icon_iccl p-3">
             <div className="ntheader_wrapper pr z_200">
@@ -10,22 +20,28 @@ return <>
                         <div className="row al_center">
                             <div className="col-lg-12 col-6 tc">
                                 <div className="branding ts__05 lh__1 pb-3">
-                                    <a className="dib" href="mypage.html">
-                                        <img className="w__95 logo_normal dn db_lg rounded-circle " src={`mypage/assets/images/${users.memberPhoto}`}
+                                    <a className="dib" href="./memberinfo" title='Go MyPage'>
+                                        <img className="w__95 logo_normal dn db_lg rounded-circle " src=
+                                            {users !== null ? `http://localhost:8088/times/resources/upload/${users.memberPhoto}` : 
+                                            "http://localhost:8088/times/resources/upload/undefined.jpg"}
                                             alt="photo"/>
-                                        <img className="w__100 logo_sticky dn rounded-circle" src={`mypage/assets/images/${users.memberPhoto}`}
+                                        <img className="w__100 logo_sticky dn rounded-circle" src={users !== null 
+                                            ? `http://localhost:8088/times/resources/upload/${users.memberPhoto}` 
+                                            : "http://localhost:8088/times/resources/upload/undefined.jpg"}
                                             alt="photo"/>
-                                        <img className="w__100 logo_mobile dn_lg rounded-circle" src={`mypage/assets/images/${users.memberPhoto}`}
-                                            alt=""/>
-                                        <span className="nickname pt-3 d-inline-block">{users.memberNickname}</span>
+                                        <img className="w__100 logo_mobile dn_lg rounded-circle" src={users !== null 
+                                            ? `http://localhost:8088/times/resources/upload/${users.memberPhoto}` 
+                                            : "http://localhost:8088/times/resources/upload/undefined.jpg"}
+                                            alt="photo"/>
+                                        <span className="nickname pt-3 d-inline-block">{users !== null ? users.memberNickname : "NoData"}</span>
                                     </a>
                                     <div className="myranking pt-2">
                                         MyRanking (<span className="cnt">999</span>) 
                                     </div>
                                 </div>
                                 <div className="profile-btns pt-3">
-                                    <a href="#" className="d-inline-block p-3">정보수정</a>
-                                    <a href="#" className="d-inline-block p-3">로그아웃</a>
+                                    <a href="./mypageupdate" className="d-inline-block p-3">정보수정</a>
+                                    <a href="./testlogin"  className="d-inline-block p-3">로그아웃</a>
                                 </div>
                             </div>
                         </div>

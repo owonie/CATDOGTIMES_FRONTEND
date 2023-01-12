@@ -1,0 +1,48 @@
+.profile{
+  justify-content: center;
+}
+
+.profile_photo{
+  width: 180px;
+}
+
+.profile_info{
+  justify-content: center;
+}
+
+.nickname{
+  font-size: 1.3rem;
+  margin-bottom:8px;
+}
+.summ_cnt{
+  margin: 8px 0;
+  font-size: 16px;
+}
+.summ_cnt > span{
+  padding:0 8px;
+}
+.summ_cnt > span span{
+  padding:0 4px;
+}
+.accountid{
+  font-size: 14px;
+  font-weight: bold;
+  color: #999;
+  padding:0 8px;
+}
+
+
+#followerlist, #followinglist{
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none;
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-modal .ant-modal-content{
+  width: 600px;
+}
