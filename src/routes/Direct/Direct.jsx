@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ChatBox from '../../components/DM/ChatBox/ChatBox';
-import DirectMessageList from '../../components/List/DirectMessageList';
 import NavBar from '../../components/NavBar/NavBar';
 import styles from './Direct.module.css';
 
@@ -13,8 +12,8 @@ import {
 
 const DirectMessage = ({ roomRepository, messageRepository }) => {
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.userData.userId);
-  const roomId = useSelector((state) => state.userData.roomId);
+  const userId = useSelector((state) => state.userData.catdogtimes_userId);
+  const roomId = useSelector((state) => state.userData.catdogtimes_roomId);
 
   // 방추가
   const addRoom = (room) => {
@@ -29,7 +28,8 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
       if (event === true) {
         dispatch(updateRoomId(room));
         //   dispatch(updateLocation('room'));
-        //   dispatch(updateInRoom(true));
+        dispatch(updateInRoom(true));
+        messageRepository.initMessage(room);
         console.log('direct page room coming');
       }
     });

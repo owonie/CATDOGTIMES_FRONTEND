@@ -16,6 +16,7 @@ class MessageRepository {
   }
   syncMessage(roomId, onUpdate) {
     // const ref = collection(this.firestore_db, `dm/${roomId}/messages`);
+    console.log('syncMessage!!');
     const ref = collection(this.firestore_db, `dm/chatroom/messages`);
     const q = query(ref, orderBy('time', 'asc'));
     const unsub = onSnapshot(q, (snapshot) => {
@@ -25,8 +26,10 @@ class MessageRepository {
         time: doc.data().time,
         userId: doc.data().userId,
       }));
+      console.log('data:', data);
       data && onUpdate(data);
     });
+
     return () => unsub();
   }
   initMessage(room) {
@@ -36,6 +39,7 @@ class MessageRepository {
     setDoc(doc(this.firestore_db, `dm/chatroom/messages`, 'init'), {
       content: 'init completed!',
     });
+    console.log('init message runing!');
   }
   saveMessage(message) {
     // addDoc(collection(this.firestore_db, `rooms/${message.roomId}/messages`), {
