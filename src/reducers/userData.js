@@ -13,25 +13,25 @@ export const userDataSlice = createSlice({
   },
   reducers: {
     updateUserId: (state, action) => {
-      state.userId = action.payload;
+      state.catdogtimes_userId = action.payload;
     },
     updateDisplayName: (state, action) => {
-      state.displayName = action.payload;
+      state.catdogtimes_displayName = action.payload;
     },
     updateRoomId: (state, action) => {
-      state.roomId = action.payload;
+      state.catdogtimes_roomId = action.payload;
     },
     updatePhotoURL: (state, action) => {
-      state.photoURL = action.payload;
+      state.catdogtimes_photoURL = action.payload;
     },
     updateCurrentTime: (state, action) => {
-      state.currentTime = action.payload;
+      state.catdogtimes_currentTime = action.payload;
     },
     updateInRoom: (state, action) => {
-      state.inRoom = action.payload;
+      state.catdogtimes_inRoom = action.payload;
     },
     updateLocation: (state, action) => {
-      state.location = action.payload;
+      state.catdogtimes_location = action.payload;
     },
   },
 });
