@@ -12,6 +12,8 @@ const Write = () => {
 
   /* postContent 저장용 */
   const [postContent, setPostContent] = useState("");
+  /* hashTag 저장용 */
+  const [postHashtags, setPostHashtags] = useState("");
 
   const showModal = () => {
     setOpen(true);
@@ -21,6 +23,18 @@ const Write = () => {
       .post("/post/add", {
         postContent: postContent,
         memberNo: 1,
+      })
+      .then((res) => {
+        console.log("insert Success");
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .post("/post/addHashtag", {
+        postId: null,
+        postHashtag: postHashtags,
       })
       .then((res) => {
         console.log("insert Success");
@@ -79,7 +93,19 @@ const Write = () => {
               allowClear
               value={postContent}
             />
-            <Input placeholder="Enter Instagram hashtag" prefix={<BorderlessTableOutlined type="hashtag" style={{ color: "rgba(0,0,0,.25)" }} />} />
+            <Input
+              placeholder="Enter Instagram hashtag"
+              prefix={
+                <BorderlessTableOutlined
+                  type="hashtag"
+                  style={{ color: "rgba(0,0,0,.25)" }}
+                  onChange={(e) => {
+                    setPostHashtags(e.target.value);
+                    console.log(e.target.value);
+                  }}
+                />
+              }
+            />
           </div>
         </div>
       </Modal>

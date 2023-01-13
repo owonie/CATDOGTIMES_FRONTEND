@@ -1,0 +1,12 @@
+:where(.css-dev-only-do-not-override-k83k30).ant-modal .ant-modal-close-x {
+  display: none;
+}
+
+:where(.css-dev-only-do-not-override-k83k30).ant-modal .ant-modal-content {
+  padding: 0;
+}
+
+.setting__row {
+  padding: 8px 16px;
+  border-block-end: 1px solid rgba(5, 5, 5, 0.06);
+}
