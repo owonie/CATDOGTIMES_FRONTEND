@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DetailReply from "../Comment/ViewDetailComment";
 import "./ViewDetail.css";
 
 const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
@@ -49,7 +50,8 @@ const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
                   </div>
                   <p id="aside__user__text">{post.postContent}</p>
                 </div>
-                <div className="comment">
+                <DetailReply postId={post.id} />
+                {/* <div className="comment">
                   <div className="comment__customer">
                     <div className="comment__customer__column">
                       <img src="/img/doge.jpg" className="comment__customer__avatar" />
@@ -97,7 +99,7 @@ const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
                       <i className="far fa-heart"></i>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="bottomMenu">
                   <div className="bottomMenuLeft">
                     <i className="fa-regular fa-heart fa-lg"></i>

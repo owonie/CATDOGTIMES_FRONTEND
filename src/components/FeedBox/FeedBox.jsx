@@ -6,6 +6,7 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 import Comment from "../Comment/Comment";
 import Settings from "../Settings/Settings";
+import ShareButton2 from "../Share/Share2";
 
 const FeedBox = () => {
   const [feeds, setFeeds] = useState([]);
@@ -57,7 +58,7 @@ const FeedBox = () => {
                     writerName={feed.writerName}
                     postContent={feed.feedContent}
                   />
-                  <i className="fas fa-share-alt fa-lg"></i>
+                  <ShareButton2 />
                 </div>
                 <div className="bottomMenuRight">
                   <i className="far fa-bookmark fa-lg"></i>
@@ -76,33 +77,6 @@ const FeedBox = () => {
               <div className="commentContainer">
                 <div className="commentCount">댓글 3개</div>
                 <Comment postId={feed.feedId} />
-                {/* <div className="commentCase">
-                  <div className="comments">
-                    <span className="user_nickname">nyang</span>
-                    <span className="user_comment"> 와~! 너무 멋있다</span>
-                  </div>
-                  <div className="commentImg">
-                    <i className="fa-regular fa-heart fa-sm"></i>
-                  </div>
-                </div>
-                <div className="commentCase">
-                  <div className="comments">
-                    <span className="user_nickname">meow</span>
-                    <span className="user_comment"> 어디인지?</span>
-                  </div>
-                  <div className="commentImg">
-                    <i className="fa-regular fa-heart fa-sm"></i>
-                  </div>
-                </div>
-                <div className="commentCase">
-                  <div className="comments">
-                    <span className="user_nickname">mung</span>
-                    <span className="user_comment"> 심심하다</span>
-                  </div>
-                  <div className="commentImg">
-                    <i className="fa-regular fa-heart fa-sm"></i>
-                  </div>
-                </div> */}
               </div>
               <form className="commentInputBox">
                 <input defaultValue="" type="text" placeholder="댓글 달기..." id="commentInput" />
@@ -117,13 +91,3 @@ const FeedBox = () => {
 };
 
 export default FeedBox;
-
-// axios
-// .get("/post/list")
-// .then((res) => {
-//   console.log("insert Success");
-//   console.log(res.data);
-// })
-// .catch((error) => {
-//   console.log(error);
-// });

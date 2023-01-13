@@ -8,3 +8,8 @@
 .comments {
   font-size: 13px;
 }
+
+.user_nickname {
+  margin-right: 5px;
+  font-weight: bold;
+}

@@ -40,7 +40,6 @@ const App = () => {
           <Link to="/testlogin" className="button">
             테스트 로그인
           </Link>
-          <Comment />
         </div>
         <Routes>
           <Route path="/walk" element={<Walk weatherKey={weatherKey} />}></Route>

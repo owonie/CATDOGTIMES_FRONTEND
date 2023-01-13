@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./Comment.css";
 
-const Comment = () => {
+const Comment = ({ postId }) => {
   const [comments, setComments] = useState([]);
-  const postId = 1;
 
   useEffect(() => {
     try {
-      const loadData = async () => {
+      const loadData2 = async () => {
         console.log("LoadDATA안" + postId);
         const response = await axios.get("/post/readReply", {
           params: {
-            postId: 1,
+            postId: postId,
           },
         });
         console.log(postId);
         console.log(response.data);
         setComments(response.data);
       };
-      loadData();
+      loadData2();
     } catch (error) {
       console.log(error);
     }
@@ -26,21 +26,17 @@ const Comment = () => {
 
   return (
     <>
-      {comments.map((comment) => {
-        <>
-          <div className="commentCase">
-            <div className="comments">
-              <div>{comment.replyId}</div>
-              <span className="user_nickname">{comment.replyNickname}</span>
-              <span className="user_comment">{comment.replyContent}</span>
-            </div>
-            <div className="commentImg">
-              <i className="fa-regular fa-heart fa-sm"></i>
-            </div>
+      {Object.keys(comments).map((key) => (
+        <div className="commentCase" key={comments[key].replyId}>
+          <div className="comments">
+            <span className="user_nickname">{comments[key].replyNickname}</span>
+            <span className="user_comment">{comments[key].replyContent}</span>
           </div>
-          ;
-        </>;
-      })}
+          <div className="commentImg">
+            <i className="fa-regular fa-heart fa-sm"></i>
+          </div>
+        </div>
+      ))}
     </>
   );
 };
