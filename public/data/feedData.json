@@ -1,0 +1,35 @@
+[
+  {
+    "memberNo": 1,
+    "postNo": 1,
+    "postContent": "멋있냥?",
+    "nickName": "King cat V",
+    "photo": "./img/cat1.jpg",
+    "feed_img": "./img/kitten1.jpg",
+    "postLike_nickName": "foolish dog",
+    "postLike_photo": "./img/dog1.jpg",
+    "like_num": 136
+  },
+  {
+    "memberNo": 2,
+    "postNo": 2,
+    "postContent": "댕댕이 남친짤",
+    "nickName": "doge",
+    "photo": "./img/doge.jpg",
+    "feed_img": "./img/explore/dog1.jpg",
+    "postLike_nickName": "foolish dog",
+    "postLike_photo": "./img/dog1.jpg",
+    "like_num": 136
+  },
+  {
+    "memberNo": 3,
+    "postNo": 3,
+    "postContent": "먹이를 노리는 고양이",
+    "nickName": "bami",
+    "photo": "./img/bami.jpg",
+    "feed_img": "./img/explore/kitten2.jpg",
+    "postLike_nickName": "foolish dog",
+    "postLike_photo": "./img/dog1.jpg",
+    "like_num": 136
+  }
+]
