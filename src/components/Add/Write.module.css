@@ -1,0 +1,12 @@
+.write__upload {
+  height: 40%;
+}
+
+.write__text {
+  height: 60%;
+  margin-bottom: 80px;
+}
+
+:where(.css-dev-only-do-not-override-k83k30).ant-input-affix-wrapper {
+  margin-bottom: 100px;
+}

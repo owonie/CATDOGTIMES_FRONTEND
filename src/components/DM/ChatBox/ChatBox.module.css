@@ -1,0 +1,16 @@
+.chatBox {
+  height: 100%;
+  opacity: 87%;
+  overflow-y: scroll;
+  padding: 0 2em;
+  width: auto;
+}
+.container {
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-items: center;
+  min-width: 20rem;
+  width: 100%;
+}
