@@ -7,8 +7,7 @@ import "./TabSection.css";
 import { useSelector, useDispatch } from "react-redux";  
 const TabSection = (props) => {
     const memberInfo = useSelector((state) => {
-        return state.memberInfo !== null ? state.memberInfo.data : [];
-        //return state.memberInfo.data;
+        return state.memberInfo.data;
     });
 
     //let searchType="";   //postlike, bookmark
@@ -16,7 +15,7 @@ const TabSection = (props) => {
     const [postSearch, setPostSearch] = useState([]);
         
     useEffect(() => {
-        memberInfo !== null ? memberPostSearch(searchType) : alert('잘못된 접근입니다');
+        memberPostSearch(searchType);
     }, [searchType])
     
     const memberPostSearch = (searchType) => {

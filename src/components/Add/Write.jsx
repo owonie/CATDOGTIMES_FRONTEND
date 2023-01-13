@@ -1,35 +1,15 @@
 import React, { useState } from "react";
-import { Button, Input, Modal } from "antd";
-import { BorderlessTableOutlined } from "@ant-design/icons";
-import styles from "./Write.module.css";
-import UploadPicture from "./UploadPicture";
-import TextArea from "antd/es/input/TextArea";
-import axios from "axios";
-
+import { Button, Modal } from "antd";
+import WriteUpload from "./WirteUpload";
+import WriteInput from "./WriteInput";
+import "./Write.css";
 const Write = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-
-  /* postContent 저장용 */
-  const [postContent, setPostContent] = useState("");
-
   const showModal = () => {
     setOpen(true);
   };
   const handleOk = () => {
-    axios
-      .post("/post/add", {
-        postContent: postContent,
-        memberNo: 1,
-      })
-      .then((res) => {
-        console.log("insert Success");
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -39,7 +19,6 @@ const Write = () => {
   const handleCancel = () => {
     setOpen(false);
   };
-
   return (
     <>
       <a href="#" onClick={showModal}>
@@ -61,52 +40,14 @@ const Write = () => {
           </Button>,
         ]}
       >
-        <div className={styles.write__upload}>
-          <UploadPicture bodyStyle={{ height: 400 }} />
-          <div className={styles.write__text}>
-            <TextArea
-              showCount
-              maxLength={100}
-              style={{
-                height: 200,
-              }}
-              size="large"
-              onChange={(e) => {
-                setPostContent(e.target.value);
-                console.log(e.target.value);
-              }}
-              placeholder="오늘은 어땠나요?"
-              allowClear
-              value={postContent}
-            />
-            <Input placeholder="Enter Instagram hashtag" prefix={<BorderlessTableOutlined type="hashtag" style={{ color: "rgba(0,0,0,.25)" }} />} />
-          </div>
+        <div className="write__upload">
+          <WriteUpload bodyStyle={{ height: 400 }} />
+        </div>
+        <div className="write__text">
+          <WriteInput />
         </div>
       </Modal>
     </>
   );
 };
 export default Write;
-
-// let insertPost = {
-//   postContent: "들어간다 쭉쭉쭉3",
-//   memberNo: 2, //memberNo는 데이터 있는 것만 가능
-// };
-// axios
-//   .post("/post/add", insertPost)
-//   .then((res) => {
-//     console.log(res.data);
-//   })
-//   .catch();
-
-//삭제 연습
-// axios
-//   .post("/post/delete", null, {
-//     params: {
-//       postId: "4",
-//     },
-//   })
-//   .then((res) => {
-//     console.log(res.data);
-//   })
-//   .catch();

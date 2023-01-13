@@ -1,66 +1,39 @@
-.tabs {
+.tabs{
   display: flex;
   justify-content: center;
 }
-
-.tabs li {
+.tabs li{
   font-size: 1rem;
   display: inline-block;
   padding: 1rem 2rem;
   border-bottom: 1px solid #eee;
   cursor: pointer;
 }
-
-.tabs li.active {
+.tabs li.active{
   font-weight: bold;
   border-bottom: 1px solid #666;
 }
 
-.contents {
+.contents{
   padding-top: 32px;
   padding-bottom: 52px;
 }
 
-.contents ul li a {
+.contents ul li a{
   display: flex;
   align-items: center;
 }
-
-
-/* 게시물 */
-.myPost .product-image:hover .post_img::after{
-  content: "";
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.3);
-  position: absolute;
-  top: 0;
-  left: 0;
+.myPost{
+  background: yellow;
 }
 
-.myPost .hover_button .hover_ico{
-  color: #eee;
-  font-weight: bold;
+.likedlist{
+  background-color: antiquewhite;
+}
+.bookmarklist{
+  background-color: #ccc;
 }
 
-
-/* 좋아요 */
-/* 북마크 */
-.likedlist li, .bookmarklist li{
-  padding: 8px;
-  transition: 0.3s;
-}
-.likedlist li:hover{
-  background-color: rgba(0,0,0,.02);
-}
-.likedlist span, .bookmarklist span{
-  padding-right: 12px; 
-}
-.thum img {
+.listthum{
   width: 120px;
-  border: 1px solid #999;
-}
-.ptxt{
-
 }
