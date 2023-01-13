@@ -27,7 +27,7 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
   const messageRef = useRef();
   const formRef = useRef();
 
-  // 방추가
+  // 방 추가
   const addRoom = (room) => {
     // photoURL에는 상대방 프로필사진 요
     roomRepository.saveRoom(userId, room, photoURL);

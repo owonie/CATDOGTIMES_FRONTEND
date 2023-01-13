@@ -19,7 +19,7 @@ class MessageRepository {
     console.log('syncMessage!!');
     const ref = collection(
       this.firestore_db,
-      `dm/Dev_Owon/dmList/gowon/messages`
+      `dm/Dev_Owon/dmList/${roomId}/messages`
     );
     const q = query(ref, orderBy('time', 'asc'));
     const unsub = onSnapshot(q, (snapshot) => {
@@ -55,13 +55,19 @@ class MessageRepository {
     //   photoURL: message.photoURL,
     //   time: serverTimestamp(),
     // });
-    addDoc(collection(this.firestore_db, `dm/Dev_Owon/dmList/gowon/messages`), {
-      userId: message.userId,
-      displayName: message.displayName,
-      content: message.content,
-      photoURL: message.photoURL,
-      time: serverTimestamp(),
-    });
+    addDoc(
+      collection(
+        this.firestore_db,
+        `dm/Dev_Owon/dmList/${message.roomId}/messages`
+      ),
+      {
+        userId: message.userId,
+        displayName: message.displayName,
+        content: message.content,
+        photoURL: message.photoURL,
+        time: serverTimestamp(),
+      }
+    );
   }
 }
 
