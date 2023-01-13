@@ -17,7 +17,10 @@ class MessageRepository {
   syncMessage(roomId, onUpdate) {
     // const ref = collection(this.firestore_db, `dm/${roomId}/messages`);
     console.log('syncMessage!!');
-    const ref = collection(this.firestore_db, `dm/chatroom/messages`);
+    const ref = collection(
+      this.firestore_db,
+      `dm/Dev_Owon/dmList/${roomId}/messages`
+    );
     const q = query(ref, orderBy('time', 'asc'));
     const unsub = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
@@ -36,9 +39,12 @@ class MessageRepository {
     // setDoc(doc(this.firestore_db, `rooms/${room.roomId}/messages`, 'init'), {
     //   content: 'init completed!',
     // });
-    setDoc(doc(this.firestore_db, `dm/chatroom/messages`, 'init'), {
-      content: 'init completed!',
-    });
+    setDoc(
+      doc(this.firestore_db, `dm/Dev_Owon/dmList/gowon/messages`, 'init'),
+      {
+        content: 'init completed!',
+      }
+    );
     console.log('init message runing!');
   }
   saveMessage(message) {
@@ -49,13 +55,19 @@ class MessageRepository {
     //   photoURL: message.photoURL,
     //   time: serverTimestamp(),
     // });
-    addDoc(collection(this.firestore_db, `dm/${message.roomId}/messages`), {
-      userId: message.userId,
-      displayName: message.displayName,
-      content: message.content,
-      photoURL: message.photoURL,
-      time: serverTimestamp(),
-    });
+    addDoc(
+      collection(
+        this.firestore_db,
+        `dm/Dev_Owon/dmList/${message.roomId}/messages`
+      ),
+      {
+        userId: message.userId,
+        displayName: message.displayName,
+        content: message.content,
+        photoURL: message.photoURL,
+        time: serverTimestamp(),
+      }
+    );
   }
 }
 

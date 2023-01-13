@@ -4,7 +4,7 @@ import styles from './Message.module.css';
 const Message = ({ message, userName }) => {
   const { content, userId, displayName, photoURL } = message;
   return (
-    <li className={userId === userName ? styles.myMessages : styles.messages}>
+    <li className={userId === 'Dev_Owon' ? styles.myMessages : styles.messages}>
       <img
         className={styles.avatar}
         src={photoURL}
@@ -12,12 +12,19 @@ const Message = ({ message, userName }) => {
         referrerPolicy='no-referrer'
       />
       <div className={styles.message}>
-        <h1 className={userId === userName ? styles.myUserId : styles.userId}>
-          {displayName}
-        </h1>
-        <p className={userId === userName ? styles.myContent : styles.content}>
-          {content}
-        </p>
+        <div
+          className={
+            userId === 'Dev_Owon'
+              ? styles.myMessageWrapper
+              : styles.messageWrapper
+          }
+        >
+          <div
+            className={userId === userName ? styles.myContent : styles.content}
+          >
+            {content}
+          </div>
+        </div>
       </div>
     </li>
   );

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ChatBox from '../../components/DM/ChatBox/ChatBox';
 import NavBar from '../../components/NavBar/NavBar';
+
+import { serverTimestamp } from 'firebase/firestore';
 import styles from './Direct.module.css';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,18 +13,30 @@ import {
 } from '../../reducers/userData';
 
 const DirectMessage = ({ roomRepository, messageRepository }) => {
+  const [rooms, setRooms] = useState({});
+  const scrollRef = useRef();
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.userData.catdogtimes_userId);
+  const displayName = useSelector(
+    (state) => state.userData.catdogtimes_displayName
+  );
   const roomId = useSelector((state) => state.userData.catdogtimes_roomId);
+  const inRoom = useSelector((state) => state.userData.catdogtimes_inRoom);
+  const photoURL = useSelector((state) => state.userData.catdogtimes_photoURL);
 
-  // 방추가
+  const messageRef = useRef();
+  const formRef = useRef();
+
+  // 방 추가
   const addRoom = (room) => {
-    roomRepository.saveRoom(userId, room);
+    // photoURL에는 상대방 프로필사진 요
+    roomRepository.saveRoom(userId, room, photoURL);
     messageRepository.initMessage(room);
   };
 
   // 방 입장
   const joinRoom = (room) => {
+    console.log(room);
     roomRepository.getRoom(room, (data) => {
       const event = data;
       if (event === true) {
@@ -34,6 +48,35 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
       }
     });
   };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const message = {
+      userId: 'Dev_Owon',
+      roomId: roomId,
+      content: messageRef.current.value,
+      time: serverTimestamp(),
+      displayName: '도원',
+      photoURL: '/img/dog1.jpg',
+    };
+    messageRepository.saveMessage(message);
+    formRef.current.reset();
+  };
+  const onKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      if (messageRef.current.value.trim() === '') {
+        return event.preventDefault();
+      }
+      onSubmit(event);
+    }
+  };
+
+  useEffect(() => {
+    const stopSync = roomRepository.syncDmList((docs) => {
+      setRooms(docs);
+    });
+    return () => stopSync();
+  }, [inRoom, roomRepository]);
 
   return (
     <div className={styles.DM}>
@@ -54,23 +97,52 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
                 </button>
               </div>
             </div>
-            <div className={styles.dmList}>
-              <ul>
-                <li>사람1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-              </ul>
+            <div className={styles.dmList} ref={scrollRef}>
+              <div className={styles.dmContainer}>
+                <ul className={styles.rooms}>
+                  {Object.keys(rooms).map((key) => (
+                    <li
+                      key={key}
+                      className={styles.room}
+                      onClick={() => joinRoom(rooms[key].roomId)}
+                    >
+                      <div className={styles.roomInfo}>
+                        <img
+                          className={styles.dmThumbnail}
+                          src={rooms[key].photoURL}
+                          alt='dm thumbnail'
+                          referrerPolicy='no-referrer'
+                        />
+                        <div className={styles.dmDetail}>
+                          {rooms[key].roomId}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
           <div className={styles.chatRoom}>
             <div className={styles.chatHeader}>
-              <div className={styles.yourProfile}>
-                <button className={styles.yourProfileButton}>Gowon</button>
+              <div className={styles.oppenentUserId}>
+                <button>{roomId}</button>
               </div>
             </div>
             <div className={styles.chatBox}>
               <ChatBox messageRepository={messageRepository} />
+            </div>
+            <div className={styles.messageInput}>
+              <div className={styles.inputMessage}>
+                <form className={styles.inputForm} ref={formRef} action=''>
+                  <textarea
+                    className={styles.textArea}
+                    ref={messageRef}
+                    row='4'
+                    onKeyPress={onKeyPress}
+                  ></textarea>
+                </form>
+              </div>
             </div>
           </div>
         </div>

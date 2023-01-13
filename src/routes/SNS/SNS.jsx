@@ -5,7 +5,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import Search from "../../components/Search/Search";
 import "./SNS.css";
 
-const SNS = () => {
+function SNS() {
   return (
     <>
       <div className="SNS">
@@ -22,6 +22,6 @@ const SNS = () => {
       </div>
     </>
   );
-};
+}
 
 export default SNS;

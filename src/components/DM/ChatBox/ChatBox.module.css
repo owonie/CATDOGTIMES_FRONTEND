@@ -3,7 +3,7 @@
   opacity: 87%;
   overflow-y: scroll;
   padding: 0 2em;
-  width: 100%;
+  width: auto;
 }
 .container {
   align-content: center;
