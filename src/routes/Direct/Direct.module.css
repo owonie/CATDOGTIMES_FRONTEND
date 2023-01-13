@@ -1,43 +1,74 @@
 .DM {
   display: flex;
-  color: black;
 }
 .navbar {
   max-width: 245px;
-  border-right: 2px solid rgba(150, 150, 150, 0.15);
   padding: 32px 15px 15px 32px;
 }
 .center {
   display: flex;
+  justify-content: center;
   margin-left: auto;
   padding: 20px;
   height: 100vh;
-  width: auto;
+  width: 70%;
   margin-right: auto;
 }
 .wrapper {
   display: flex;
   height: 100%;
-  width: 100%;
   max-width: 950px;
-  border: 1px solid black;
+  border: 1px solid #dadde1;
+  border-radius: 1%;
 }
 
 /* DM bar */
 .dmListBar {
   display: flex;
   flex-direction: column;
-  min-width: 280px;
+  min-width: 320px;
 }
 .dmListHeader {
   display: flex;
   justify-content: center;
   height: 60px;
   width: 100%;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #dadde1;
 }
 .newMessageButton {
   margin-left: 25px;
+}
+.dmContainer {
+  display: flex;
+  justify-content: center;
+}
+.rooms {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 8px;
+}
+
+.room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 72px;
+  cursor: pointer;
+}
+.roomInfo {
+  display: flex;
+  justify-content: flex-start;
+  padding: 8px 20px;
+  width: 300px;
+}
+.dmThumbnail {
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
+}
+.dmDetail {
+  margin: 14px;
 }
 
 /* ChatRoom */
@@ -45,17 +76,36 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: 1px solid black;
+  min-width: 400px;
+  border-left: 1px solid #dadde1;
+  justify-content: space-between;
 }
 .chatHeader {
   height: 60px;
   width: 100%;
-  border: 1px solid black;
+  border-bottom: 1px solid #dadde1;
 }
 .chatBox {
   height: 80%;
   opacity: 87%;
-  overflow-y: scroll;
-  padding: 0 2em;
   width: 100%;
+  overflow-y: auto;
+}
+.inputForm {
+  align-items: center;
+  max-height: 45px;
+  margin-bottom: 10px;
+  padding: 0px 10px;
+}
+
+.textArea {
+  resize: none;
+  min-height: 100%;
+  border-radius: 2em;
+}
+
+.oppenentUserId {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
 }
