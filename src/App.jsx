@@ -8,6 +8,8 @@ import Testlogin from './routes/Mypage/Testlogin';
 import Explore from './routes/Explore/Explore';
 import MypageUpdatemyinfo from './routes/Mypage/MypageUpdatemyinfo';
 import DirectMessage from './routes/Direct/Direct';
+import Comment from './components/Comment/Comment';
+import FeedBox from './components/FeedBox/FeedBox';
 
 const App = ({ roomRepository, messageRepository }) => {
   const weatherKey = process.env.REACT_APP_WEATHER_API_KEY;
@@ -20,35 +22,18 @@ const App = ({ roomRepository, messageRepository }) => {
     setUser(user);
   };
 
-  useEffect(() => {
-    fetch('hello')
-      .then((res) => {
-        console.log('res:', res);
-        return res.json();
-      })
-      .then((data) => {
-        console.log('data', data);
-        setMessage(data);
-      });
-  }, []);
-
   return (
     <>
       <div className='App'>
         <div className='text-center'>
-          <div>멍냥일보 프론트엔드입니당 </div>
-          <div id='data'>{message}</div>
+          <div>멍냥일보 프론트엔드입니당</div>
           <Link to='/testlogin' className='button'>
             테스트 로그인
           </Link>
-          <Link to='/memberinfo' className='button'>
-            멤버인포
-          </Link>
-          <Link to='/mypageupdate' className='button'>
-            정보수정
-          </Link>
         </div>
         <Routes>
+          <Route path='/feed' element={<FeedBox />}></Route>
+          <Route path='/comment' element={<Comment />}></Route>
           <Route
             path='/walk'
             element={<Walk weatherKey={weatherKey} />}
