@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux";   
 import { updateMemberInfo } from "../../reducers/memberInfo";
-
+import "./Side.css";
 const Side = (props) => {
+    const imgPath = "http://localhost:8088/times/resources/upload/";
     const users = useSelector((state) => {
         return state.memberInfo.data;
     });
@@ -21,17 +22,22 @@ return <>
                             <div className="col-lg-12 col-6 tc">
                                 <div className="branding ts__05 lh__1 pb-3">
                                     <a className="dib" href="./memberinfo" title='Go MyPage'>
-                                        <img className="w__95 logo_normal dn db_lg rounded-circle " src={`mypage/assets/images/${users.memberPhoto}`}
+                                        <div className="profile">
+                                        <img className="w__95 logo_normal dn db_lg rounded-circle " src={users !== null 
+                                            ? `${imgPath}${users.memberPhoto}` 
+                                            : "`${imgPath}`undefined.jpg"}
                                             alt="photo"/>
-                                        <img className="w__100 logo_sticky dn rounded-circle" src={`mypage/assets/images/${users.memberPhoto}`}
+                                        <img className="w__100 logo_sticky dn rounded-circle" src={users !== null 
+                                            ? `${imgPath}${users.memberPhoto}` 
+                                            : "`${imgPath}`undefined.jpg"}
                                             alt="photo"/>
-                                        <img className="w__100 logo_mobile dn_lg rounded-circle" src={`mypage/assets/images/${users.memberPhoto}`}
-                                            alt=""/>
-                                        <span className="nickname pt-3 d-inline-block">{users.memberNickname}</span>
+                                        <img className="w__100 logo_mobile dn_lg rounded-circle" src={users !== null 
+                                            ? `${imgPath}${users.memberPhoto}` 
+                                            : "`${imgPath}`undefined.jpg"}
+                                            alt="photo"/>
+                                        </div>
+                                        <span className="nickname pt-3 d-inline-block">{users !== null ? users.memberNickname : "NoData"}</span>
                                     </a>
-                                    <div className="myranking pt-2">
-                                        MyRanking (<span className="cnt">999</span>) 
-                                    </div>
                                 </div>
                                 <div className="profile-btns pt-3">
                                     <a href="./mypageupdate" className="d-inline-block p-3">정보수정</a>
@@ -44,7 +50,7 @@ return <>
             </div>
             <div className="col-12 dn db_lg mt__10 mb__30 tc allrank">
                 <div className="widget widget_product_list text-left p-3">
-                    <h5 className="widget-title pt-5">전체랭킹</h5>
+                    <h5 className="widget-title pt-5">산책 추천</h5>
                     <ul className="product_list_widget">
                         <li className="row mb__10 pb__10">
                             <div className="col widget_img_pr">

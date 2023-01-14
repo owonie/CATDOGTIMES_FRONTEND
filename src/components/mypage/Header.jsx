@@ -26,7 +26,7 @@ const Header = (props) => {
                             {/* <!-- 반응형 로고 --> */}
                             <div className="col-lg-12 col-6 tc">
                                 <div className="branding ts__05 lh__1 pb-5">
-                                    <a className="dib" href="/">
+                                    <a className="dib" href="/post">
                                         <img className="logo logo_normal dn db_lg" src="mypage/assets/images/catdog.svg"
                                             alt="멍냥일보" />
                                         <img className="logo logo_sticky dn" src="mypage/assets/images/catdog.svg"
@@ -41,7 +41,7 @@ const Header = (props) => {
                                 <nav id="nav_header7" className="nav_header7 nt_navigation center-xs">
                                     <ul className="nt_mb_menu">
                                         <li id="item_header_7-0" className="menu-item  ">
-                                            <a href="#" className="chp"><span className="nav_link_txt flex al_center">
+                                            <a href="/post" className="chp"><span className="nav_link_txt flex al_center">
                                                 <i className='fas fa-home'></i>
                                                 HOME</span></a>
                                         </li>
@@ -52,7 +52,7 @@ const Header = (props) => {
                                                     검색</span></a>
                                         </li>
                                         <li className="menu-item ">
-                                            <a href="#" className="chp"><span className="nav_link_txt flex al_center">
+                                            <a href="/explore" className="chp"><span className="nav_link_txt flex al_center">
                                                 <i className='fas fa-globe'></i>
                                                 탐색</span></a>
                                         </li>
@@ -62,7 +62,7 @@ const Header = (props) => {
                                                 알림<span className="lbc_nav_mb ml__5">5</span></a>
                                         </li>
                                         <li className="menu-item ">
-                                            <a href="#" className="chp"><span className="nav_link_txt flex al_center">
+                                            <a href="/direct" className="chp"><span className="nav_link_txt flex al_center">
                                                 <i className='fas fa-comment-dots'></i>
                                                 DM</span></a>
                                         </li>
