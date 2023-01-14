@@ -9,6 +9,7 @@ export const userDataSlice = createSlice({
     catdogtimes_photoURL: null,
     catdogtimes_currentTime: null,
     catdogtimes_inRoom: false,
+    catdogtimes_token: null,
     location: null,
   },
   reducers: {
@@ -30,6 +31,9 @@ export const userDataSlice = createSlice({
     updateInRoom: (state, action) => {
       state.catdogtimes_inRoom = action.payload;
     },
+    updateToken: (state, action) => {
+      state.catdogtimes_token = action.payload;
+    },
     updateLocation: (state, action) => {
       state.catdogtimes_location = action.payload;
     },
@@ -43,6 +47,7 @@ export const {
   updatePhotoURL,
   updateCurrentTime,
   updateInRoom,
+  updateToken,
   updateLocation,
 } = userDataSlice.actions;
 

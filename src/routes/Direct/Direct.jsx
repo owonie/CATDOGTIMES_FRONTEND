@@ -6,11 +6,7 @@ import { serverTimestamp } from 'firebase/firestore';
 import styles from './Direct.module.css';
 
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  updateRoomId,
-  updateInRoom,
-  updateLocation,
-} from '../../reducers/userData';
+import { updateRoomId, updateInRoom } from '../../reducers/userData';
 
 const DirectMessage = ({ roomRepository, messageRepository }) => {
   const [rooms, setRooms] = useState({});
