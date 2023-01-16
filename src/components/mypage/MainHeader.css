@@ -3,7 +3,8 @@
 }
 
 .profile_photo{
-  width: 180px;
+  width: 130px;
+  height: 130px;
 }
 
 .profile_info{
@@ -31,18 +32,53 @@
   padding:0 8px;
 }
 
+.follower, .following{
+  cursor: pointer;
+}
+.follower:hover, .following:hover{
+  font-weight: bold;
+}
 
-#followerlist, #followinglist{
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+.ant-modal-content h3{
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+.ant-modal-close{
+  width: 48px !important;
+  height: 48px !important;
+}
+.ant-modal .ant-modal-close-x{
+  line-height: 1 !important;
+}
+
+.followlist{
+  margin: 1.5rem 0;
+}
+.followlist li{
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.followlist li span{
+  margin-right: 1rem;
+}
+.followlist a{
+  align-items: center;
+}
+.followlist .thum{
+  width: 64px;
+  height: 64px;
+}
+.followlist .thum img, .profile_photo img{
   height: 100%;
-  z-index: 9999;
-  display: none;
+  object-fit: cover;
+  border-radius: 999px;
+  border: 1px solid #dee2e6;
+}
+.followlist .delete{
+  padding: 3px 8px;
+  border-radius: 6px;
+  min-height:auto;
 }
 
-:where(.css-dev-only-do-not-override-sk7ap8).ant-modal .ant-modal-content{
-  width: 600px;
-}

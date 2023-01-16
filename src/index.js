@@ -7,6 +7,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import store, { persistor } from './store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { firebaseApp } from './services/firebase';
+import MessageRepository from './services/message_repository';
+import RoomRepository from './services/room_repository';
+
+const messageRepository = new MessageRepository(firebaseApp);
+const roomRepository = new RoomRepository();
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,7 +21,10 @@ root.render(
     <PersistGate loading={null} persistor={persistor}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <App />
+          <App
+            messageRepository={messageRepository}
+            roomRepository={roomRepository}
+          />
         </BrowserRouter>
       </QueryClientProvider>
     </PersistGate>

@@ -12,6 +12,7 @@ import { updateMemberInfo } from "../../reducers/memberInfo";
 import "./MypageUpdatemyinfo.css";
 const MypageUpdatemyinfo = (props) => {
 
+
   // 리덕스 저장소의 데이터 사용
   const memberInfo = useSelector((state) => {
     return state.memberInfo !== null ? state.memberInfo.data : alert('잘못된 접근입니다.') ;
@@ -33,7 +34,7 @@ const MypageUpdatemyinfo = (props) => {
   const updateInfo = (e)=>{
     e.preventDefault();
     let photo = document.getElementById('photofile').files.length > 0 ? 
-                document.getElementById('photofile').files[0].name  : null;
+                document.getElementById('photofile').files[0].name : memberInfo.memberPhoto;
 
     let mypage = {
       memberNo :    memberInfo.memberNo,
@@ -49,8 +50,13 @@ const MypageUpdatemyinfo = (props) => {
     const formData = new FormData();
     formData.append('mypage', new Blob([JSON.stringify(mypage)],{type:"application/json"}));
     formData.append('photofile',document.getElementById("photofile").files[0]);
+    
 
     //비밀번호 확인 통과해야 
+    if(document.getElementById('pw1').value ===''){
+      alert('비밀번호를 확인하세요')
+      return false;
+    }
     if(pwCheckOk && pwCheckDouble){
       console.log('OK 확인');
       //내정보 POST방식으로 서버에 전송하고 리덕스에 저장하기
@@ -67,11 +73,11 @@ const MypageUpdatemyinfo = (props) => {
     }
     
   }
-
+  const imgPath = "http://localhost:8088/times/resources/upload/";
   useEffect(() => {
     memberInfo 
-      ? setImgFile("http://localhost:8088/times/resources/upload/"+memberInfo.memberPhoto)
-      : setImgFile("http://localhost:8088/times/resources/upload/undefined.jpg");
+      ? setImgFile(imgPath+memberInfo.memberPhoto)
+      : setImgFile(imgPath+"undefined.jpg");
     console.log(memberInfo);
   }, []);
 
@@ -163,8 +169,12 @@ const MypageUpdatemyinfo = (props) => {
   }
 
   //주소찾기 - index.html 에 추가, 상세 주소 수정되도록 아래에 코드 추가
-  const [detailAddress,setDetailAddress]=useState("");
+  const [memberZipcode,setZipcode]=useState(memberInfo.memberZipcode);
+  const [memberAddress,setAddress]=useState(memberInfo.memberAddress);
+  const [detailAddress,setDetailAddress]=useState(memberInfo.memberDetailAddress);
   const detailAddressChange =(e)=>{
+    setZipcode();
+    setAddress();
     setDetailAddress(e.target.value);
   }
 
@@ -260,10 +270,11 @@ const MypageUpdatemyinfo = (props) => {
             <aside className="col-sm-3"><label className="d-block text-right" htmlFor="addrSearch">주소</label></aside>
             <div className="col-sm-6">
                 {/* <input id="addr" placeholder="주소" type="text" className="input-text" /> */}
-                <input type="text" placeholder="우편번호" value={memberInfo.memberZipcode} id="zipcode" name="zipcode" disabled/>
-                <input type="text" placeholder="주소" value={memberInfo.memberAddress} id="address" name="address" disabled/>
-                <input type="text" placeholder="상세주소" value={detailAddress ? detailAddress : memberInfo.memberDetailAddress} id="detailAddress" 
+                <input type="text" placeholder="우편번호" value={memberZipcode} id="zipcode" name="zipcode" disabled/>
+                <input type="text" placeholder="주소" value={memberAddress} id="address" name="address" disabled/>
+                <input type="text" placeholder="상세주소" value={detailAddress} id="detailAddress" 
                     name="detailAddress" onChange={detailAddressChange}/>
+                
                 <div className="hint small"></div>
             </div>
             <div className="col-sm-3">
