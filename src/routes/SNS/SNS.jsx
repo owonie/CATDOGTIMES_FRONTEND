@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import AsideBox from '../../components/AsideBox/AsideBox';
-import FeedBox from '../../components/FeedBox/FeedBox';
-import NavBar from '../../components/NavBar/NavBar';
-import Search from '../../components/Search/Search';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateToken } from '../../reducers/userData';
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import AsideBox from "../../components/AsideBox/AsideBox";
+import FeedBox from "../../components/FeedBox/FeedBox";
+import NavBar from "../../components/NavBar/NavBar";
+import Search from "../../components/Search/Search";
+import { useSelector, useDispatch } from "react-redux";
+import { updateToken } from "../../reducers/userData";
 
-import './SNS.css';
+import "./SNS.css";
 
 function SNS() {
   const token = useSelector((state) => state.userData.catdogtimes_token);
@@ -17,23 +17,23 @@ function SNS() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!token) {
-      const userToken = params.get('accessToken');
-      console.log('token', userToken);
+      const userToken = params.get("accessToken");
+      console.log("token", userToken);
       dispatch(updateToken(userToken));
-      navigate('/post');
+      navigate("/post");
     }
   });
   return (
     <>
-      <div className='SNS'>
-        <nav id='nav' className='col'>
+      <div className="SNS">
+        <nav id="nav" className="col">
           <NavBar />
         </nav>
-        <section className='center'>
+        <section className="center">
           <Search />
           <FeedBox />
         </section>
-        <aside id='asideBox'>
+        <aside id="asideBox">
           <AsideBox />
         </aside>
       </div>

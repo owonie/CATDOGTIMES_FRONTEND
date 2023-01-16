@@ -19,18 +19,18 @@ const Write = () => {
     setOpen(true);
   };
   const handleOk = () => {
-    // axios
-    //   .post("/post/add", {
-    //     postContent: postContent,
-    //     memberNo: 1,
-    //   })
-    //   .then((res) => {
-    //     console.log("post insert Success");
-    //     console.log(res.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    axios
+      .post("/post/add", {
+        postContent: postContent,
+        memberNo: 1,
+      })
+      .then((res) => {
+        console.log("post insert Success");
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     axios
       .post("/post/addHashtag", {
@@ -95,16 +95,11 @@ const Write = () => {
             />
             <Input
               placeholder="Enter hashtag"
-              prefix={
-                <BorderlessTableOutlined
-                  type="hashtag"
-                  style={{ color: "rgba(0,0,0,.25)" }}
-                  onChange={(e) => {
-                    setPostHashtags(e.target.value);
-                    console.log(e.target.value);
-                  }}
-                />
-              }
+              prefix={<BorderlessTableOutlined type="hashtag" style={{ color: "rgba(0,0,0,.25)" }} />}
+              onChange={(e) => {
+                setPostHashtags(e.target.value);
+                console.log(e.target.value);
+              }}
             />
           </div>
         </div>

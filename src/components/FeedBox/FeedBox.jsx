@@ -8,6 +8,7 @@ import Comment from "../Comment/Comment";
 import Settings from "../Settings/Settings";
 import ShareButton2 from "../Share/Share2";
 import CommentInputBox from "../CommentInputBox/CommentInputBox";
+import Like from "./Like";
 
 const FeedBox = () => {
   const [feeds, setFeeds] = useState([]);
@@ -51,7 +52,8 @@ const FeedBox = () => {
             <div className="feedBottom">
               <div className="bottomMenu">
                 <div className="bottomMenuLeft">
-                  <i className="fa-regular fa-heart fa-lg"></i>
+                  <Like />
+                  {/* <i className="fa-regular fa-heart fa-lg"></i> */}
                   <ViewDetail
                     id={feeds[key].feedId}
                     imgSrc={feeds[key].feedImage}
@@ -80,10 +82,6 @@ const FeedBox = () => {
                 <Comment postId={feeds[key].feedId} />
               </div>
               <CommentInputBox postId={feeds[key].feedId} />
-              {/* <form className="commentInputBox">
-                <input defaultValue="" type="text" placeholder="댓글 달기..." id="commentInput" />
-                <button>게시</button>
-              </form> */}
             </section>
           </section>
         </>
