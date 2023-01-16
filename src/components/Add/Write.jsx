@@ -19,25 +19,25 @@ const Write = () => {
     setOpen(true);
   };
   const handleOk = () => {
-    axios
-      .post("/post/add", {
-        postContent: postContent,
-        memberNo: 1,
-      })
-      .then((res) => {
-        console.log("insert Success");
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .post("/post/add", {
+    //     postContent: postContent,
+    //     memberNo: 1,
+    //   })
+    //   .then((res) => {
+    //     console.log("post insert Success");
+    //     console.log(res.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
     axios
       .post("/post/addHashtag", {
-        postId: null,
         postHashtag: postHashtags,
       })
       .then((res) => {
-        console.log("insert Success");
+        console.log("hashtag insert Success");
         console.log(res.data);
       })
       .catch((error) => {
@@ -94,7 +94,7 @@ const Write = () => {
               value={postContent}
             />
             <Input
-              placeholder="Enter Instagram hashtag"
+              placeholder="Enter hashtag"
               prefix={
                 <BorderlessTableOutlined
                   type="hashtag"

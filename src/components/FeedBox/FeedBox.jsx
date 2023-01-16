@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 import Comment from "../Comment/Comment";
 import Settings from "../Settings/Settings";
 import ShareButton2 from "../Share/Share2";
+import CommentInputBox from "../CommentInputBox/CommentInputBox";
 
 const FeedBox = () => {
   const [feeds, setFeeds] = useState([]);
@@ -26,37 +27,37 @@ const FeedBox = () => {
 
   const linkClick = () => {
     {
-      feeds.map((feed) => Navigate(`/post/${feed.memberNo}`));
+      Object.keys(feeds).map((key) => Navigate(`/post/${feeds[key].memberNo}`));
     }
   };
 
   return (
     <div>
-      {feeds.map((feed) => (
+      {Object.keys(feeds).map((key) => (
         <>
-          <section className="feedBox" key={feed.feedId}>
+          <section className="feedBox" key={feeds[key].feedId}>
             <div className="feedTop">
               <div className="feedTopLeft" onClick={linkClick}>
-                <img src={feed.writerPhoto} alt="writer" />
-                <div>{feed.writerName}</div>
+                <img src={feeds[key].writerPhoto} alt="writer" />
+                <div>{feeds[key].writerName}</div>
               </div>
               <div className="feedTopRight">
-                <Settings feedId={feed.feedId} />
+                <Settings feedId={feeds[key].feedId} />
               </div>
             </div>
             <article className="feedMiddleImg">
-              <img src={feed.feedImage} alt="feed" />
+              <img src={feeds[key].feedImage} alt="feed" />
             </article>
             <div className="feedBottom">
               <div className="bottomMenu">
                 <div className="bottomMenuLeft">
                   <i className="fa-regular fa-heart fa-lg"></i>
                   <ViewDetail
-                    id={feed.feedId}
-                    imgSrc={feed.feedImage}
-                    writerPhoto={feed.writerPhoto}
-                    writerName={feed.writerName}
-                    postContent={feed.feedContent}
+                    id={feeds[key].feedId}
+                    imgSrc={feeds[key].feedImage}
+                    writerPhoto={feeds[key].writerPhoto}
+                    writerName={feeds[key].writerName}
+                    postContent={feeds[key].feedContent}
                   />
                   <ShareButton2 />
                 </div>
@@ -65,23 +66,24 @@ const FeedBox = () => {
                 </div>
               </div>
               <div className="like">
-                <img src={feed.likerPhoto} alt="liker" />
-                <span className="userName">{feed.likerName}</span>님 외 {feed.replyLikeCount}명이 좋아합니다
+                <img src={feeds[key].likerPhoto} alt="liker" />
+                <span className="userName">{feeds[key].likerName}</span>님 외 {feeds[key].postLikeCount}명이 좋아합니다
               </div>
               <div className="postContent">
-                <span className="writer_nickname">{feed.writerName}</span>
-                <span className="writer_comment">{feed.feedContent}</span>
+                <span className="writer_nickname">{feeds[key].writerName}</span>
+                <span className="writer_comment">{feeds[key].feedContent}</span>
               </div>
             </div>
             <section className="reply">
               <div className="commentContainer">
                 <div className="commentCount">댓글 3개</div>
-                <Comment postId={feed.feedId} />
+                <Comment postId={feeds[key].feedId} />
               </div>
-              <form className="commentInputBox">
+              <CommentInputBox postId={feeds[key].feedId} />
+              {/* <form className="commentInputBox">
                 <input defaultValue="" type="text" placeholder="댓글 달기..." id="commentInput" />
                 <button>게시</button>
-              </form>
+              </form> */}
             </section>
           </section>
         </>

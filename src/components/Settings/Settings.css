@@ -2,9 +2,9 @@
   display: none;
 }
 
-:where(.css-dev-only-do-not-override-k83k30).ant-modal .ant-modal-content {
+/* :where(.css-dev-only-do-not-override-k83k30).ant-modal .ant-modal-content {
   padding: 0;
-}
+} */
 
 .setting__row {
   padding: 8px 16px;

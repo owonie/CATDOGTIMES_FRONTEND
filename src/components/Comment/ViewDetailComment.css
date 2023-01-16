@@ -28,6 +28,11 @@
 
 .comment__customer__title {
   color: black;
+  font-weight: bold;
+}
+
+.comment__customer__content {
+  font-weight: 400;
 }
 
 .comment__customer__subtitle {

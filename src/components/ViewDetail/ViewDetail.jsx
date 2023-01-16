@@ -51,55 +51,6 @@ const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
                   <p id="aside__user__text">{post.postContent}</p>
                 </div>
                 <DetailReply postId={post.id} />
-                {/* <div className="comment">
-                  <div className="comment__customer">
-                    <div className="comment__customer__column">
-                      <img src="/img/doge.jpg" className="comment__customer__avatar" />
-                      <div className="comment__customer__text">
-                        <h4 className="comment__customer__title">
-                          도지
-                          <span className="comment__customer__content"> 너도 많이 받개</span>
-                        </h4>
-                        <h6 className="comment__customer__subtitle">좋아요 2명</h6>
-                      </div>
-                    </div>
-                    <div className="comment__customer__column">
-                      <i className="far fa-heart"></i>
-                    </div>
-                  </div>
-
-                  <div className="comment__customer">
-                    <div className="comment__customer__column">
-                      <img src="/img/doge.jpg" className="comment__customer__avatar" />
-                      <div className="comment__customer__text">
-                        <h4 className="comment__customer__title">
-                          도지
-                          <span className="comment__customer__content"> 너도 많이 받개</span>
-                        </h4>
-                        <h6 className="comment__customer__subtitle">좋아요 2명</h6>
-                      </div>
-                    </div>
-                    <div className="comment__customer__column">
-                      <i className="far fa-heart"></i>
-                    </div>
-                  </div>
-
-                  <div className="comment__customer">
-                    <div className="comment__customer__column">
-                      <img src="/img/doge.jpg" className="comment__customer__avatar" />
-                      <div className="comment__customer__text">
-                        <h4 className="comment__customer__title">
-                          도지
-                          <span className="comment__customer__content"> 너도 많이 받개</span>
-                        </h4>
-                        <h6 className="comment__customer__subtitle">좋아요 2명</h6>
-                      </div>
-                    </div>
-                    <div className="comment__customer__column">
-                      <i className="far fa-heart"></i>
-                    </div>
-                  </div>
-                </div> */}
                 <div className="bottomMenu">
                   <div className="bottomMenuLeft">
                     <i className="fa-regular fa-heart fa-lg"></i>
