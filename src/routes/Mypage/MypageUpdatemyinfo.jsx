@@ -10,8 +10,9 @@ import Searchbox from '../../components/mypage/Searchbox';
 import { useSelector, useDispatch } from "react-redux";    
 import { updateMemberInfo } from "../../reducers/memberInfo";
 import "./MypageUpdatemyinfo.css";
+import { useNavigate } from 'react-router-dom';
 const MypageUpdatemyinfo = (props) => {
-
+  const navigate = useNavigate();
 
   // 리덕스 저장소의 데이터 사용
   const memberInfo = useSelector((state) => {
@@ -24,11 +25,6 @@ const MypageUpdatemyinfo = (props) => {
     dispatch(updateMemberInfo(resdata));
   };
 
-
-  // const [name, setName] = useState("");
-  // const handleInputName = (e) => {
-  //   setName(e.target.value)
-  // }
 
   //정보수정 버튼 클릭하면 실행
   const updateInfo = (e)=>{
@@ -45,6 +41,7 @@ const MypageUpdatemyinfo = (props) => {
       memberAddress : document.getElementById('address').value,
       memberZipcode : document.getElementById('zipcode').value,
       memberDetailAddress : document.getElementById('detailAddress').value,
+      animalRegNo: memberInfo.animalRegNo,
     }
 
     const formData = new FormData();
@@ -95,12 +92,6 @@ const MypageUpdatemyinfo = (props) => {
     };
     console.log(imgFile.name);
   };
-
-
-  // const [name, setName] = useState("");
-  // const handleInputName = (e) => {
-  //   setName(e.target.value)
-  // }
 
   //비밀번호 형식 확인
   const [pwCheckOk, setPwCheckOk] = useState(false);
@@ -178,6 +169,37 @@ const MypageUpdatemyinfo = (props) => {
     setDetailAddress(e.target.value);
   }
 
+  // 동물등록 조회
+  const [animalRegNo,setAnimalRegNo]=useState(memberInfo.animalRegNo);
+  const animalRegNoChange =(e)=>{
+    setAnimalRegNo(e.target.value);
+  }
+  const checkAnimalRegNo =()=>{
+    let animalCheck = {
+      no : memberInfo.memberNo,
+      id :    memberInfo.memberId,
+      name:   memberInfo.memberName,
+      animalRegNo:  animalRegNo
+    }
+    console.log(animalRegNo.length);
+    console.log(animalCheck);
+
+    if(animalRegNo.length===15){
+      console.log("동물번호 자리수 확인");
+      axios.post("/member/animalNumber",animalCheck)
+      .then(res=>{
+        console.log(res.data);
+      })
+      .catch()
+    }
+    
+  }
+
+  const withdrawal=()=>{
+    //location.href = '/withdrawal';
+    //navigate('/withdrawal', {replace: true})
+    window.location.replace('/withdrawal')
+  }
   return (
     <>
       <div id="nt_wrapper">
@@ -253,6 +275,21 @@ const MypageUpdatemyinfo = (props) => {
             </div>
           </div>
           
+          {/* 동물등록 조회 */}
+          <div className="row pb-3">
+            <aside className="col-sm-3"><label className="d-block text-right" htmlFor="animalRegNo">동물등록</label></aside>
+            <div className="col-sm-6">
+                <input id="animalRegNo" value={animalRegNo ? animalRegNo : memberInfo.animalRegNo} onChange={animalRegNoChange} 
+                  placeholder="동물등록번호16자리" type="text" className="input-text" 
+
+                />
+                <div id="" className="hint small">동물등록 인증하시면 산책경로 등록이 가능합니다.   </div>
+            </div>
+            <div className="col-sm-3">
+              <button onClick={checkAnimalRegNo} type="button" className="btn">등록조회</button>
+            </div>
+          </div>
+
           
           <div className="row pb-3">
             <aside className="col-sm-3"><label className="d-block text-right" htmlFor="email">이메일</label></aside>
@@ -287,7 +324,7 @@ const MypageUpdatemyinfo = (props) => {
             
             <div className="col-sm-12 text-center">
               <button type="submit"  className="btn mx-1">정보수정</button> 
-              <button type="button"  className="btn mx-1">탈퇴신청</button>
+              <button type="button"  className="btn mx-1" onClick={withdrawal}>탈퇴신청</button>
             </div>
             
           </div>
@@ -312,4 +349,10 @@ const MypageUpdatemyinfo = (props) => {
 //   console.log(res.data);
 // })
 // .catch()
+
+  // const [name, setName] = useState("");
+  // const handleInputName = (e) => {
+  //   setName(e.target.value)
+  // }
+
 export default MypageUpdatemyinfo;

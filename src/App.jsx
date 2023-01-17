@@ -10,26 +10,27 @@ import MypageUpdatemyinfo from './routes/Mypage/MypageUpdatemyinfo';
 import DirectMessage from './routes/Direct/Direct';
 import Comment from './components/Comment/Comment';
 import FeedBox from './components/FeedBox/FeedBox';
+import MembershipWithdrawal from './routes/Mypage/MembershipWithdrawal';
 
 const App = ({ roomRepository, messageRepository }) => {
   const weatherKey = process.env.REACT_APP_WEATHER_API_KEY;
-  const [message, setMessage] = useState();
+  // const [message, setMessage] = useState();
 
-  const [user, setUser] = useState(null);
-  const sessionInfo = (user) => {
-    console.log('--------');
-    console.log(user);
-    setUser(user);
-  };
+  // const [user, setUser] = useState(null);
+  // const sessionInfo = (user) => {
+  //   console.log('--------');
+  //   console.log(user);
+  //   setUser(user);
+  // };
 
   return (
     <>
       <div className='App'>
         <div className='text-center'>
-          <div>멍냥일보 프론트엔드입니당</div>
+          {/* <div>멍냥일보 프론트엔드입니당</div>
           <Link to='/testlogin' className='button'>
             테스트 로그인
-          </Link>
+          </Link> */}
         </div>
         <Routes>
           <Route path='/feed' element={<FeedBox />}></Route>
@@ -50,16 +51,9 @@ const App = ({ roomRepository, messageRepository }) => {
             }
           ></Route>
           <Route path='/testlogin' element={<Testlogin />}></Route>
-          <Route
-            path='/memberinfo'
-            element={<Mypage user={user} sessionInfo={sessionInfo} />}
-          ></Route>
-          <Route
-            path='/mypageupdate'
-            element={
-              <MypageUpdatemyinfo user={user} sessionInfo={sessionInfo} />
-            }
-          ></Route>
+          <Route  path='/memberinfo' element={<Mypage />} ></Route>
+          <Route path='/mypageupdate' element={ <MypageUpdatemyinfo /> } ></Route>
+          <Route path='/withdrawal' element={<MembershipWithdrawal />}></Route>
         </Routes>
       </div>
     </>
