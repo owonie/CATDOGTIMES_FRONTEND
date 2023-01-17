@@ -13,31 +13,39 @@ const Write = () => {
   /* postContent 저장용 */
   const [postContent, setPostContent] = useState("");
   /* hashTag 저장용 */
-  const [postHashtags, setPostHashtags] = useState("");
+  const [postHashtag, setPostHashtag] = useState("");
+  /* upload 저장용 */
+  const [imageOriginalName, setOriginalName] = useState("");
+  const [imageSavedName, setSavedName] = useState("");
+  const [file, setFile] = useState("");
+
+  const setName = (name) => {
+    console.log(imageSavedName);
+    setOriginalName(name.imageOriginalName);
+    setSavedName(name.imageSavedName);
+    setFile(name.file);
+  };
+
+  let post = {
+    postContent: postContent,
+    memberNo: 1,
+    postHashtag: postHashtag,
+    imageOriginalName: imageOriginalName,
+    imageSavedName: imageSavedName,
+  };
+
+  const formData = new FormData();
+  formData.append("post", new Blob([JSON.stringify(post)], { type: "application/json" }));
+  formData.append("file", file);
 
   const showModal = () => {
     setOpen(true);
   };
   const handleOk = () => {
     axios
-      .post("/post/add", {
-        postContent: postContent,
-        memberNo: 1,
-      })
+      .post("/post/add", formData)
       .then((res) => {
         console.log("post insert Success");
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .post("/post/addHashtag", {
-        postHashtag: postHashtags,
-      })
-      .then((res) => {
-        console.log("hashtag insert Success");
         console.log(res.data);
       })
       .catch((error) => {
@@ -75,8 +83,8 @@ const Write = () => {
           </Button>,
         ]}
       >
-        <div className={styles.write__upload}>
-          <UploadPicture bodyStyle={{ height: 400 }} />
+        <div id="upload" className={styles.write__upload}>
+          <UploadPicture setName={setName} bodyStyle={{ height: 400 }} />
           <div className={styles.write__text}>
             <TextArea
               showCount
@@ -97,7 +105,7 @@ const Write = () => {
               placeholder="Enter hashtag"
               prefix={<BorderlessTableOutlined type="hashtag" style={{ color: "rgba(0,0,0,.25)" }} />}
               onChange={(e) => {
-                setPostHashtags(e.target.value);
+                setPostHashtag(e.target.value);
                 console.log(e.target.value);
               }}
             />
@@ -108,26 +116,3 @@ const Write = () => {
   );
 };
 export default Write;
-
-// let insertPost = {
-//   postContent: "들어간다 쭉쭉쭉3",
-//   memberNo: 2, //memberNo는 데이터 있는 것만 가능
-// };
-// axios
-//   .post("/post/add", insertPost)
-//   .then((res) => {
-//     console.log(res.data);
-//   })
-//   .catch();
-
-//삭제 연습
-// axios
-//   .post("/post/delete", null, {
-//     params: {
-//       postId: "4",
-//     },
-//   })
-//   .then((res) => {
-//     console.log(res.data);
-//   })
-//   .catch();

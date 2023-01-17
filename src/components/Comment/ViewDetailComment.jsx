@@ -5,6 +5,9 @@ import "./ViewDetailComment.css";
 const DetailReply = ({ postId }) => {
   const [comments, setComments] = useState([]);
 
+  //이미지 src
+  const imgPath = "http://localhost:8088/times/resources/upload/";
+
   useEffect(() => {
     try {
       const loadData2 = async () => {
@@ -30,7 +33,7 @@ const DetailReply = ({ postId }) => {
           <div className="comment" key={comments[key].replyId}>
             <div className="comment__customer">
               <div className="comment__customer__column">
-                <img src={comments[key].writerPhoto} className="comment__customer__avatar" />
+                <img src={imgPath + comments[key].writerPhoto} className="comment__customer__avatar" />
                 <div className="comment__customer__text">
                   <h4 className="comment__customer__title">
                     {comments[key].replyNickname}

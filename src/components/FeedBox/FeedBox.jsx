@@ -13,6 +13,11 @@ import Like from "./Like";
 const FeedBox = () => {
   const [feeds, setFeeds] = useState([]);
 
+  //이미지 src
+  const imgPath = "http://localhost:8088/times/resources/upload/";
+
+  console.log(feeds);
+
   useEffect(() => {
     try {
       const loadData = async () => {
@@ -39,7 +44,7 @@ const FeedBox = () => {
           <section className="feedBox" key={feeds[key].feedId}>
             <div className="feedTop">
               <div className="feedTopLeft" onClick={linkClick}>
-                <img src={feeds[key].writerPhoto} alt="writer" />
+                <img src={imgPath + feeds[key].writerPhoto} alt="writer" />
                 <div>{feeds[key].writerName}</div>
               </div>
               <div className="feedTopRight">
@@ -47,17 +52,17 @@ const FeedBox = () => {
               </div>
             </div>
             <article className="feedMiddleImg">
-              <img src={feeds[key].feedImage} alt="feed" />
+              <img src={imgPath + feeds[key].feedImage} alt="feed" />
             </article>
             <div className="feedBottom">
               <div className="bottomMenu">
                 <div className="bottomMenuLeft">
-                  <Like />
+                  <Like postId={feeds[key].feedId} />
                   {/* <i className="fa-regular fa-heart fa-lg"></i> */}
                   <ViewDetail
                     id={feeds[key].feedId}
-                    imgSrc={feeds[key].feedImage}
-                    writerPhoto={feeds[key].writerPhoto}
+                    imgSrc={imgPath + feeds[key].feedImage}
+                    writerPhoto={imgPath + feeds[key].writerPhoto}
                     writerName={feeds[key].writerName}
                     postContent={feeds[key].feedContent}
                   />
@@ -68,7 +73,7 @@ const FeedBox = () => {
                 </div>
               </div>
               <div className="like">
-                <img src={feeds[key].likerPhoto} alt="liker" />
+                <img src={imgPath + feeds[key].likerPhoto} alt="liker" />
                 <span className="userName">{feeds[key].likerName}</span>님 외 {feeds[key].postLikeCount}명이 좋아합니다
               </div>
               <div className="postContent">

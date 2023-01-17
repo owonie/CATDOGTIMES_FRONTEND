@@ -1,5 +1,5 @@
 import React from "react";
-import "./Like.module.css";
+import "./Like.css";
 import axios from "axios";
 
 const Like = ({ postId }) => {
@@ -19,7 +19,7 @@ const Like = ({ postId }) => {
 
   return (
     <a className="postLike" href="#" onClick={handleOk}>
-      <i className="far fa-bookmark fa-lg"></i>
+      <i className="postLikeHeart far fa-heart fa-lg"></i>
     </a>
   );
 };
