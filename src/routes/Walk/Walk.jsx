@@ -1,17 +1,25 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import WalkMap from '../../components/WalkMap/WalkMap';
+import useWatchLocation from '../../hook/useWatchLocation';
+import getAddressFromLocation from '../../services/getAddressFromLocation';
 import styles from './Walk.module.css';
 
 const { kakao } = window;
+const geolocationOptions = {
+  enableHighAccuracy: true,
+  timeout: 1000 * 60 * 1, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
+  maximumAge: 1000 * 3600 * 24, // 24 hour
+};
 
-const Walk = ({ weatherKey }) => {
+const Walk = ({ weatherKey, routeRepository }) => {
   const navigate = useNavigate();
   const [searchPlace, setSearchPlace] = useState();
   const searchRef = useRef();
   const [tabState, setTabState] = useState('검색');
   const [routeList, setRouteList] = useState([]);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [realRoute, setRealRoute] = useState([{}]);
   const [myRouteList, setMyRouteList] = useState([]);
 
   const [kakaoMap, setKakaoMap] = useState(null);
@@ -20,21 +28,54 @@ const Walk = ({ weatherKey }) => {
   const [kakaoZoomControl, setKakaoZoomControl] = useState(null);
   const [kakaoPs, setKakaoPs] = useState(null);
   const [kakaoMapSettings, setKakaoMapSettings] = useState(false);
-  const [markerPositions, setMarkerPositions] = useState([]);
   const [kakaoDrawingManager, setKakaoDrawingManager] = useState(null);
+  const [posImage, setPosImage] = useState(null);
 
-  const [centerMarkerOverlay, setCenterMarkerOverlay] = useState(null);
+  const [departuresPoint, setDeparturesPoint] = useState(null);
+  const [arrivalsPoint, setArrivalsPoint] = useState(null);
+  const [userMarker, setUserMarker] = useState(null);
+  const [weather, setWeather] = useState(null);
+  const [weatherIcon, setWeatherIcon] = useState();
 
-  const strokeColor = '#39f',
+  const [isWalking, setIsWalking] = useState(false);
+  const [userPolyline, setUserPolyline] = useState(null);
+
+  const { location, cancleLocationWatch, error } =
+    useWatchLocation(geolocationOptions);
+
+  const posmarkerImageUrl =
+      'http://pixelart.pe.kr/data/editor/2010/20201016164213_b6e7bde336df07f9a972e6a4f1933c45_6t89.gif',
+    posmarkerImageSize = new kakao.maps.Size(55, 55), // 마커 이미지의 크기
+    posmarkerImageOptions = {
+      offset: new kakao.maps.Point(20, 20), // 마커 좌표에 일치시킬 이미지 안의 좌표
+    };
+
+  const strokeColor = '#b3ecee',
     fillColor = '#cce6ff',
-    fillOpacity = 0.5,
+    fillOpacity = 0.3,
     hintStrokeStyle = 'dash';
   // drawing manager 옵션 설정
 
-  const content =
-    '<button class ="label"><span class="left"></span><span class="center">카카오!</span><span class="right"></span></button>';
-
   const container = useRef();
+
+  const userId = useSelector((state) => state.userData.catdogtimes_userId);
+
+  // route 데이터 관련
+  const getRouteList = () => {
+    routeRepository.getRouteList(userId, (data) => {
+      const event = data;
+      setMyRouteList(event);
+    });
+  };
+
+  const getRoute = (routeId) => {
+    routeRepository.getRoute(routeId, (data) => {
+      const event = data;
+      setMyRouteList(event);
+    });
+  };
+
+  // 작성중
 
   const handleTabStateChanged = (e) => {
     setTabState(e);
@@ -48,9 +89,62 @@ const Walk = ({ weatherKey }) => {
   const handleExploreStateChanged = (theme) => {
     setSearchPlace(theme);
   };
+  const pointsToPath = (points) => {
+    let len = points.length,
+      path = [],
+      i = 0;
+    for (; i < len; i++) {
+      let latlng = new kakao.maps.LatLng(points[i].y, points[i].x);
+      path.push(latlng);
+    }
 
-  const [weather, setWeather] = useState(null);
-  const [weatherIcon, setWeatherIcon] = useState();
+    return path;
+  };
+
+  // route drawing data
+  const handleData = () => {
+    const data = kakaoDrawingManager.getData();
+    if (data.marker.length === 0) {
+      console.log('출발지와 도착지를 정해주세요!');
+      return;
+    }
+    if (data.marker.length === 1) {
+      console.log('출발지와 도착지가 동일합니다.');
+    }
+
+    console.log(data);
+    getAddressFromLocation(data.marker[0].x, data.marker[0].y).then((data) => {
+      setDeparturesPoint(data);
+    });
+    getAddressFromLocation(
+      data.marker[data.marker.length - 1].x,
+      data.marker[data.marker.length - 1].y
+    ).then((data) => {
+      setArrivalsPoint(data);
+    });
+    const route = {
+      photoURL: '',
+      name: 'test2',
+      type: 'history',
+      routeNo: 1,
+    };
+    routeRepository.saveRoute(route, data);
+    // 산책 시작
+    setIsWalking(true);
+    // setRealRoute([{ y: currentLocation[0], x: currentLocation[1] }]);
+    const testRoute = [
+      { y: 36.9936926, x: 126.9218479 },
+      { y: 36.98859349105513, x: 126.92108955856537 },
+      { y: 36.98151095733185, x: 126.9210744097322 },
+      {
+        y: 36.981642977147246,
+        x: 126.91648047573365,
+      },
+      { y: 36.98912176569058, x: 126.91618024494058 },
+    ];
+    setRealRoute(testRoute);
+    console.log(realRoute);
+  };
 
   useLayoutEffect(() => {
     const getCurrentLocation = () => {
@@ -97,21 +191,40 @@ const Walk = ({ weatherKey }) => {
     const mapTypeControl = new kakao.maps.MapTypeControl();
     const zoomControl = new kakao.maps.ZoomControl();
 
+    // 유저 현재위치 마커 이미지
+    const userPosMarkerImage = new kakao.maps.MarkerImage(
+      posmarkerImageUrl,
+      posmarkerImageSize,
+      posmarkerImageOptions
+    );
+
+    // 유저 실 경로
+    const polyline = new kakao.maps.Polyline({
+      path: [], // 선을 구성하는 좌표배열 입니다
+      strokeWeight: 10, // 선의 두께 입니다
+      strokeColor: '#de8ae1', // 선의 색깔입니다
+      strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+      strokeStyle: 'solid', // 선의 스타일입니다
+      zIndex: 100,
+    });
+    polyline.setMap(map);
+    setUserPolyline(polyline);
+
     // 객체 상태저장 (재활용)
     setKakaoMap(map);
     setKakaoInfoWindow(infowindow);
     setKakaoPs(ps);
     setKakaoMapTypeControl(mapTypeControl);
     setKakaoZoomControl(zoomControl);
+    setPosImage(userPosMarkerImage);
+
     const drawingManagerOptions = {
       map: map,
       drawingMode: [
         kakao.maps.Drawing.OverlayType.MARKER,
         kakao.maps.Drawing.OverlayType.ARROW,
-        kakao.maps.Drawing.OverlayType.POLYLINE,
         kakao.maps.Drawing.OverlayType.RECTANGLE,
         kakao.maps.Drawing.OverlayType.CIRCLE,
-        kakao.maps.Drawing.OverlayType.ELLIPSE,
         kakao.maps.Drawing.OverlayType.POLYGON,
       ],
       // 사용자에게 제공할 그리기 가이드 툴팁입니다
@@ -126,12 +239,8 @@ const Walk = ({ weatherKey }) => {
         removable: true,
         strokeColor: strokeColor,
         hintStrokeStyle: hintStrokeStyle,
-      },
-      polylineOptions: {
-        draggable: true,
-        removable: true,
-        strokeColor: strokeColor,
-        hintStrokeStyle: hintStrokeStyle,
+        strokeWeight: 16,
+        strokeOpacity: 0.8,
       },
       rectangleOptions: {
         draggable: true,
@@ -147,13 +256,7 @@ const Walk = ({ weatherKey }) => {
         fillColor: fillColor,
         fillOpacity: fillOpacity,
       },
-      ellipseOptions: {
-        draggable: true,
-        removable: true,
-        strokeColor: strokeColor,
-        fillColor: fillColor,
-        fillOpacity: fillOpacity,
-      },
+
       polygonOptions: {
         draggable: true,
         removable: true,
@@ -177,12 +280,6 @@ const Walk = ({ weatherKey }) => {
     }
 
     setKakaoMapSettings(true);
-
-    const overlay = new kakao.maps.CustomOverlay({
-      content: content,
-      position: kakaoMap.getCenter(),
-    });
-    setCenterMarkerOverlay(overlay);
 
     // 맵에 컨트롤러 추가
     kakaoMap.addControl(
@@ -220,15 +317,9 @@ const Walk = ({ weatherKey }) => {
         bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
       }
       kakaoMap.setBounds(bounds);
-      if (status === kakao.maps.services.Status.OK) {
-        const newMarkerPositions = data.map((pos) => {
-          return [pos.x, pos.y];
-        });
-        setMarkerPositions(newMarkerPositions);
-      }
     };
 
-    // 마커표시 함수
+    // 검색기능 마커표시 함수
     const displayMarker = (place) => {
       let marker = new kakao.maps.Marker({
         map: kakaoMap,
@@ -239,27 +330,46 @@ const Walk = ({ weatherKey }) => {
     kakaoPs.keywordSearch(searchPlace, placesSearchCB);
   }, [searchPlace]);
 
-  // 마커생성 중앙 오버레이
-  // const displayCenterMarker = () => {
-  //   centerMarkerOverlay.setMap(kakaoMap);
-  // };
-  // const createCenterMarker = () => {
-  //   let marker = new kakao.maps.Marker({
-  //     map: kakaoMap,
-  //     position: kakaoMap.getCenter(),
-  //     draggable: true,
-  //     removable: true,
-  //   });
-  //   const position = kakaoMap.getCenter();
-  //   console.log(position.Ma, position.La);
-  //   setRouteList([...routeList, [position.Ma, position.La]]);
-  //   marker.setMap(kakaoMap);
-  // };
+  // 현재위치 받아오기
 
-  const handleData = () => {
-    const data = kakaoDrawingManager.getData();
-    console.log(data);
-  };
+  useEffect(() => {
+    if (!location) return;
+    setTimeout(() => {
+      cancleLocationWatch();
+    }, 3000);
+  }, []);
+
+  // 현재위치 표시
+  useEffect(() => {
+    if (!kakaoMap) {
+      return;
+    }
+    if (!userMarker && location) {
+      let marker = new kakao.maps.Marker({
+        map: kakaoMap,
+        position: new kakao.maps.LatLng(location.latitude, location.longitude),
+        image: posImage,
+        draggable: true,
+      });
+      setUserMarker(marker);
+      return;
+    }
+    userMarker.setPosition(
+      new kakao.maps.LatLng(location.latitude, location.longitude)
+    );
+
+    const point = { y: location.latitude, x: location.longitude };
+    // 산책 중 실 경로 저장
+
+    if (isWalking) {
+      setRealRoute([...realRoute, point]);
+      userPolyline.setPath(pointsToPath(realRoute));
+      console.log(pointsToPath(realRoute));
+    }
+    console.log('위치변경!:', point.y, point.x);
+
+    // 산책 중 실시간 위치 드로잉
+  }, [location, isWalking]);
 
   return (
     <>
@@ -384,8 +494,18 @@ const Walk = ({ weatherKey }) => {
               >
                 <div className={styles.infoRoute}>
                   <div className={styles.routeSearchBox}>
-                    <button onClick={() => handleData()}>가져오기</button>
+                    <button onClick={() => handleData()}>산책루트 확인</button>
+
                     <ul className={styles.routeList}>
+                      {location != null && (
+                        <div>{`현재위치 - 위도:${location.latitude},경도:${location.longitude}`}</div>
+                      )}
+                      {departuresPoint != null && (
+                        <div>{`출발위치 :${departuresPoint}`}</div>
+                      )}
+                      {arrivalsPoint != null && (
+                        <div>{`도착위치 :${arrivalsPoint}`}</div>
+                      )}
                       {Object.keys(routeList).map((key) => (
                         <div className={styles.routePointBox}>
                           <div className={styles.dragArea}>

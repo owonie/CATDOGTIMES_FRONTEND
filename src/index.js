@@ -10,9 +10,11 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { firebaseApp } from './services/firebase';
 import MessageRepository from './services/message_repository';
 import RoomRepository from './services/room_repository';
+import RouteRepository from './services/route_repository';
 
 const messageRepository = new MessageRepository(firebaseApp);
 const roomRepository = new RoomRepository();
+const routeRepository = new RouteRepository();
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -24,6 +26,7 @@ root.render(
           <App
             messageRepository={messageRepository}
             roomRepository={roomRepository}
+            routeRepository={routeRepository}
           />
         </BrowserRouter>
       </QueryClientProvider>

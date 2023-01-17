@@ -11,9 +11,8 @@ import DirectMessage from './routes/Direct/Direct';
 import Comment from './components/Comment/Comment';
 import FeedBox from './components/FeedBox/FeedBox';
 
-const App = ({ roomRepository, messageRepository }) => {
+const App = ({ roomRepository, messageRepository, routeRepository }) => {
   const weatherKey = process.env.REACT_APP_WEATHER_API_KEY;
-  const [message, setMessage] = useState();
 
   const [user, setUser] = useState(null);
   const sessionInfo = (user) => {
@@ -36,7 +35,9 @@ const App = ({ roomRepository, messageRepository }) => {
           <Route path='/comment' element={<Comment />}></Route>
           <Route
             path='/walk'
-            element={<Walk weatherKey={weatherKey} />}
+            element={
+              <Walk weatherKey={weatherKey} routeRepository={routeRepository} />
+            }
           ></Route>
           <Route path='/post' element={<SNS />}></Route>
           <Route path='/explore' element={<Explore />}></Route>
