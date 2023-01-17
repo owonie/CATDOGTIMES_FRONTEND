@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateMemberInfo } from "../../reducers/memberInfo";
 
 const TestLogin = () => {
+  const token = useSelector((state) => state.userData.catdogtimes_token);
   const dispatch = useDispatch();
   // const memberInfo = useSelector((state) => {
   //   console.log(state)
@@ -18,11 +19,22 @@ const TestLogin = () => {
   }
   const onClickLogin = (e) => {
     e.preventDefault();
+    
+    // const tt = token.split("?resfeshToken=");
+    // const ACCESS_TOKEN= tt[0];
+    // const REFRESH_TOKEN = tt[1];
+
+    // console.log(ACCESS_TOKEN);
+    // console.log(REFRESH_TOKEN);
 
     axios.post("/memberinfo",null,{
       params:{
         id:id,
-      }
+      },
+      // headers : {
+      //   ACCESS_TOKEN : ACCESS_TOKEN,
+      //   REFRESH_TOKEN: REFRESH_TOKEN,
+      // }
     })
     .then(res=>{
       // sessionStorage.setItem('userid',res.data.memberId);
@@ -41,7 +53,7 @@ const TestLogin = () => {
         
         <form onSubmit={onClickLogin}>
           <h1 className='text-center pb-5'>Test Login</h1>
-          <p>(lee 또는 shin)</p>
+          <p>(DB에 있는 계정으로 로그인 )</p>
           <div className='form-row'>
             <input type="text" name='id' value={id} onChange={handleInputId} />
             <button className='w-100 mt-3'>TestLogin</button>
