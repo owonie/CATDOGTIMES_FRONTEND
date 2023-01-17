@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import DetailReply from "../Comment/ViewDetailComment";
 import "./ViewDetail.css";
 
 const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
   console.log("viewDetail:" + id);
   console.log("viewDetail:" + imgSrc);
+
+  //이미지 src
+  const imgPath = "http://localhost:8088/times/resources/upload/";
+
   const [isOpen, setIsOpen] = useState(false);
   const [posts, setPosts] = useState([
     {
@@ -49,55 +54,7 @@ const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
                   </div>
                   <p id="aside__user__text">{post.postContent}</p>
                 </div>
-                <div className="comment">
-                  <div className="comment__customer">
-                    <div className="comment__customer__column">
-                      <img src="/img/doge.jpg" className="comment__customer__avatar" />
-                      <div className="comment__customer__text">
-                        <h4 className="comment__customer__title">
-                          도지
-                          <span className="comment__customer__content"> 너도 많이 받개</span>
-                        </h4>
-                        <h6 className="comment__customer__subtitle">좋아요 2명</h6>
-                      </div>
-                    </div>
-                    <div className="comment__customer__column">
-                      <i className="far fa-heart"></i>
-                    </div>
-                  </div>
-
-                  <div className="comment__customer">
-                    <div className="comment__customer__column">
-                      <img src="/img/doge.jpg" className="comment__customer__avatar" />
-                      <div className="comment__customer__text">
-                        <h4 className="comment__customer__title">
-                          도지
-                          <span className="comment__customer__content"> 너도 많이 받개</span>
-                        </h4>
-                        <h6 className="comment__customer__subtitle">좋아요 2명</h6>
-                      </div>
-                    </div>
-                    <div className="comment__customer__column">
-                      <i className="far fa-heart"></i>
-                    </div>
-                  </div>
-
-                  <div className="comment__customer">
-                    <div className="comment__customer__column">
-                      <img src="/img/doge.jpg" className="comment__customer__avatar" />
-                      <div className="comment__customer__text">
-                        <h4 className="comment__customer__title">
-                          도지
-                          <span className="comment__customer__content"> 너도 많이 받개</span>
-                        </h4>
-                        <h6 className="comment__customer__subtitle">좋아요 2명</h6>
-                      </div>
-                    </div>
-                    <div className="comment__customer__column">
-                      <i className="far fa-heart"></i>
-                    </div>
-                  </div>
-                </div>
+                <DetailReply postId={post.id} />
                 <div className="bottomMenu">
                   <div className="bottomMenuLeft">
                     <i className="fa-regular fa-heart fa-lg"></i>
