@@ -10,7 +10,7 @@ import ShareButton2 from "../Share/Share2";
 import CommentInputBox from "../CommentInputBox/CommentInputBox";
 import Like from "./Like";
 
-const FeedBox = () => {
+const FeedBox = ({ token }) => {
   const [feeds, setFeeds] = useState([]);
 
   //이미지 src
@@ -57,7 +57,7 @@ const FeedBox = () => {
             <div className="feedBottom">
               <div className="bottomMenu">
                 <div className="bottomMenuLeft">
-                  <Like postId={feeds[key].feedId} />
+                  <Like token={token} postId={feeds[key].feedId} />
                   {/* <i className="fa-regular fa-heart fa-lg"></i> */}
                   <ViewDetail
                     id={feeds[key].feedId}

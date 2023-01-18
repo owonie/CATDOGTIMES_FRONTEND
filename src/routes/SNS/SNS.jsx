@@ -31,7 +31,7 @@ function SNS() {
         </nav>
         <section className="center">
           <Search />
-          <FeedBox />
+          <FeedBox token={token} />
         </section>
         <aside id="asideBox">
           <AsideBox />
