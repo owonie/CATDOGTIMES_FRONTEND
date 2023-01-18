@@ -1,19 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import Side from "../mypage/Side";
 import "./AsideBox.css";
 import Ranking from "./Ranking/Ranking";
+import Side2 from "./Side2/Side2";
 
 function AsideBox() {
+  const memberInfo = useSelector((state) => {
+    return state.memberInfo.data;
+  });
+
   return (
     <div className="AsideBox">
       <div className="AsideBox__member">
-        <a className="AsideBox__member-login" href="#">
-          <span>로그인</span>
-        </a>
-        <a className="AsideBox__member-register" href="#">
-          <span>회원가입</span>
-        </a>
+        <Side2 users={memberInfo} />
       </div>
-      <div className="AsideBox__animal"></div>
       <Ranking />
     </div>
   );

@@ -15,6 +15,7 @@ function SNS() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!token) {
       const userToken = params.get("accessToken");
@@ -31,7 +32,7 @@ function SNS() {
         </nav>
         <section className="center">
           <Search />
-          <FeedBox token={token} />
+          <FeedBox />
         </section>
         <aside id="asideBox">
           <AsideBox />

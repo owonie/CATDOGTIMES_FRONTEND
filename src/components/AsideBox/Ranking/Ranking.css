@@ -23,7 +23,7 @@
 /* 랭킹 */
 
 .AsideBox__ranking {
-  margin-top: 300px;
+  margin-top: 70px;
 }
 
 .AsideBox__ranking__title {
@@ -67,7 +67,7 @@
   border-radius: 27px;
   margin-right: 20px;
 }
-.ranking-user__badge {
+/* .ranking-user__badge {
   color: #fff;
   background-color: #17a2b8;
   display: inline-block;
@@ -111,4 +111,4 @@
   vertical-align: baseline;
   border-radius: 0.25rem;
   margin-right: 10px;
-}
+} */

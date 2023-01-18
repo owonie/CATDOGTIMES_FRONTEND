@@ -5,6 +5,12 @@ import "./Comment.css";
 const Comment = ({ postId }) => {
   const [comments, setComments] = useState([]);
 
+  //좋아요 하트 색깔 바꾸기
+  const [heart, setHeart] = useState([true, "far fa-heart"]);
+  const clickHeart = () => {
+    heart[0] ? setHeart([false, "fa fa-heart"]) : setHeart([true, "far fa-heart "]);
+  };
+
   useEffect(() => {
     try {
       const loadData2 = async () => {
@@ -32,9 +38,14 @@ const Comment = ({ postId }) => {
             <span className="user_nickname">{comments[key].replyNickname}</span>
             <span className="user_comment">{comments[key].replyContent}</span>
           </div>
-          <div className="commentImg">
-            <i className="fa-regular fa-heart fa-sm"></i>
-          </div>
+          <a className="commentImg" href="#">
+            <i
+              className="far fa-heart"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            ></i>
+          </a>
         </div>
       ))}
     </>

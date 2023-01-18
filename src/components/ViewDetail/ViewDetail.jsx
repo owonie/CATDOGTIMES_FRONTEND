@@ -20,8 +20,9 @@ const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
     },
   ]);
 
-  const showModal = () => {
+  const showModal = (e) => {
     setIsOpen(true);
+    e.preventDefault();
   };
 
   const hideModal = () => {
