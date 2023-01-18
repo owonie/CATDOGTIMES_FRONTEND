@@ -36,9 +36,10 @@ const Mypage = (props) => {
             memberNo :  memberInfo.memberNo,
             outReasons: values.user.outReasons,
         }
-        axios.post("/withdrawal",outinfo)
+        axios.post("/mypage/delete/account",outinfo)
         .then(res=>{
             console.log(res.data);
+            document.location.href = '/';
         })
     };
 return (

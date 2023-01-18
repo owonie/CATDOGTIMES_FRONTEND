@@ -22,7 +22,7 @@ const TabSection = (props) => {
     const memberPostSearch = (searchType) => {
         //const memberNo = sessionStorage.getItem("memberNo");
        // const memberNo = users.memberId;
-        axios.post("/memberPostSearch",null,{
+        axios.post("/mypage/postSearch",null,{
             params:{
                 searchType : searchType,
                 memberNo : memberInfo.memberNo

@@ -27,7 +27,7 @@ const TestLogin = () => {
     // console.log(ACCESS_TOKEN);
     // console.log(REFRESH_TOKEN);
 
-    axios.post("/memberinfo",null,{
+    axios.post("/mypage/memberinfo",null,{
       params:{
         id:id,
       },

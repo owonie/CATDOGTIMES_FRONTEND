@@ -39,14 +39,14 @@ const Nav = styled.nav`
 const Button = styled.button`
   border: none;
   border-radius: 4px;
-  padding: 8px;
+  padding: 8px 10px;
   margin: 0;
   // background: black;
   // color: white;
   font-size: 1rem;
 
   &:hover {
-    background: tomato;
+    background: #56cfe1;
     cursor: pointer;
     transform: translateY(-2px);
   }
@@ -55,7 +55,7 @@ const Button = styled.button`
     //background: grey;
     cursor: revert;
     transform: revert;
-    opacity:0.5;
+    opacity:0.4;
   }
 
   &[aria-current] {
