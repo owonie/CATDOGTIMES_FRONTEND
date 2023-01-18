@@ -27,10 +27,13 @@ const App = ({ roomRepository, messageRepository }) => {
     <>
       <div className='App'>
         <div className='text-center'>
-          {/* <div>멍냥일보 프론트엔드입니당</div>
+          <div>멍냥일보 프론트엔드입니당</div>
           <Link to='/testlogin' className='button'>
             테스트 로그인
-          </Link> */}
+          </Link>
+          <a href='http://localhost:8088/times/member/login' className='button'>
+            스프링 로그인
+          </a>
         </div>
         <Routes>
           <Route path='/feed' element={<FeedBox />}></Route>
