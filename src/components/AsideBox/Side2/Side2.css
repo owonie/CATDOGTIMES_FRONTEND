@@ -1,5 +1,6 @@
 #ntside {
   padding: 0px;
+  z-index: 800;
 }
 
 #ntside .profile {

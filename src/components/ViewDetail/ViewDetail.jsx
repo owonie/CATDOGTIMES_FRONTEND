@@ -3,12 +3,6 @@ import DetailReply from "../Comment/ViewDetailComment";
 import "./ViewDetail.css";
 
 const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
-  console.log("viewDetail:" + id);
-  console.log("viewDetail:" + imgSrc);
-
-  //이미지 src
-  const imgPath = "http://localhost:8088/times/resources/upload/";
-
   const [isOpen, setIsOpen] = useState(false);
   const [posts, setPosts] = useState([
     {

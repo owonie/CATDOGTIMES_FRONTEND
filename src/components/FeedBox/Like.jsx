@@ -1,65 +1,91 @@
 import React, { useEffect, useState } from "react";
 import "./Like.css";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { updateToken } from "../../reducers/userData";
+import { useSelector } from "react-redux";
 
-const Like = ({ postId }) => {
-  const [heart, setHeart] = useState([true, "far fa-heart fa-lg"]);
-  const [postLikeId, setPostLikeId] = useState(-1);
+const Like = ({ postId, feedCount }) => {
+  const [heart, setHeart] = useState([true, "far fa-heart fa-lg"]); //흰색 하트
+  const [postLikeId, setPostLikeId] = useState();
+  console.log("기본값 없앤 후 :" + postLikeId);
+
+  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
+  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
 
   function clickHeart() {
     heart[0] ? setHeart([false, "fa fa-heart fa-lg"]) : setHeart([true, "far fa-heart fa-lg"]);
   }
 
-  const token = useSelector((state) => state.userData.catdogtimes_token);
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
+  let postLike = {
+    postId: postId,
+    postLikeId: postLikeId,
+  };
 
-  const tokenArr = token.split("?refreshToken=");
-  const ACCESS_TOKEN = tokenArr[0];
-  const REFRESH_TOKEN = tokenArr[1];
-
-  localStorage.setItem("jwt", ACCESS_TOKEN);
-
+  //select로 postLike data 있는지 확인
   useEffect(() => {
-    if (!token) {
-      const userToken = params.get("accessToken");
-      console.log("token", userToken);
-      dispatch(updateToken(userToken));
-    }
-    axios
-      .post(
-        "/post/like",
-        {
-          postId: postId,
-          postLikeId: postLikeId, // -1
+    const loadData = async () => {
+      const response = await fetch(`post/like?postId=${postId}?${data[0].memberNo}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ACCESS_TOKEN: accessToken,
         },
-        {
+      });
+      let data = await response.json();
+      console.log(data);
+
+      if (response.status === 401) {
+        const res = await fetch(`post/like?postId=${postId}`, {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: ACCESS_TOKEN,
+            ACCESS_TOKEN: accessToken,
+            REFRESH_TOKEN: refreshToken,
           },
-        }
-      )
-      .then((res) => {
-        console.log("postLike insert success");
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+        });
+        data = await res.json();
+        console.log(data);
+      }
+
+      console.log(data);
+      console.log(data[0].memberNo);
+      console.log("하트 실행 전:" + postLikeId);
+      heart[0] ? setPostLikeId(-1) : setPostLikeId(data[0].postLikeId);
+      console.log("하트 실행 후:" + postLikeId);
+    };
+    loadData();
+  }, [heart]);
 
   const handleOk = (e) => {
     //하트 누르면 빨강으로 바꿔주는 function
     clickHeart();
     // heart[0] ? setPostLikeId(postLikeId) : setPostLikeId(-1);
-    // axios get으로 postLikeId 가져오기? 리턴값 1나오면 안되는데 큼...
+    const loadData = async () => {
+      const response = await fetch(`post/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ACCESS_TOKEN: accessToken,
+        },
+        body: JSON.stringify(postLike),
+      });
+      let data = await response.json();
+      console.log(data);
 
-    // axios + 토큰값 보내주기
+      if (response.status === 401) {
+        const res = await fetch(`post/like`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ACCESS_TOKEN: accessToken,
+            REFRESH_TOKEN: refreshToken,
+          },
+          body: JSON.stringify(postLike),
+        });
+        //data = await res.json();
+        //console.log(data);
+      }
+    };
+    loadData();
+
     e.preventDefault();
   };
 

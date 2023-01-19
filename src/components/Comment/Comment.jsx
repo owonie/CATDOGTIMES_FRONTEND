@@ -14,14 +14,11 @@ const Comment = ({ postId }) => {
   useEffect(() => {
     try {
       const loadData2 = async () => {
-        console.log("LoadDATA안" + postId);
         const response = await axios.get("/post/readReply", {
           params: {
             postId: postId,
           },
         });
-        console.log(postId);
-        console.log(response.data);
         setComments(response.data);
       };
       loadData2();
