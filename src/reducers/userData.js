@@ -9,7 +9,8 @@ export const userDataSlice = createSlice({
     catdogtimes_photoURL: null,
     catdogtimes_currentTime: null,
     catdogtimes_inRoom: false,
-    catdogtimes_token: null,
+    catdogtimes_accessToken: null,
+    catdogtimes_refreshToken: null,
     location: null,
   },
   reducers: {
@@ -31,8 +32,11 @@ export const userDataSlice = createSlice({
     updateInRoom: (state, action) => {
       state.catdogtimes_inRoom = action.payload;
     },
-    updateToken: (state, action) => {
-      state.catdogtimes_token = action.payload;
+    updateAccessToken: (state, action) => {
+      state.catdogtimes_accessToken = action.payload;
+    },
+    updateRefreshToken: (state, action) => {
+      state.catdogtimes_refreshToken = action.payload;
     },
     updateLocation: (state, action) => {
       state.catdogtimes_location = action.payload;
@@ -47,7 +51,8 @@ export const {
   updatePhotoURL,
   updateCurrentTime,
   updateInRoom,
-  updateToken,
+  updateAccessToken,
+  updateRefreshToken,
   updateLocation,
 } = userDataSlice.actions;
 
