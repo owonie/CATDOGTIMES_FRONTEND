@@ -11,8 +11,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateMemberInfo } from "../../reducers/memberInfo";
 import "./MypageUpdatemyinfo.css";
 import { useNavigate } from 'react-router-dom';
+
 const MypageUpdatemyinfo = (props) => {
-  const navigate = useNavigate();
+  const accessToken = useSelector(
+    (state) => state.userData.catdogtimes_accessToken
+  );
+  const refreshToken = useSelector(
+      (state) => state.userData.catdogtimes_refreshToken
+  );
 
   // 리덕스 저장소의 데이터 사용
   const memberInfo = useSelector((state) => {
@@ -55,15 +61,49 @@ const MypageUpdatemyinfo = (props) => {
       return false;
     }
     if(pwCheckOk && pwCheckDouble){
-      console.log('OK 확인');
+      console.log('PW OK 확인');
       //내정보 POST방식으로 서버에 전송하고 리덕스에 저장하기
-      axios.post("/mypage/memberUpdate",formData)
-      .then(res=>{
-        console.log(res.data);
-        addMemberInfo(res.data);
+      // axios.post("/mypage/memberUpdate",formData)
+      // .then(res=>{
+      //   console.log(res.data);
+      //   addMemberInfo(res.data);
+      //   document.location.href="/memberinfo";
+      // })
+      // .catch()
+
+      const loadData = async () => {
+        const response = await fetch(`/mypage/memberUpdate`, {
+        method: 'POST',
+        headers: {
+             //'Content-Type': 'application/json',
+            //"Content-Type": `multipart/form-data`,
+            ACCESS_TOKEN: accessToken,
+        },
+        body:formData
+        });
+        let data = await response.json();
+    
+        if (response.status === 401) {
+            const res = await fetch(`/mypage/memberUpdate`, {
+            method: 'POST',
+            headers: {
+                // 'Content-Type': 'application/json',
+                //"Content-Type": `multipart/form-data`,
+                ACCESS_TOKEN: accessToken,
+                REFRESH_TOKEN: refreshToken,
+            },
+            body:formData
+            });
+            data = await res.json();
+        }
+        console.log(data);
+        addMemberInfo(data);
         document.location.href="/memberinfo";
-      })
-      .catch()
+    };
+    loadData();
+
+
+
 
     }else{
       console.log('다시 확인');

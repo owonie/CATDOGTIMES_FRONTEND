@@ -68,6 +68,7 @@ const FeedBox = () => {
         data = await res.json();
       }
       setFeeds(data);
+      console.log(data);
     };
     loadData();
   }, []);

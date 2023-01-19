@@ -1,31 +1,81 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
+import { updateMemberInfo } from "../../reducers/memberInfo";
 import Pagination from "./Pagination";
-
 import axios from 'axios';
+
 const JoinedWalks = (props) => {
-    const users = useSelector((state) => {
+    const accessToken = useSelector(
+        (state) => state.userData.catdogtimes_accessToken
+    );
+    const refreshToken = useSelector(
+        (state) => state.userData.catdogtimes_refreshToken
+    );
+    //이미지 src
+    const imgPath = 'http://localhost:8088/times/resources/upload/';
+    
+    // 리덕스 저장소의 데이터 변경
+    const dispatch = useDispatch();
+    const addMemberInfo = (resdata) => {
+        dispatch(updateMemberInfo(resdata));
+    };
+    const memberInfo = useSelector((state) => {
         return state.memberInfo.data;
     });
+
     const [walkroute, setWalkroute] = useState(null);
     const [limit, setLimit] = useState(5);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;  
 
-    const routeLoad = ()=> {
-        axios.post("/mypage/joinedWalks",null,{
-            params:{
-                memberNo : users.memberNo
-            }
-        })
-        .then(res=>{
-            console.log("join routes  : ", res.data);
-            setWalkroute(res.data);
-        })
-        .catch()
-    };
+    // const routeLoad = ()=> {
+    //     axios.post("/mypage/joinedWalks",null,{
+    //         params:{
+    //             memberNo : users.memberNo
+    //         }
+    //     })
+    //     .then(res=>{
+    //         console.log("join routes  : ", res.data);
+    //         setWalkroute(res.data);
+    //     })
+    //     .catch()
+    // };
     useEffect(() => {
-        routeLoad();
+        let reqdata = {
+            memberNo : memberInfo.memberNo
+        }
+
+        const loadData = async () => {
+            const response = await fetch(`/mypage/joinedWalks`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ACCESS_TOKEN: accessToken,
+            },
+            body:JSON.stringify(reqdata)
+            });
+            let data = await response.json();
+        
+            if (response.status === 401) {
+                const res = await fetch(`/mypage/joinedWalks`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ACCESS_TOKEN: accessToken,
+                    REFRESH_TOKEN: refreshToken,
+                },
+                //body:JSON.stringify(reqdata)
+                });
+                data = await res.json();
+            }
+            console.log(data);
+            setWalkroute(data);
+        };
+        loadData(); 
+
+
+
+        //routeLoad();
     },[])
 
     return <>

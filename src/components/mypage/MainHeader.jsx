@@ -5,19 +5,24 @@ import axios from 'axios';
 import { Button, Modal } from 'antd';
 import { updateMemberInfo } from "../../reducers/memberInfo";
 const MainHeader = (props) => {
-    // 리덕스 저장소의 데이터 사용
-    const users = useSelector((state) => {
-        //console.log(state.memberInfo.data);
-        return state.memberInfo.data;
-    });
+    const accessToken = useSelector(
+        (state) => state.userData.catdogtimes_accessToken
+    );
+    const refreshToken = useSelector(
+        (state) => state.userData.catdogtimes_refreshToken
+    );
+    //이미지 src
+    const imgPath = 'http://localhost:8088/times/resources/upload/';
 
     // 리덕스 저장소의 데이터 변경
     const dispatch = useDispatch();
     const addMemberInfo = (resdata) => {
         dispatch(updateMemberInfo(resdata));
     };
+    const users = useSelector((state) => {
+        return state.memberInfo.data;
+    });
 
-    const imgPath = "http://localhost:8088/times/resources/upload/";
     const [open, setOpen] = useState(false);//팔로 모달
     const [followlist, setFollowlist] = useState();//팔로 리스트
 
@@ -29,17 +34,44 @@ const MainHeader = (props) => {
             setOpen(false);
         }, 100);
         //재 조회
-        axios.post("/mypage/memberinfo",null,{
-            params:{
-                id:users.memberId,
-            }
-            })
-            .then(res=>{
+        // axios.post("/mypage/memberinfo",null,{
+        //     params:{
+        //         id:users.memberId,
+        //     }
+        //     })
+        //     .then(res=>{
 
-            addMemberInfo(res.data);
+        //     addMemberInfo(res.data);
             
-            })
-            .catch()
+        //     })
+        //     .catch()
+
+        const loadData = async () => {
+            const response = await fetch(`/mypage/memberinfo`, {
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json',
+                ACCESS_TOKEN: accessToken,
+                },
+            });
+            let data = await response.json();
+        
+            if (response.status === 401) {
+                const res = await fetch(`/mypage/memberinfo`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ACCESS_TOKEN: accessToken,
+                    REFRESH_TOKEN: refreshToken,
+                }
+                });
+                data = await res.json();
+            }
+            console.log(data);
+            addMemberInfo(data);
+            };
+            loadData();
+            
 
     };
     const handleCancel = () => {
@@ -48,59 +80,165 @@ const MainHeader = (props) => {
 
     const followers = ()=>{
         console.log('팔로워 목록 - 나를 추가한 사람들');
-        axios.post("/mypage/followSearch",null,{
-            params:{
-                type : "follower",
-                memberNo : users.memberNo
-            }
-        })
-        .then(res=>{
-            if(res.data.length > 0){
-                console.log(res.data);
-                setFollowlist(res.data);
-                showModal();
-            }else{
-                alert('리스트가 없습니다')
-            }
+        // axios.post("/mypage/followSearch",null,{
+        //     params:{
+        //         type : "follower",
+        //         memberNo : users.memberNo
+        //     }
+        // })
+        // .then(res=>{
+        //     if(res.data.length > 0){
+        //         console.log(res.data);
+        //         setFollowlist(res.data);
+        //         showModal();
+        //     }else{
+        //         alert('리스트가 없습니다')
+        //     }
             
-        })
-        .catch() 
+        // })
+        // .catch() 
+
+        let reqdata = {
+            type : "follower",
+            memberNo : users.memberNo
+        }
+        const loadData = async () => {
+            const response = await fetch(`/mypage/followSearch`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ACCESS_TOKEN: accessToken,
+            },
+            body:JSON.stringify(reqdata)
+            });
+            let data = await response.json();
+        
+            if (response.status === 401) {
+                const res = await fetch(`/mypage/followSearch`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ACCESS_TOKEN: accessToken,
+                    REFRESH_TOKEN: refreshToken,
+                },
+                body:JSON.stringify(reqdata)
+                });
+                data = await res.json();
+            }
+            console.log(data);
+            setFollowlist(data);
+            showModal();
+        };
+        loadData();
+
+
+
+
     }
     const following = ()=>{
         console.log('팔로잉 목록 - 내가 추가한 사람들');
-        axios.post("/mypage/followSearch",null,{
-            params:{
-                type : "following",
-                memberNo : users.memberNo
+        // axios.post("/mypage/followSearch",null,{
+        //     params:{
+        //         type : "following",
+        //         memberNo : users.memberNo
+        //     }
+        // })
+        // .then(res=>{
+        //     if(res.data.length > 0){
+        //         console.log(res.data);
+        //         setFollowlist(res.data);
+        //         showModal();
+        //     }else{
+        //         alert('리스트가 없습니다')
+        //     }
+        // })
+        // .catch()
+
+        let reqdata = {
+            type : "following",
+            memberNo : users.memberNo
+        }
+        const loadData = async () => {
+            const response = await fetch(`/mypage/followSearch`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ACCESS_TOKEN: accessToken,
+            },
+            body:JSON.stringify(reqdata)
+            });
+            let data = await response.json();
+        
+            if (response.status === 401) {
+                const res = await fetch(`/mypage/followSearch`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ACCESS_TOKEN: accessToken,
+                    REFRESH_TOKEN: refreshToken,
+                },
+                body:JSON.stringify(reqdata)
+                });
+                data = await res.json();
             }
-        })
-        .then(res=>{
-            if(res.data.length > 0){
-                console.log(res.data);
-                setFollowlist(res.data);
-                showModal();
-            }else{
-                alert('리스트가 없습니다')
-            }
-        })
-        .catch()
+            console.log(data);
+            setFollowlist(data);
+            showModal();
+        };
+        loadData();
+
     }
 
     const deleteFollow =(followId,type)=>{
         console.log(followId);
-        axios.post("/mypage/deleteFollower",null,{
-            params:{
-                type:type,
-                memberNo:users.memberNo,
-                followId : followId
+        // axios.post("/mypage/deleteFollower",null,{
+        //     params:{
+        //         type:type,
+        //         memberNo:users.memberNo,
+        //         followId : followId
+        //     }
+        // })
+        // .then(res=>{
+        //     console.log(res.data);
+        //     setFollowlist(res.data);
+        //     //새로고침
+        // })
+        // .catch()
+        let reqdata = {
+            type : type,
+            memberNo : users.memberNo,
+            followId : followId
+        }
+        
+        const loadData = async () => {
+            const response = await fetch(`/mypage/deleteFollower`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ACCESS_TOKEN: accessToken,
+            },
+            body:JSON.stringify(reqdata)
+            });
+            let data = await response.json();
+        
+            if (response.status === 401) {
+                const res = await fetch(`/mypage/deleteFollower`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ACCESS_TOKEN: accessToken,
+                    REFRESH_TOKEN: refreshToken,
+                },
+                body:JSON.stringify(reqdata)
+                });
+                data = await res.json();
             }
-        })
-        .then(res=>{
-            console.log(res.data);
-            setFollowlist(res.data);
-            //새로고침
-        })
-        .catch()
+            console.log(data);
+            setFollowlist(data);
+            showModal();
+        };
+        loadData();
+
     }
     return <>
         <div id="main_header" className="main_header pt-3 pb-5">
