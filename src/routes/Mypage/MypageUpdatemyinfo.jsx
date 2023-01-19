@@ -57,7 +57,7 @@ const MypageUpdatemyinfo = (props) => {
     if(pwCheckOk && pwCheckDouble){
       console.log('OK 확인');
       //내정보 POST방식으로 서버에 전송하고 리덕스에 저장하기
-      axios.post("/memberUpdate",formData)
+      axios.post("/mypage/memberUpdate",formData)
       .then(res=>{
         console.log(res.data);
         addMemberInfo(res.data);

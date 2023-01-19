@@ -29,7 +29,7 @@ const MainHeader = (props) => {
             setOpen(false);
         }, 100);
         //재 조회
-        axios.post("/memberinfo",null,{
+        axios.post("/mypage/memberinfo",null,{
             params:{
                 id:users.memberId,
             }
@@ -48,7 +48,7 @@ const MainHeader = (props) => {
 
     const followers = ()=>{
         console.log('팔로워 목록 - 나를 추가한 사람들');
-        axios.post("/memberFollowSearch",null,{
+        axios.post("/mypage/followSearch",null,{
             params:{
                 type : "follower",
                 memberNo : users.memberNo
@@ -68,7 +68,7 @@ const MainHeader = (props) => {
     }
     const following = ()=>{
         console.log('팔로잉 목록 - 내가 추가한 사람들');
-        axios.post("/memberFollowSearch",null,{
+        axios.post("/mypage/followSearch",null,{
             params:{
                 type : "following",
                 memberNo : users.memberNo
@@ -88,7 +88,7 @@ const MainHeader = (props) => {
 
     const deleteFollow =(followId,type)=>{
         console.log(followId);
-        axios.post("/deleteFollower",null,{
+        axios.post("/mypage/deleteFollower",null,{
             params:{
                 type:type,
                 memberNo:users.memberNo,
