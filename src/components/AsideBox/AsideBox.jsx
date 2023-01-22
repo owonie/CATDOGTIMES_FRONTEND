@@ -15,7 +15,6 @@ function AsideBox() {
       <div className="AsideBox__member">
         <Side2 users={memberInfo} />
       </div>
-      <Ranking />
     </div>
   );
 }

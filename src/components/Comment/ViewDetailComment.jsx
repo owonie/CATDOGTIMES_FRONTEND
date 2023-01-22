@@ -16,7 +16,6 @@ const DetailReply = ({ postId }) => {
             postId: postId,
           },
         });
-        console.log(response.data);
         setComments(response.data);
       };
       loadData2();

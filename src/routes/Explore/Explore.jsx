@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Modal, Upload } from "antd";
 import NavBar from "../../components/NavBar/NavBar";
 import Search from "../../components/Search/Search";
 import "./Explore.css";
+import { useSelector } from "react-redux";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -17,62 +18,108 @@ const Explore = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
+
+  const [feeds, setFeeds] = useState();
+
+  //이미지 src
+  const imgPath = "http://localhost:8088/times/resources/upload/";
+
   const [fileList, setFileList] = useState([
     {
-      uid: 1,
-      name: "산책하는 댕댕이",
+      imageId: 1,
       status: "done",
       url: "/img/explore/puppy.jpg",
     },
     {
-      uid: 2,
+      imageId: 2,
       name: "기다리는 고양이",
       status: "done",
       url: "/img/explore/kitten2.jpg",
     },
     {
-      uid: 3,
+      imageId: 3,
       name: "댕댕이 남친짤",
       status: "done",
       url: "/img/explore/dog1.jpg",
     },
     {
-      uid: 4,
+      imageId: 4,
       name: "dog with flowers",
       status: "done",
       url: "/img/explore/dog2.jpg",
     },
     {
-      uid: 5,
+      imageId: 5,
       name: "다소곳한 고양이",
       status: "done",
       url: "/img/explore/kitten3.jpg",
     },
     {
-      uid: 6,
+      imageId: 6,
       name: "선글라스 쓴 고양이",
       status: "done",
       url: "/img/explore/cat1.jpg",
     },
     {
-      uid: 7,
+      imageId: 7,
       name: "선글라스 쓴 고양이",
       status: "done",
       url: "/img/explore/cat1.jpg",
     },
     {
-      uid: 8,
+      imageId: 8,
       name: "선글라스 쓴 고양이",
       status: "done",
       url: "/img/explore/cat1.jpg",
     },
     {
-      id: 9,
+      imageId: 9,
       name: "선글라스 쓴 고양이",
       status: "done",
       url: "/img/explore/cat1.jpg",
     },
   ]);
+
+  const [toMemberNo, setToMemberNo] = useState(-1);
+
+  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
+  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const response = await fetch(`post/explore?toMemberNo=${toMemberNo}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ACCESS_TOKEN: accessToken,
+        },
+      });
+      let data = await response.json();
+
+      if (response.status === 401) {
+        const res = await fetch(`post/explore`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ACCESS_TOKEN: accessToken,
+            REFRESH_TOKEN: refreshToken,
+          },
+        });
+        data = await res.json();
+      }
+      setFeeds(data);
+    };
+    loadData();
+  }, []);
+
+  console.log(feeds);
+
+  // for (let i = 0; i < feeds.length; i++) {
+  //   console.log(feeds[i].imageId);
+  //   console.log(feeds[i].imageSavedName);
+  //   console.log(feeds[i].imageOriginalName);
+  // }
+
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -106,14 +153,8 @@ const Explore = () => {
             <Search />
           </div>
           <div className="explore__content">
-            <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
-            >
-              {fileList.length >= 8 ? null : uploadButton}
+            <Upload listType="picture-card" fileList={fileList} onPreview={handlePreview} onChange={handleChange}>
+              {fileList.length >= 1 ? null : uploadButton}
             </Upload>
             <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
               <img

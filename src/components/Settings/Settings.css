@@ -21,3 +21,10 @@
 .setting__row:last-child {
   padding: 3px 16px;
 }
+
+/*팔로우 취소시 색깔 바꾸기*/
+
+.followCancel {
+  font-weight: bold;
+  color: red;
+}

@@ -19,29 +19,7 @@ const FeedBox = () => {
   //이미지 src
   const imgPath = "http://localhost:8088/times/resources/upload/";
 
-  console.log(feeds);
-
   useEffect(() => {
-    // try {
-    //   const loadData = async () => {
-    //     const response = await axios(
-    //       {
-    //         method: 'GET',
-    //         url: 'post/list',
-    //         headers: {
-    //           ACCESS_TOKEN: accessToken,
-    //         },
-    //       },
-    //       { withCredentials: true }
-    //     );
-
-    //     setFeeds(response.data);
-    //   };
-
-    //   loadData();
-    // } catch (error) {
-    //   console.log(error);
-    // }
     const loadData = async () => {
       const response = await fetch(`post/list`, {
         method: "GET",
@@ -51,7 +29,7 @@ const FeedBox = () => {
         },
       });
       let data = await response.json();
-
+      console.log(data);
       if (response.status === 401) {
         const res = await fetch(`post/list`, {
           method: "GET",
@@ -85,7 +63,7 @@ const FeedBox = () => {
                 <div>{feeds[key].writerName}</div>
               </div>
               <div className="feedTopRight">
-                <Settings feedId={feeds[key].feedId} />
+                <Settings feedId={feeds[key].feedId} memberNo={feeds[key].memberNo} />
               </div>
             </div>
             <article className="feedMiddleImg">
@@ -94,7 +72,7 @@ const FeedBox = () => {
             <div className="feedBottom">
               <div className="bottomMenu">
                 <div className="bottomMenuLeft">
-                  <Like postId={feeds[key].feedId} feedCount={feeds.length} />
+                  <Like postId={feeds[key].feedId} />
                   <ViewDetail
                     id={feeds[key].feedId}
                     imgSrc={imgPath + feeds[key].feedImage}
