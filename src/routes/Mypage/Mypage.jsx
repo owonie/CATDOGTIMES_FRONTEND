@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useState , useEffect } from 'react';
 import Header from '../../components/mypage/Header';
 import Side from '../../components/mypage/Side';
 import Mobilemenu from '../../components/mypage/Mobilemenu';
@@ -10,24 +10,73 @@ import MainHeader from '../../components/mypage/MainHeader';
 import TabSection from '../../components/mypage/TabSection';
 import JoinedWalks from '../../components/mypage/JoinedWalks';
 import { useSelector, useDispatch } from 'react-redux';
+import { updateMemberInfo } from "../../reducers/memberInfo";
+import axios from 'axios';
 import 'antd/dist/antd';
 // import { DatePicker } from 'antd';
 
 const Mypage = (props) => {
+  const accessToken = useSelector(
+    (state) => state.userData.catdogtimes_accessToken
+  );
+  const refreshToken = useSelector(
+    (state) => state.userData.catdogtimes_refreshToken
+  );
+  //이미지 src
+  const imgPath = 'http://localhost:8088/times/resources/upload/';
+
+  // 리덕스 저장소의 데이터 변경
+  const dispatch = useDispatch();
+  const addMemberInfo = (resdata) => {
+    dispatch(updateMemberInfo(resdata));
+  };
   const memberInfo = useSelector((state) => {
     return state.memberInfo.data;
   });
+
+  useEffect(() => {
+    
+    //토큰값 보내고 data 받아오기
+    const loadData = async () => {
+      const response = await fetch(`/mypage/memberinfo`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ACCESS_TOKEN: accessToken,
+        },
+      });
+      let data = await response.json();
+
+      if (response.status === 401) {
+        const res = await fetch(`/mypage/memberinfo`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            ACCESS_TOKEN: accessToken,
+            REFRESH_TOKEN: refreshToken,
+          }
+        });
+        data = await res.json();
+      }
+      console.log(data);
+      addMemberInfo(data);
+    };
+    loadData();
+
+  }, []);
+
+
 
   return (
     <>
       <div id='nt_wrapper'>
         <Header />
         <div id='nt_content' className='mainContent p-5'>
-          {/* <DatePicker/> */}
+
           <div>Mypage page</div>
-          <MainHeader users={memberInfo} />
-          <TabSection />
-          <Mywalks />
+          <MainHeader/>
+          <TabSection/>
+          <Mywalks/>
           <JoinedWalks />
         </div>
         <Side users={memberInfo} />
