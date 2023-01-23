@@ -1,18 +1,20 @@
 .container {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
 }
 .mapComponent {
+  position: relative;
   width: 100%;
   height: 100vh;
 }
 
 .walkMap {
   position: relative;
-  width: 80%;
+  width: 40%;
   height: 100vh;
-  margin-right: auto;
+  margin: auto;
 }
 .walkNavbar {
   max-width: 390px;
@@ -41,10 +43,6 @@ button {
   border: none;
   padding: 0;
   border-radius: 0;
-}
-
-.navbarWrapper {
-  box-shadow: 200px 0px black;
 }
 
 /* search bar */
@@ -261,4 +259,41 @@ button {
   height: 30px;
   top: 46%;
   left: 49%;
+}
+
+.dynamic-delete-button {
+  position: relative;
+  top: 4px;
+  margin: 0 8px;
+  color: #999;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.dynamic-delete-button:hover {
+  color: #777;
+}
+.dynamic-delete-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* my Route cover  */
+.myRouteCover {
+  height: 200px;
+}
+
+.button {
+  display: block;
+  width: 90px;
+  height: 90px;
+  padding: 15px;
+  margin: 10px;
+  position: absolute;
+  background-color: #f6cebf;
+  z-index: 1000;
+  right: 20px;
+  bottom: 100px;
+  border-radius: 50%;
+  border: 1px solid rgb(207, 160, 160);
 }

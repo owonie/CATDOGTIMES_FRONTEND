@@ -1,11 +1,20 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import AsideBox from '../../components/AsideBox/AsideBox';
 import useWatchLocation from '../../hook/useWatchLocation';
 import getAddressFromLocation from '../../services/getAddressFromLocation';
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
+import { Avatar, Card } from 'antd';
 import styles from './Walk.module.css';
+import WalkModal from '../../components/Walk/WalkModal';
 
 const { kakao } = window;
+const { Meta } = Card;
 const geolocationOptions = {
   enableHighAccuracy: true,
   timeout: 1000 * 60 * 1, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
@@ -29,6 +38,8 @@ const Walk = ({ weatherKey, routeRepository }) => {
   const [kakaoPs, setKakaoPs] = useState(null);
   const [kakaoMapSettings, setKakaoMapSettings] = useState(false);
   const [kakaoDrawingManager, setKakaoDrawingManager] = useState(null);
+  const [kakaoToolbox, setKakaoToolbox] = useState(null);
+
   const [posImage, setPosImage] = useState(null);
 
   const [departuresPoint, setDeparturesPoint] = useState(null);
@@ -39,6 +50,9 @@ const Walk = ({ weatherKey, routeRepository }) => {
 
   const [isWalking, setIsWalking] = useState(false);
   const [userPolyline, setUserPolyline] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
 
   const { location, cancleLocationWatch, error } =
     useWatchLocation(geolocationOptions);
@@ -59,6 +73,8 @@ const Walk = ({ weatherKey, routeRepository }) => {
   const container = useRef();
 
   const userId = useSelector((state) => state.userData.catdogtimes_userId);
+
+  // 위치 입력 함수
 
   // route 데이터 관련
   const getRouteList = () => {
@@ -301,7 +317,7 @@ const Walk = ({ weatherKey, routeRepository }) => {
     const toolbox = new kakao.maps.Drawing.Toolbox({
       drawingManager: kakaoDrawingManager,
     });
-    kakaoMap.addControl(toolbox.getElement(), kakao.maps.ControlPosition.TOP);
+    setKakaoToolbox(toolbox);
   });
 
   useEffect(() => {
@@ -532,21 +548,53 @@ const Walk = ({ weatherKey, routeRepository }) => {
               <div
                 style={tabState === 'MY' ? null : { display: 'none' }}
                 className={styles.myRouteTab}
-              ></div>
+              >
+                <Card
+                  style={{
+                    width: 300,
+                  }}
+                  cover={
+                    <img
+                      alt='example'
+                      className={styles.myRouteCover}
+                      src='./img/bami.jpg'
+                    />
+                  }
+                  actions={[
+                    <SettingOutlined key='setting' />,
+                    <EditOutlined key='edit' />,
+                    <EllipsisOutlined key='ellipsis' />,
+                  ]}
+                >
+                  <Meta
+                    avatar={<Avatar src='./img/bami.jpg' />}
+                    title='바미의 산책루트'
+                    description='Owon'
+                  />
+                </Card>
+              </div>
             </div>
           </div>
         </div>
 
         <div className={styles.walkMap}>
+          <button className={styles.button}>
+            <span className={styles.span}>
+              <WalkModal
+                kakaoMap={kakaoMap}
+                kakaoDrawingManager={kakaoDrawingManager}
+                kakao={kakao}
+                kakaoToolbox={kakaoToolbox}
+                isWalking={isWalking}
+                setIsWalking={setIsWalking}
+              />
+            </span>
+          </button>
           <div id='container' ref={container} className={styles.mapComponent} />
-          {/* {tabState === '루트' && (
-            <img
-              alt='centerMarker'
-              className={styles.centerMarker}
-              src='./img/footprint.png'
-            />
-          )} */}
         </div>
+        <aside id='asideBox'>
+          <AsideBox />
+        </aside>
       </div>
     </>
   );
