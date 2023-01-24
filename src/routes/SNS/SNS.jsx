@@ -22,29 +22,18 @@ function SNS() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (accessToken && refreshToken) {
-      let userAccessToken = params.get('accessToken');
-      if (userAccessToken) {
-        let words = userAccessToken.split('?');
-        let userRefreshToken = words[1].slice(13);
-        console.log('accesstoken', words[0]);
-        console.log('resfeshtoken', userRefreshToken);
-        dispatch(updateAccessToken(words[0]));
-        dispatch(updateRefreshToken(userRefreshToken));
-        navigate('/post');
-      } else {
-        return;
-      }
-    }
-    if (!accessToken && !refreshToken) {
-      let userAccessToken = params.get('accessToken');
+    let userAccessToken = params.get('accessToken');
+    if (userAccessToken) {
       let words = userAccessToken.split('?');
       let userRefreshToken = words[1].slice(13);
+
       console.log('accesstoken', words[0]);
       console.log('resfeshtoken', userRefreshToken);
       dispatch(updateAccessToken(words[0]));
       dispatch(updateRefreshToken(userRefreshToken));
       navigate('/post');
+    } else {
+      return;
     }
   }, []);
   return (
