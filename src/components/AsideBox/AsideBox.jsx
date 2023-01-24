@@ -1,20 +1,13 @@
 import React from "react";
 import "./AsideBox.css";
-import Ranking from "./Ranking/Ranking";
+import Side2 from "./Side2/Side2";
 
 function AsideBox() {
   return (
     <div className="AsideBox">
       <div className="AsideBox__member">
-        <a className="AsideBox__member-login" href="#">
-          <span>로그인</span>
-        </a>
-        <a className="AsideBox__member-register" href="#">
-          <span>회원가입</span>
-        </a>
+        <Side2 />
       </div>
-      <div className="AsideBox__animal"></div>
-      <Ranking />
     </div>
   );
 }

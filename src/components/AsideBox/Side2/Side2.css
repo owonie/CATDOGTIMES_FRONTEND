@@ -1,0 +1,29 @@
+#ntside {
+  padding: 0px;
+  z-index: 800;
+}
+
+#ntside .profile {
+  width: 100px;
+  height: 100px;
+}
+#ntside .profile img {
+  height: 100%;
+  object-fit: cover;
+}
+#ntside .branding:hover {
+  transform: scale(1.05);
+}
+
+#edit {
+  background-color: #f9cdbd;
+  border-radius: 20px;
+  text-align: center;
+  margin-right: 5px;
+}
+
+#logout {
+  background-color: #f9cdbd;
+  border-radius: 20px;
+  text-align: center;
+}

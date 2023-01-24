@@ -30,3 +30,14 @@
   vertical-align: top;
   margin-right: 20px;
 }
+
+.ant-image {
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+}
+
+/* ExploreId.css */
+#searchUser {
+  width: 80%;
+}

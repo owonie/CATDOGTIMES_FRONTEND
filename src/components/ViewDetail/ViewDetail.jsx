@@ -3,12 +3,6 @@ import DetailReply from "../Comment/ViewDetailComment";
 import "./ViewDetail.css";
 
 const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
-  console.log("viewDetail:" + id);
-  console.log("viewDetail:" + imgSrc);
-
-  //이미지 src
-  const imgPath = "http://localhost:8088/times/resources/upload/";
-
   const [isOpen, setIsOpen] = useState(false);
   const [posts, setPosts] = useState([
     {
@@ -20,8 +14,9 @@ const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
     },
   ]);
 
-  const showModal = () => {
+  const showModal = (e) => {
     setIsOpen(true);
+    e.preventDefault();
   };
 
   const hideModal = () => {
@@ -33,7 +28,7 @@ const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
       <a onClick={showModal} href="#">
         <i className="far fa-comment fa-lg"></i>
       </a>
-      {posts.map((post) => (
+      {Object.keys(posts).map((key) => (
         <div className={`modal-overlay ${isOpen ? "modal-open" : "modal-closed"}`}>
           <div className="modal-footer">
             <a onClick={hideModal} href="#">
@@ -42,19 +37,19 @@ const ViewDetail = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
           </div>
           <div className="modal-content">
             <div className="modal-body">
-              <div key={post.id} className="post">
-                <img src={post.imageSrc} alt="Bami" />
+              <div key={posts[key].id} className="post">
+                <img src={posts[key].imageSrc} alt="Bami" />
               </div>
 
               <div id="aside">
                 <div id="aside__user">
                   <div id="aside__user-info">
-                    <img src={post.writerPhoto} />
-                    <span>{post.writerName}</span>
+                    <img src={posts[key].writerPhoto} />
+                    <span>{posts[key].writerName}</span>
                   </div>
-                  <p id="aside__user__text">{post.postContent}</p>
+                  <p id="aside__user__text">{posts[key].postContent}</p>
                 </div>
-                <DetailReply postId={post.id} />
+                <DetailReply postId={posts[key].id} />
                 <div className="bottomMenu">
                   <div className="bottomMenuLeft">
                     <i className="fa-regular fa-heart fa-lg"></i>

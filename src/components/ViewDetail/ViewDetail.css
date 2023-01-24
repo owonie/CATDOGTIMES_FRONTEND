@@ -147,3 +147,9 @@
   cursor: grabbing;
   padding: 0;
 }
+
+.randomImg {
+  width: 250px;
+  height: 300px;
+  padding: 10px;
+}

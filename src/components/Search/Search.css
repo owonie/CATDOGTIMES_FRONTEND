@@ -33,21 +33,17 @@
   top: 55px;
   border-radius: 3px;
   width: 300px;
-  height: 300px;
   position: absolute;
   background-color: white;
   z-index: 100;
+  margin: 10px 0px;
 }
 
-.pullDownBox::after {
+.pullDownBox:hover {
   overflow: visible;
   display: block;
   border-style: solid;
-  border-width: 0px 10px 10px 10px;
   border-color: white transparent;
   position: absolute;
-  top: -7px;
-  left: 50%;
-  transform: translateX(-50%);
-  content: "";
+  top: 55px;
 }

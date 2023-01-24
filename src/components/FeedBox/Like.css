@@ -1,7 +1,3 @@
-.postLikeHeart:hover {
-  background-color: red;
-}
-
-.postLikeHeart:active {
-  background-color: red;
+.fa {
+  color: red;
 }

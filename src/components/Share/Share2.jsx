@@ -3,8 +3,9 @@ import React, { useState } from "react";
 function ShareButton2() {
   const [isSharing, setIsSharing] = useState(false);
 
-  const handleClick = async () => {
+  const handleClick = async (e) => {
     setIsSharing(true);
+    e.preventDefault();
     try {
       await navigator.share({
         title: "멍냥일보",

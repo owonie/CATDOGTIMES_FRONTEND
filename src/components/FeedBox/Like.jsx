@@ -1,25 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Like.css";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Like = ({ postId }) => {
-  const handleOk = () => {
-    axios
-      .post("/post/like", {
-        postId: postId,
-      })
-      .then((res) => {
-        console.log("postLike insert success");
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
+  const [heart, setHeart] = useState([true, "far fa-heart fa-lg"]); //흰색 하트
+  const [postLikeId, setPostLikeId] = useState(-1);
+
+  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
+  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
+
+  function clickHeart() {
+    heart[0] ? setHeart([false, "fa fa-heart fa-lg"]) : setHeart([true, "far fa-heart fa-lg"]);
+  }
+
+  let postLike = {
+    postId: postId,
+    postLikeId: postLikeId,
+  };
+
+  const handleOk = (e) => {
+    //하트 누르면 빨강으로 바꿔주는 function
+    clickHeart();
+
+    const loadData2 = async () => {
+      const response = await fetch(`post/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ACCESS_TOKEN: accessToken,
+        },
+        body: JSON.stringify(postLike),
       });
+      let data = await response.json();
+      console.log(data);
+
+      if (response.status === 401) {
+        const res = await fetch(`post/like`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ACCESS_TOKEN: accessToken,
+            REFRESH_TOKEN: refreshToken,
+          },
+          body: JSON.stringify(postLike),
+        });
+      }
+    };
+    loadData2();
+
+    // like get방식 요청, memberNo가 일치하는 like 가져옴.
+    const loadData = async () => {
+      console.log("post/like GET이다!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      const response = await fetch(`post/like?postId=${postId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ACCESS_TOKEN: accessToken,
+        },
+      });
+      let data = await response.json();
+      console.log(data);
+
+      if (response.status === 401) {
+        const res = await fetch(`post/like?postId=${postId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            ACCESS_TOKEN: accessToken,
+            REFRESH_TOKEN: refreshToken,
+          },
+        });
+        data = await res.json();
+        console.log(data);
+      }
+
+      heart[0] ? setPostLikeId(data[0].postLikeId) : setPostLikeId(-1);
+      console.log("하트 실행 후:" + postLikeId);
+    };
+    loadData();
+
+    e.preventDefault();
   };
 
   return (
     <a className="postLike" href="#" onClick={handleOk}>
-      <i className="postLikeHeart far fa-heart fa-lg"></i>
+      <i className={heart[1]}></i>
     </a>
   );
 };

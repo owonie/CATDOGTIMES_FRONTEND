@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./ViewDetailComment.css";
+import "../../components/Comment/ViewDetailComment.css";
 
 const DetailReply = ({ postId }) => {
   const [comments, setComments] = useState([]);
@@ -16,8 +16,6 @@ const DetailReply = ({ postId }) => {
             postId: postId,
           },
         });
-        console.log(postId);
-        console.log(response.data);
         setComments(response.data);
       };
       loadData2();

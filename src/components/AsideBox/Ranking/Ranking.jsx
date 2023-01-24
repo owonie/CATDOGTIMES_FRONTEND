@@ -12,9 +12,6 @@ function Ranking() {
         <a href="#">
           <li className="ranking-user">
             <div className="ranking-user__row">
-              <div className="ranking-user__badge">1</div>
-            </div>
-            <div className="ranking-user__row">
               <img src="./img/bami.jpg" className="ranking-user__avatar" />
               <div className="ranking-user__text">
                 <h4 className="ranking-user__title">바미</h4>
@@ -24,9 +21,6 @@ function Ranking() {
           </li>
           <li className="ranking-user">
             <div className="ranking-user__row">
-              <div className="ranking-user__badge2">2</div>
-            </div>
-            <div className="ranking-user__row">
               <img src="./img/wooyoo.jpg" className="ranking-user__avatar" />
               <div className="ranking-user__text">
                 <h4 className="ranking-user__title">우유</h4>
@@ -35,9 +29,6 @@ function Ranking() {
             </div>
           </li>
           <li className="ranking-user">
-            <div className="ranking-user__row">
-              <div className="ranking-user__badge3">3</div>
-            </div>
             <div className="ranking-user__row">
               <img src="./img/doge.jpg" className="ranking-user__avatar" />
               <div className="ranking-user__text">
