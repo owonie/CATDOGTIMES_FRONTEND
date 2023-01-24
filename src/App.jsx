@@ -19,12 +19,6 @@ const App = ({ roomRepository, messageRepository, routeRepository }) => {
   return (
     <>
       <div className="App">
-        <div className="text-center">
-          {/* <div>멍냥일보 프론트엔드입니당</div>
-          <Link to='/testlogin' className='button'>
-            테스트 로그인
-          </Link> */}
-        </div>
         <Routes>
           <Route path="/feed" element={<FeedBox />}></Route>
           <Route path="/comment" element={<Comment />}></Route>

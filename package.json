@@ -13,10 +13,12 @@
     "firebase": "^9.15.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "redux-persist": "^6.0.0",
+    "styled-components": "^5.3.6",
     "web-vitals": "^2.1.0"
   },
   "proxy": "http://localhost:8088/times/",

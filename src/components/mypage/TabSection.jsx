@@ -5,10 +5,25 @@ import Tab02 from './Tab02';
 import Tab03 from './Tab03';
 import "./TabSection.css";
 import { useSelector, useDispatch } from "react-redux";  
+import { updateMemberInfo } from "../../reducers/memberInfo";
+
 const TabSection = (props) => {
+    const accessToken = useSelector(
+        (state) => state.userData.catdogtimes_accessToken
+    );
+    const refreshToken = useSelector(
+        (state) => state.userData.catdogtimes_refreshToken
+    );
+    //이미지 src
+    const imgPath = 'http://localhost:8088/times/resources/upload/';
+    
+    // 리덕스 저장소의 데이터 변경
+    const dispatch = useDispatch();
+    const addMemberInfo = (resdata) => {
+        dispatch(updateMemberInfo(resdata));
+    };
     const memberInfo = useSelector((state) => {
-        return state.memberInfo !== null ? state.memberInfo.data : [];
-        //return state.memberInfo.data;
+        return state.memberInfo.data;
     });
 
     //let searchType="";   //postlike, bookmark
@@ -16,22 +31,57 @@ const TabSection = (props) => {
     const [postSearch, setPostSearch] = useState([]);
         
     useEffect(() => {
-        memberInfo !== null ? memberPostSearch(searchType) : alert('잘못된 접근입니다');
+        // memberInfo !== null ? memberPostSearch(searchType) : alert('잘못된 접근입니다');
+        memberInfo !== null ? memberPostSearch(searchType) : window.location.reload();
+
     }, [searchType])
     
     const memberPostSearch = (searchType) => {
-        //const memberNo = sessionStorage.getItem("memberNo");
-       // const memberNo = users.memberId;
-        axios.post("/memberPostSearch",null,{
-            params:{
-                searchType : searchType,
-                memberNo : memberInfo.memberNo
+        // axios.post("/mypage/postSearch",null,{
+        //     params:{
+        //         searchType : searchType,
+        //         memberNo : memberInfo.memberNo
+        //     }
+        // })
+        // .then(res=>{
+        //     setPostSearch(res.data);
+        // })
+        // .catch()
+
+        let reqdata = {
+            searchType : searchType,
+            memberNo : memberInfo.memberNo
+        }
+
+        const loadData = async () => {
+            const response = await fetch(`/mypage/postSearch`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ACCESS_TOKEN: accessToken,
+            },
+            body:JSON.stringify(reqdata)
+            });
+            let data = await response.json();
+        
+            if (response.status === 401) {
+                const res = await fetch(`/mypage/postSearch`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ACCESS_TOKEN: accessToken,
+                    REFRESH_TOKEN: refreshToken,
+                },
+                body:JSON.stringify(reqdata)
+                });
+                data = await res.json();
             }
-        })
-        .then(res=>{
-            setPostSearch(res.data);
-        })
-        .catch()
+            console.log(data);
+            setPostSearch(data);
+        };
+        loadData();
+
+
     }
 
     const objTabs = {
