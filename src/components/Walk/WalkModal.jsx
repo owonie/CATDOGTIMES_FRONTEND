@@ -14,12 +14,12 @@ import {
   Rate,
 } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import styles from '../Add/Write.module.css';
 import TextArea from 'antd/es/input/TextArea';
 import axios from 'axios';
 import UploadPicture from '../Add/UploadPicture';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './WalkModal.module.css';
 
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
@@ -195,7 +195,7 @@ const WalkModal = ({
     setTimeout(() => {
       setLoading(false);
       setOpen(false);
-    }, 3000);
+    }, 1000);
   };
 
   const handleOk = () => {
@@ -227,7 +227,7 @@ const WalkModal = ({
     setTimeout(() => {
       setLoading(false);
       setOpen(false);
-    }, 3000);
+    }, 1000);
   };
   const handleCancel = () => {
     setOpen(false);
@@ -379,7 +379,7 @@ const WalkModal = ({
                 </Form.Item>
               </Form>
             </div>
-            {/* <div>
+            <div>
               <div
                 id='scrollableDiv'
                 style={{
@@ -403,7 +403,9 @@ const WalkModal = ({
                     />
                   }
                   endMessage={
-                    <Divider plain>It is all, nothing more 🤐</Divider>
+                    <Divider plain>
+                      더 이상 같이 산책할 친구는 없네요 🤐
+                    </Divider>
                   }
                   scrollableTarget='scrollableDiv'
                 >
@@ -431,7 +433,7 @@ const WalkModal = ({
                   />
                 </InfiniteScroll>
               </div>
-            </div> */}
+            </div>
           </Carousel>
         </Modal>
       ) : (
@@ -441,50 +443,72 @@ const WalkModal = ({
           onCancel={handleCancel}
           bodyStyle={{ height: 400 }}
           footer={[
-            <Popconfirm
-              title='산책종료'
-              description='산책을 종료하시겠습니까?'
-              onConfirm={confirm}
-              onOpenChange={() => console.log('open change')}
-            >
-              <Button
-                key='submit'
-                type='primary'
-                loading={loading}
-                style={{ backgroundColor: 'red' }}
-                onClick={() => {}}
+            <div>
+              {walkingEnd && (
+                <Button key='back' onClick={() => walkingRef.current.prev()}>
+                  이전
+                </Button>
+              )}
+
+              {walkingEnd && (
+                <Button key='next' onClick={() => walkingRef.current.next()}>
+                  다음
+                </Button>
+              )}
+              <Popconfirm
+                title='산책종료'
+                description='산책을 종료하시겠습니까?'
+                onConfirm={confirm}
+                onOpenChange={() => console.log('open change')}
               >
-                산책종료
-              </Button>
-            </Popconfirm>,
+                <Button
+                  key='submit'
+                  type='primary'
+                  loading={loading}
+                  style={{ backgroundColor: 'red' }}
+                  onClick={() => {}}
+                >
+                  산책종료
+                </Button>
+              </Popconfirm>
+            </div>,
           ]}
         >
           <Carousel style={{ marginTop: '30px' }} ref={walkingRef} dots={false}>
-            <div>산책멤버</div>
-            <div>
-              <span style={{ display: 'block' }}>
-                <span className='ant-rate-text'>루트 평점: </span>
-                <Rate
-                  tooltips={desc}
-                  onChange={setRouteRating}
-                  value={routeRating}
-                />
-                {value ? (
-                  <span className='ant-rate-text'>{desc[value - 1]}</span>
-                ) : (
-                  ''
-                )}
-              </span>
-              <span style={{ display: 'block' }}>
-                <span className='ant-rate-text'>사용자 평점: </span>
-                <Rate tooltips={desc} onChange={setValue} value={value} />
-                {value ? (
-                  <span className='ant-rate-text'>{desc[value - 1]}</span>
-                ) : (
-                  ''
-                )}
-              </span>
-            </div>
+            {walkingEnd != true && <div>산책멤버</div>}
+
+            {walkingEnd && (
+              <div className={styles.ratingPage}>
+                <span style={{ display: 'block' }}>
+                  <span className='ant-rate-text'>루트 평점: </span>
+                  <Rate
+                    tooltips={desc}
+                    onChange={setRouteRating}
+                    value={routeRating}
+                  />
+                  {routeRating ? (
+                    <span className='ant-rate-text'>
+                      {desc[routeRating - 1]}
+                    </span>
+                  ) : (
+                    ''
+                  )}
+                </span>
+              </div>
+            )}
+            {walkingEnd && (
+              <div>
+                <span style={{ display: 'block' }}>
+                  <span className='ant-rate-text'>사용자 평점: </span>
+                  <Rate tooltips={desc} onChange={setValue} value={value} />
+                  {value ? (
+                    <span className='ant-rate-text'>{desc[value - 1]}</span>
+                  ) : (
+                    ''
+                  )}
+                </span>
+              </div>
+            )}
           </Carousel>
         </Modal>
       )}
