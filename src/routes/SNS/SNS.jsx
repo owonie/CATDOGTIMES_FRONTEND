@@ -5,9 +5,15 @@ import FeedBox from '../../components/FeedBox/FeedBox';
 import NavBar from '../../components/NavBar/NavBar';
 import Search from '../../components/Search/Search';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateAccessToken, updateRefreshToken } from '../../reducers/userData';
+import {
+  updateAccessToken,
+  updateDisplayName,
+  updateRefreshToken,
+  updateUserId,
+} from '../../reducers/userData';
 
 import './SNS.css';
+import jwtDecode from 'jwt-decode';
 
 function SNS() {
   const accessToken = useSelector(
@@ -29,8 +35,12 @@ function SNS() {
 
       console.log('accesstoken', words[0]);
       console.log('resfeshtoken', userRefreshToken);
+      const decoded = jwtDecode(accessToken);
+      console.log('decoded', decoded);
       dispatch(updateAccessToken(words[0]));
       dispatch(updateRefreshToken(userRefreshToken));
+      dispatch(updateUserId(decoded.user.id));
+      dispatch(updateDisplayName(decoded.user.name));
       navigate('/post');
     } else {
       return;

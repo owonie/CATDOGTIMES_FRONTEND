@@ -38,7 +38,7 @@ const WalkModal = ({
 }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState('Y');
+  const [formLayout, setFormLayout] = useState(true);
   const onFormLayoutChange = ({ layout }) => {
     setFormLayout(layout);
   };
@@ -82,7 +82,7 @@ const WalkModal = ({
     memberNo: 1,
     routeThumbnail: imageOriginalName,
     imageSavedName: imageSavedName,
-    routePublic: 'Y',
+    routePublic: formLayout,
     routeDepartures: routeStart,
     routeDestination: routeEnd,
   };
@@ -325,8 +325,8 @@ const WalkModal = ({
                     style={{ marginTop: '30px' }}
                   >
                     <Radio.Group value={formLayout}>
-                      <Radio.Button value='Y'>공개</Radio.Button>
-                      <Radio.Button value='N'>비공개</Radio.Button>
+                      <Radio.Button value={true}>공개</Radio.Button>
+                      <Radio.Button value={false}>비공개</Radio.Button>
                     </Radio.Group>
                   </Form.Item>
                   <Form.Item

@@ -37,7 +37,6 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
       const event = data;
       if (event === true) {
         dispatch(updateRoomId(room));
-        //   dispatch(updateLocation('room'));
         dispatch(updateInRoom(true));
         messageRepository.initMessage(room);
         console.log('direct page room coming');
@@ -48,11 +47,11 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
   const onSubmit = (event) => {
     event.preventDefault();
     const message = {
-      userId: 'Dev_Owon',
+      userId: userId,
       roomId: roomId,
       content: messageRef.current.value,
       time: serverTimestamp(),
-      displayName: '도원',
+      displayName: displayName,
       photoURL: '/img/dog1.jpg',
     };
     messageRepository.saveMessage(message);
