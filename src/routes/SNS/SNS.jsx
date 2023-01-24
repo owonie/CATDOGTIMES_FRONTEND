@@ -35,12 +35,13 @@ function SNS() {
 
       console.log('accesstoken', words[0]);
       console.log('resfeshtoken', userRefreshToken);
-      const decoded = jwtDecode(accessToken);
+      const decoded = jwtDecode(userAccessToken);
       console.log('decoded', decoded);
       dispatch(updateAccessToken(words[0]));
       dispatch(updateRefreshToken(userRefreshToken));
       dispatch(updateUserId(decoded.user.id));
       dispatch(updateDisplayName(decoded.user.name));
+
       navigate('/post');
     } else {
       return;

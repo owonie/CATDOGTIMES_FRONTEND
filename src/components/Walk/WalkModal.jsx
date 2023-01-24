@@ -28,6 +28,8 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
+const imgPath = 'http://localhost:8088/times/resources/upload/';
+
 const WalkModal = ({
   kakaoDrawingManager,
   kakaoMap,
@@ -80,7 +82,7 @@ const WalkModal = ({
   let route = {
     routeName: routeName,
     memberNo: 1,
-    routeThumbnail: imageOriginalName,
+    routeThumbnail: imageSavedName,
     imageSavedName: imageSavedName,
     routePublic: formLayout,
     routeDepartures: routeStart,
@@ -481,6 +483,7 @@ const WalkModal = ({
               <div className={styles.ratingPage}>
                 <span style={{ display: 'block' }}>
                   <span className='ant-rate-text'>루트 평점: </span>
+                  <img src={imgPath + imageSavedName} alt='pfp' />
                   <Rate
                     tooltips={desc}
                     onChange={setRouteRating}
