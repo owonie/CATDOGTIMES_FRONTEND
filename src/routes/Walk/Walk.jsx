@@ -12,6 +12,7 @@ import {
 import { Avatar, Card } from 'antd';
 import styles from './Walk.module.css';
 import WalkModal from '../../components/Walk/WalkModal';
+import NavBar from '../../components/NavBar/NavBar';
 
 const { kakao } = window;
 const { Meta } = Card;
@@ -390,7 +391,7 @@ const Walk = ({ weatherKey, routeRepository }) => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.navbarWrapper}>
+        {/* <div className={styles.navbarWrapper}>
           <div className={styles.walkNavbar}>
             <div className={styles.navbarHeader}>
               <div className={styles.searchBarHeader}>
@@ -575,8 +576,8 @@ const Walk = ({ weatherKey, routeRepository }) => {
               </div>
             </div>
           </div>
-        </div>
-
+        </div> */}
+        <NavBar />
         <div className={styles.walkMap}>
           <button className={styles.button}>
             <span className={styles.span}>

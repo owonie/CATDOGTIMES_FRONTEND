@@ -38,7 +38,7 @@ const WalkModal = ({
 }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState('공개');
+  const [formLayout, setFormLayout] = useState('Y');
   const onFormLayoutChange = ({ layout }) => {
     setFormLayout(layout);
   };
@@ -72,16 +72,25 @@ const WalkModal = ({
   const [data, setData] = useState([]);
   const [walkingEnd, setWalkingEnd] = useState(false);
 
+  const [routeInfo, setRouteInfo] = useState(null);
+  const [routeRating, setRouteRating] = useState(3);
+
   const desc = ['안좋아요', '별로에요', '보통', '좋아요', '최고!'];
 
   let route = {
     routeName: routeName,
     memberNo: 1,
-    imageOriginalName: imageOriginalName,
+    routeThumbnail: imageOriginalName,
     imageSavedName: imageSavedName,
-    routePulic: formLayout,
-    routeStart: routeStart,
-    routeEnd: routeEnd,
+    routePublic: 'Y',
+    routeDepartures: routeStart,
+    routeDestination: routeEnd,
+  };
+
+  let rate = {
+    routeNo: routeInfo && routeInfo.routeNo,
+    routeRatingScore: routeRating,
+    memberNo: 1,
   };
 
   const confirm = () => {
@@ -93,7 +102,8 @@ const WalkModal = ({
     setWalkingEnd(false);
     setOpen(false);
     setIsWalking(false);
-    navigate('/post');
+    handleRating();
+    // navigate('/post');
   };
 
   const loadMoreData = () => {
@@ -153,20 +163,60 @@ const WalkModal = ({
 
   const formData = new FormData();
   formData.append(
-    'post',
+    'route',
     new Blob([JSON.stringify(route)], { type: 'application/json' })
   );
   formData.append('file', file);
+
+  const routeRatingData = new FormData();
+  routeRatingData.append(
+    'rate',
+    new Blob([JSON.stringify(rate)], { type: 'application/json' })
+  );
 
   const showModal = () => {
     addLocationsDone();
     setOpen(true);
   };
+
+  const handleRating = () => {
+    console.log('rate:', rate);
+    axios
+      .post('/route/addrouterating', routeRatingData)
+      .then((res) => {
+        console.log('route rating Success');
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setOpen(false);
+    }, 3000);
+  };
+
   const handleOk = () => {
     axios
-      .post('/post/add', formData)
+      .post('/route/addroute', formData)
       .then((res) => {
-        console.log('post insert Success');
+        axios
+          .get(`/route/routelist?MemberNo=${1}`)
+          .then((res) => {
+            {
+              Object.keys(res.data).map((key) => {
+                if (res.data[key].routeName === routeName) {
+                  setRouteInfo(res.data[key]);
+                }
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        console.log('route insert Success');
         console.log(res.data);
       })
       .catch((error) => {
@@ -196,7 +246,6 @@ const WalkModal = ({
         <Modal
           open={open}
           title={[<div>산책루트 만들기</div>]}
-          onOk={handleOk}
           onCancel={handleCancel}
           bodyStyle={{ height: 400 }}
           footer={[
@@ -214,6 +263,7 @@ const WalkModal = ({
               onClick={() => {
                 setIsWalking(true);
                 setOpen(false);
+                handleOk();
                 console.log(route);
               }}
             >
@@ -240,6 +290,7 @@ const WalkModal = ({
                     size='large'
                     onChange={(e) => {
                       setrouteName(e.target.value);
+                      console.log(formLayout);
                     }}
                     placeholder='산책루트 이름을 정해주세요!'
                     allowClear
@@ -274,8 +325,8 @@ const WalkModal = ({
                     style={{ marginTop: '30px' }}
                   >
                     <Radio.Group value={formLayout}>
-                      <Radio.Button value='공개'>공개</Radio.Button>
-                      <Radio.Button value='비공개'>비공개</Radio.Button>
+                      <Radio.Button value='Y'>공개</Radio.Button>
+                      <Radio.Button value='N'>비공개</Radio.Button>
                     </Radio.Group>
                   </Form.Item>
                   <Form.Item
@@ -292,7 +343,9 @@ const WalkModal = ({
                       placeholder='출발지를 입력해주세요!'
                       onChange={(e) => {
                         setRouteStart(e.target.value);
+                        console.log(routeStart);
                       }}
+                      value={routeStart}
                     />
                   </Form.Item>
                   <Form.Item
@@ -310,6 +363,7 @@ const WalkModal = ({
                       onChange={(e) => {
                         setRouteEnd(e.target.value);
                       }}
+                      value={routeEnd}
                     />
                   </Form.Item>
                 </Form>
@@ -325,7 +379,7 @@ const WalkModal = ({
                 </Form.Item>
               </Form>
             </div>
-            <div>
+            {/* <div>
               <div
                 id='scrollableDiv'
                 style={{
@@ -377,14 +431,13 @@ const WalkModal = ({
                   />
                 </InfiniteScroll>
               </div>
-            </div>
+            </div> */}
           </Carousel>
         </Modal>
       ) : (
         <Modal
           open={open}
           title={[<div>산책 중</div>]}
-          onOk={handleOk}
           onCancel={handleCancel}
           bodyStyle={{ height: 400 }}
           footer={[
@@ -411,7 +464,11 @@ const WalkModal = ({
             <div>
               <span style={{ display: 'block' }}>
                 <span className='ant-rate-text'>루트 평점: </span>
-                <Rate tooltips={desc} onChange={setValue} value={value} />
+                <Rate
+                  tooltips={desc}
+                  onChange={setRouteRating}
+                  value={routeRating}
+                />
                 {value ? (
                   <span className='ant-rate-text'>{desc[value - 1]}</span>
                 ) : (
