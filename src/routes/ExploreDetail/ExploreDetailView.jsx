@@ -33,34 +33,34 @@ const ExploreDetailView = ({ id, imgSrc, writerPhoto, writerName, postContent })
     setIsOpen(false);
   };
 
-  useEffect(() => {
-    const loadExplore = async () => {
-      const response = await fetch(`post/explore?toMemberNo=${toMemberNo}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          ACCESS_TOKEN: accessToken,
-        },
-      });
-      let data = await response.json();
-      setFeeds(data);
-      console.log(data);
+  // useEffect(() => {
+  //   const loadExplore = async () => {
+  //     const response = await fetch(`explore?toMemberNo=${toMemberNo}`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         ACCESS_TOKEN: accessToken,
+  //       },
+  //     });
+  //     let data = await response.json();
+  //     setFeeds(data);
+  //     console.log(data);
 
-      if (response.status === 401) {
-        const res = await fetch(`post/explore?toMemberNo=${toMemberNo}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            ACCESS_TOKEN: accessToken,
-            REFRESH_TOKEN: refreshToken,
-          },
-        });
-        data = await res.json();
-      }
-      setFeeds(data);
-    };
-    loadExplore();
-  }, []);
+  //     if (response.status === 401) {
+  //       const res = await fetch(`explore?toMemberNo=${toMemberNo}`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           ACCESS_TOKEN: accessToken,
+  //           REFRESH_TOKEN: refreshToken,
+  //         },
+  //       });
+  //       data = await res.json();
+  //     }
+  //     setFeeds(data);
+  //   };
+  //   loadExplore();
+  // }, []);
 
   return (
     <>

@@ -7,7 +7,7 @@ function NavBar() {
   return (
     <nav className="Nav">
       <div className="title">
-        <img src="./img/catdog.svg" />
+        <img src="http://localhost:3000/img/catdog.svg" />
       </div>
       <ul className="menu">
         <li className="menu__row">

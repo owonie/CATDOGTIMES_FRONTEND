@@ -44,6 +44,7 @@ const Like = ({ postId }) => {
           },
           body: JSON.stringify(postLike),
         });
+        data = await res.json();
       }
     };
     loadData2();
@@ -75,7 +76,6 @@ const Like = ({ postId }) => {
       }
 
       heart[0] ? setPostLikeId(data[0].postLikeId) : setPostLikeId(-1);
-      console.log("하트 실행 후:" + postLikeId);
     };
     loadData();
 

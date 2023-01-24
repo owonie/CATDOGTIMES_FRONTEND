@@ -9,6 +9,7 @@ import ShareButton2 from "../Share/Share2";
 import CommentInputBox from "../CommentInputBox/CommentInputBox";
 import { useSelector } from "react-redux";
 import Like from "./Like";
+import Bookmark from "../Bookmark/Bookmark";
 
 const FeedBox = () => {
   const [feeds, setFeeds] = useState([]);
@@ -83,7 +84,8 @@ const FeedBox = () => {
                   <ShareButton2 />
                 </div>
                 <div className="bottomMenuRight">
-                  <i className="far fa-bookmark fa-lg"></i>
+                  <Bookmark postId={feeds[key].feedId} />
+                  {/* <i className="far fa-bookmark fa-lg"></i> */}
                 </div>
               </div>
               <div className="like">

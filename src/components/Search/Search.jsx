@@ -25,6 +25,7 @@ function Search() {
     });
     let data = await response.json();
     setData(data);
+    console.log(data);
 
     if (response.status === 401) {
       const res = await fetch(`post/search?id=${search}`, {
@@ -37,6 +38,7 @@ function Search() {
       });
       data = await res.json();
       setData(data);
+      console.log(data);
     }
   };
 
