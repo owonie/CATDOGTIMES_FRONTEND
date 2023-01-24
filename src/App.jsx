@@ -11,6 +11,7 @@ import Comment from "./components/Comment/Comment";
 import FeedBox from "./components/FeedBox/FeedBox";
 import MembershipWithdrawal from "./routes/Mypage/MembershipWithdrawal";
 import ExploreDetail from "./routes/ExploreDetail/ExploreDetail";
+import ExploreId from "./routes/ExploreDetail/ExploreId";
 
 const App = ({ roomRepository, messageRepository, routeRepository }) => {
   const weatherKey = process.env.REACT_APP_WEATHER_API_KEY;
@@ -30,6 +31,7 @@ const App = ({ roomRepository, messageRepository, routeRepository }) => {
           <Route path="/walk" element={<Walk weatherKey={weatherKey} routeRepository={routeRepository} />}></Route>
           <Route path="/post" element={<SNS />}></Route>
           <Route path="/explore" element={<ExploreDetail />}></Route>
+          <Route path="/exploreId" element={<ExploreId />}></Route>
           <Route path="/direct" element={<DirectMessage roomRepository={roomRepository} messageRepository={messageRepository} />}></Route>
           <Route path="/testlogin" element={<Testlogin />}></Route>
           <Route path="/memberinfo" element={<Mypage />}></Route>

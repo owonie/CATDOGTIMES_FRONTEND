@@ -10,6 +10,7 @@ function PullDownSearch({ data }) {
     <>
       {Object.keys(data).map((key) => (
         <div className="PullDownBox">
+          {console.log(data[key].no)}
           <a href={path + data[key].id}>
             <div className="searchUserProfile" onClick="#">
               <img src={imgPath + data[key].photo} alt="user" className="userImg" />

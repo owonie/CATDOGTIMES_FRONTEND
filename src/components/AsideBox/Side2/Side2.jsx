@@ -24,16 +24,6 @@ const Side2 = () => {
                           src={users !== null ? `${imgPath}${users.memberPhoto}` : "`${imgPath}`undefined.jpg"}
                           alt="photo"
                         />
-                        <img
-                          className="w__100 logo_sticky dn rounded-circle"
-                          src={users !== null ? `${imgPath}${users.memberPhoto}` : "`${imgPath}`undefined.jpg"}
-                          alt="photo"
-                        />
-                        <img
-                          className="w__100 logo_mobile dn_lg rounded-circle"
-                          src={users !== null ? `${imgPath}${users.memberPhoto}` : "`${imgPath}`undefined.jpg"}
-                          alt="photo"
-                        />
                       </div>
                       <span className="nickname pt-3 d-inline-block">{users !== null ? users.memberNickname : "NoData"}</span>
                     </a>

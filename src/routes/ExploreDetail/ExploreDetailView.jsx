@@ -61,7 +61,6 @@ const ExploreDetailView = ({ id, imgSrc, writerPhoto, writerName, postContent })
     };
     loadExplore();
   }, []);
-  console.log(feeds);
 
   return (
     <>

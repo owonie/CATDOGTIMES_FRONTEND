@@ -64,7 +64,7 @@ const DeleteConfirm = ({ postId }) => {
       okType: "danger",
       cancelText: "취소",
       onOk() {
-        delPost();
+        deletePost();
       },
       onCancel() {
         console.log("Cancel");

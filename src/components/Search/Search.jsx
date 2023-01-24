@@ -39,6 +39,7 @@ function Search() {
       setData(data);
     }
   };
+
   return (
     <div className="search">
       <input

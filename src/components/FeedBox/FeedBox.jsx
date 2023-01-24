@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./feedbox.css";
 import "../ViewDetail/ViewDetail.css";
 import ViewDetail from "../ViewDetail/ViewDetail";
-import axios from "axios";
 import { Navigate } from "react-router-dom";
 import Comment from "../Comment/Comment";
 import Settings from "../Settings/Settings";
