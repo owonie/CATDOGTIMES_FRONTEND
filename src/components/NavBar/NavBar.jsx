@@ -32,9 +32,9 @@ function NavBar() {
           </a>
         </li>
         <li className="menu__row">
-          <a href="#">
+          <a href="/memberInfo">
             <i className="fas fa-paw fa-lg"></i>
-            <span>북마크</span>
+            <span>내 정보</span>
           </a>
         </li>
       </ul>

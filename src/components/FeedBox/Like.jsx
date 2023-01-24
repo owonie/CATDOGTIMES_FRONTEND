@@ -22,9 +22,7 @@ const Like = ({ postId }) => {
     //하트 누르면 빨강으로 바꿔주는 function
     clickHeart();
 
-    // like get방식 요청, memberNo가 일치하는 like 가져옴.
     const loadData2 = async () => {
-      console.log("post/like POST다!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       const response = await fetch(`post/like`, {
         method: "POST",
         headers: {
@@ -50,6 +48,7 @@ const Like = ({ postId }) => {
     };
     loadData2();
 
+    // like get방식 요청, memberNo가 일치하는 like 가져옴.
     const loadData = async () => {
       console.log("post/like GET이다!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       const response = await fetch(`post/like?postId=${postId}`, {
@@ -74,8 +73,7 @@ const Like = ({ postId }) => {
         data = await res.json();
         console.log(data);
       }
-      console.log(data);
-      console.log("하트 실행 전:" + postLikeId);
+
       heart[0] ? setPostLikeId(data[0].postLikeId) : setPostLikeId(-1);
       console.log("하트 실행 후:" + postLikeId);
     };

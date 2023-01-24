@@ -10,8 +10,6 @@ const imgPath = "http://localhost:8088/times/resources/upload/";
 
 const AlarmList = ({ alarm }) => {
   const [data, setData] = useState([]);
-  console.log(alarm);
-  console.log(data);
   const appendData = () => {
     fetch(fakeDataUrl)
       .then((res) => res.json())

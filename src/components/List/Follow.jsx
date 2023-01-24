@@ -1,12 +1,9 @@
-import { Modal } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import ShareButton from "../Share/Share";
-import DeleteConfirm from "./DeleteConfirm";
-import "./Settings.css";
+import { Button } from "antd";
+import "./Follow.css";
 
-const Settings = ({ feedId, memberNo }) => {
-  const [modal2Open, setModal2Open] = useState(false);
+const Follow = ({ memberNo }) => {
   const [follows, setFollows] = useState([true, "팔로우", "none"]);
   const [followId, setFollowId] = useState(-1);
 
@@ -21,10 +18,6 @@ const Settings = ({ feedId, memberNo }) => {
     followId: followId, //내 멤버 아이디값
     followingId: memberNo, //팔로우하는 대상의 멤버번호
   };
-
-  //follow가 DB에 들어갔는지 확인 후 있으면 팔로우 취소 유지
-  //그러려면 followId가 -1인지 아닌지 확인해야 함.
-  //get으로 데이터 가져와야 한다.
 
   const getFollow = async () => {
     console.log("post/follow GET이다!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -83,11 +76,9 @@ const Settings = ({ feedId, memberNo }) => {
       setFollowId(data.followId);
     }
     console.log(follows[0]);
-    setModal2Open(follows[0]);
   };
 
   function onClick(e) {
-    setModal2Open(true);
     e.preventDefault();
     getFollow();
   }
@@ -95,30 +86,11 @@ const Settings = ({ feedId, memberNo }) => {
   return (
     <>
       <a onClick={(e) => onClick(e)} href="#">
-        <i className="fas fa-ellipsis-h fa-lg"></i>
+        <Button type="primary" onClick={follow} className={follows[2]}>
+          {follows[1]}
+        </Button>
       </a>
-
-      <Modal footer={""} centered open={modal2Open} onOk={() => setModal2Open(false)} onCancel={() => setModal2Open(false)}>
-        <div className="setting__row">
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <DeleteConfirm postId={feedId} />
-          </a>
-        </div>
-        <div className="setting__row">
-          <a href="#" onClick={follow} className={follows[2]}>
-            {follows[1]}
-          </a>
-        </div>
-        <div className="setting__row">
-          <ShareButton />
-        </div>
-      </Modal>
     </>
   );
 };
-export default Settings;
+export default Follow;

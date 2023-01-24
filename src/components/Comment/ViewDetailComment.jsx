@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./ViewDetailComment.css";
+import "../../components/Comment/ViewDetailComment.css";
 
 const DetailReply = ({ postId }) => {
   const [comments, setComments] = useState([]);

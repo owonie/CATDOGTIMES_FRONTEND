@@ -88,7 +88,7 @@ const Notification = () => {
 
         <div className="recommend">
           <div className="recommend__title">회원님을 위한 추천</div>
-          <RecommendList />
+          <RecommendList recommends={recommends} />
         </div>
       </Drawer>
     </>

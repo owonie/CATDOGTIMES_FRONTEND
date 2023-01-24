@@ -1,24 +1,49 @@
 import React, { useState } from "react";
 import "./CommentInputBox.css";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
 const CommentInputBox = ({ postId }) => {
   const [replyContent, setReplyContent] = useState("");
 
-  const handleOk = () => {
-    axios
-      .post("/post/insertReply", {
-        replyContent: replyContent,
-        postId: postId,
-        memberNo: 1, //임시로 1이라고 해놓음
-      })
-      .then((res) => {
-        console.log("comment insert success");
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
+  /* 토큰 */
+  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
+  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
+
+  let reply = {
+    replyContent: replyContent,
+    postId: postId,
+  };
+
+  const addPost = async () => {
+    const response = await fetch(`/post/insertReply`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ACCESS_TOKEN: accessToken,
+      },
+      body: JSON.stringify(reply),
+    });
+    let data = await response.json();
+    console.log(data);
+
+    if (response.status === 401) {
+      const res = await fetch(`/post/insertReply`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ACCESS_TOKEN: accessToken,
+          REFRESH_TOKEN: refreshToken,
+        },
+        body: JSON.stringify(reply),
       });
+      data = await res.json();
+    }
+  };
+
+  const handleOk = (e) => {
+    addPost();
+    e.preventDefault();
+    window.location.reload();
   };
 
   return (

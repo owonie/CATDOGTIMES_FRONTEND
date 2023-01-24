@@ -4,11 +4,15 @@ import { BorderlessTableOutlined } from "@ant-design/icons";
 import styles from "./Write.module.css";
 import UploadPicture from "./UploadPicture";
 import TextArea from "antd/es/input/TextArea";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Write = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+
+  /* 토큰 */
+  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
+  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
 
   /* postContent 저장용 */
   const [postContent, setPostContent] = useState("");
@@ -28,7 +32,6 @@ const Write = () => {
 
   let post = {
     postContent: postContent,
-    memberNo: 1,
     postHashtag: postHashtag,
     imageOriginalName: imageOriginalName,
     imageSavedName: imageSavedName,
@@ -41,16 +44,34 @@ const Write = () => {
   const showModal = () => {
     setOpen(true);
   };
-  const handleOk = () => {
-    axios
-      .post("/post/add", formData)
-      .then((res) => {
-        console.log("post insert Success");
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
+
+  const addPost = async () => {
+    const response = await fetch(`post/add`, {
+      method: "POST",
+      headers: {
+        ACCESS_TOKEN: accessToken,
+      },
+      body: formData,
+    });
+    let data = await response.json();
+    console.log(data);
+
+    if (response.status === 401) {
+      const res = await fetch(`post/add`, {
+        method: "POST",
+        headers: {
+          ACCESS_TOKEN: accessToken,
+          REFRESH_TOKEN: refreshToken,
+        },
+        body: formData,
       });
+      data = await res.json();
+      console.log(data);
+    }
+  };
+
+  const handleOk = () => {
+    addPost();
 
     setLoading(true);
     setTimeout(() => {
