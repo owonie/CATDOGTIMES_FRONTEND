@@ -1,10 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styles from './Message.module.css';
 
 const Message = ({ message, userName }) => {
+  const myId = useSelector((state) => state.userData.catdogtimes_userId);
   const { content, userId, displayName, photoURL } = message;
+
   return (
-    <li className={userId === 'Dev_Owon' ? styles.myMessages : styles.messages}>
+    <li className={userId === myId ? styles.myMessages : styles.messages}>
       <img
         className={styles.avatar}
         src={photoURL}
@@ -14,9 +17,7 @@ const Message = ({ message, userName }) => {
       <div className={styles.message}>
         <div
           className={
-            userId === 'Dev_Owon'
-              ? styles.myMessageWrapper
-              : styles.messageWrapper
+            userId === myId ? styles.myMessageWrapper : styles.messageWrapper
           }
         >
           <div

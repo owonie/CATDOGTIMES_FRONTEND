@@ -28,6 +28,8 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
+const imgPath = 'http://localhost:8088/times/resources/upload/';
+
 const WalkModal = ({
   kakaoDrawingManager,
   kakaoMap,
@@ -35,10 +37,11 @@ const WalkModal = ({
   kakaoToolbox,
   isWalking,
   setIsWalking,
+  followlist,
 }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState('Y');
+  const [formLayout, setFormLayout] = useState(true);
   const onFormLayoutChange = ({ layout }) => {
     setFormLayout(layout);
   };
@@ -80,9 +83,9 @@ const WalkModal = ({
   let route = {
     routeName: routeName,
     memberNo: 1,
-    routeThumbnail: imageOriginalName,
+    routeThumbnail: imageSavedName,
     imageSavedName: imageSavedName,
-    routePublic: 'Y',
+    routePublic: formLayout,
     routeDepartures: routeStart,
     routeDestination: routeEnd,
   };
@@ -176,6 +179,7 @@ const WalkModal = ({
 
   const showModal = () => {
     addLocationsDone();
+    console.log(followlist);
     setOpen(true);
   };
 
@@ -325,8 +329,8 @@ const WalkModal = ({
                     style={{ marginTop: '30px' }}
                   >
                     <Radio.Group value={formLayout}>
-                      <Radio.Button value='Y'>공개</Radio.Button>
-                      <Radio.Button value='N'>비공개</Radio.Button>
+                      <Radio.Button value={true}>공개</Radio.Button>
+                      <Radio.Button value={false}>비공개</Radio.Button>
                     </Radio.Group>
                   </Form.Item>
                   <Form.Item
@@ -389,7 +393,7 @@ const WalkModal = ({
                   border: '1px solid rgba(140, 140, 140, 0.35)',
                 }}
               >
-                <InfiniteScroll
+                {/* <InfiniteScroll
                   dataLength={data.length}
                   next={loadMoreData}
                   hasMore={data.length < 50}
@@ -431,7 +435,54 @@ const WalkModal = ({
                       </List.Item>
                     )}
                   />
-                </InfiniteScroll>
+                </InfiniteScroll> */}
+                <h3>
+                  {followlist && followlist.length > 0
+                    ? followlist[0].type
+                    : ''}
+                </h3>
+                <ul className='followlist'>
+                  {followlist && followlist.length > 0
+                    ? followlist.map((da, i) => (
+                        <li
+                          key={i}
+                          className='d-flex'
+                          style={{ margin: '20px' }}
+                        >
+                          <a
+                            href='#'
+                            className='d-flex'
+                            style={{ position: 'relative' }}
+                          >
+                            <span className='thum'>
+                              <img
+                                src={`${imgPath}${da.memberPhoto}`}
+                                alt={da.memberNickname}
+                              />
+                            </span>
+                            <span className='ptitle'>
+                              {' '}
+                              {da.memberNickname}{' '}
+                            </span>
+                            <Button
+                              key='submit'
+                              type='primary'
+                              style={{
+                                position: 'absolute',
+                                left: '300px',
+                                backgroundColor: '#e48663',
+                              }}
+                              onClick={() => {
+                                console.log('산책신청!');
+                              }}
+                            >
+                              <span style={{ margin: '0' }}>산책 신청</span>
+                            </Button>
+                          </a>
+                        </li>
+                      ))
+                    : 'NoData'}
+                </ul>
               </div>
             </div>
           </Carousel>
@@ -481,6 +532,11 @@ const WalkModal = ({
               <div className={styles.ratingPage}>
                 <span style={{ display: 'block' }}>
                   <span className='ant-rate-text'>루트 평점: </span>
+                  <img
+                    src={`${imgPath}${imageSavedName}`}
+                    alt='pfp'
+                    style={{ width: '300px', height: '300px' }}
+                  />
                   <Rate
                     tooltips={desc}
                     onChange={setRouteRating}

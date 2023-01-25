@@ -14,17 +14,17 @@ class RoomRepository {
   constructor(app) {
     this.firestore_db = getFirestore(app);
   }
-  syncDmList(onUpdate) {
-    // const ref = collection(this.firestore_db, `dm/${roomId}/messages`);
+  syncDmList(userId, onUpdate) {
+    console.log('userId:', userId);
     console.log('syncRoom!!');
-    const ref = collection(this.firestore_db, `dm/Dev_Owon/dmList`);
+    const ref = collection(this.firestore_db, `dm/${userId}/dmList`);
     const q = query(ref, orderBy('time', 'desc'));
     const unsub = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         ...doc.data(),
-        content: doc.data().content,
         time: doc.data().time,
-        userId: doc.data().userId,
+        photoURL: doc.data().photoURL,
+        roomId: doc.data().roomId,
       }));
       console.log('data:', data);
       data && onUpdate(data);
@@ -33,29 +33,32 @@ class RoomRepository {
     return () => unsub();
   }
 
-  saveRoom(userId, room) {
-    getDoc(doc(this.firestore_db, 'dm/Dev_Owon/dmList', `${room.roomId}`)).then(
+  saveRoom(userId, room, pfp, memberNickname) {
+    console.log('saveRoom!');
+    getDoc(doc(this.firestore_db, `dm/${userId}/dmList`, `${room}`)).then(
       (docSnap) => {
         setDoc(
-          doc(this.firestore_db, 'dm/Dev_Owon/dmList', `${room.roomId}`),
+          doc(this.firestore_db, `dm/${userId}/dmList`, `${room}`),
           {
             time: serverTimestamp(),
-            roomId: room.roomId,
+            roomId: room,
+            photoURL: pfp,
+            roomName: memberNickname,
           },
           { merge: true }
         );
       }
     );
   }
-  getRoom(room, data) {
-    getDoc(doc(this.firestore_db, 'dm/Dev_Owon/dmList', `${room}`)).then(
+  getRoom(userId, room, data) {
+    getDoc(doc(this.firestore_db, `dm/${userId}/dmList`, `${room}`)).then(
       (docSnap) => {
         if (docSnap.exists()) {
           data(true);
           console.log('room time update');
 
           setDoc(
-            doc(this.firestore_db, 'dm/Dev_Owon/dmList', `${room}`),
+            doc(this.firestore_db, `dm/${userId}/dmList`, `${room}`),
             {
               time: serverTimestamp(),
               roomId: room,

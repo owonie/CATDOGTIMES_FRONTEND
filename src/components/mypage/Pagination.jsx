@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 function Pagination({ total, limit, page, setPage }) {
   const numPages = Math.ceil(total / limit);
@@ -12,7 +12,11 @@ function Pagination({ total, limit, page, setPage }) {
         {Array(numPages)
           .fill()
           .map((_, i) => (
-            <Button key={i + 1} onClick={() => setPage(i + 1)} aria-current={page === i + 1 ? "page" : null}>
+            <Button
+              key={i + 1}
+              onClick={() => setPage(i + 1)}
+              aria-current={page === i + 1 ? 'page' : null}
+            >
               {i + 1}
             </Button>
           ))}
