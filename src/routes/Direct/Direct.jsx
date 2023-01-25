@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ChatBox from '../../components/DM/ChatBox/ChatBox';
 import NavBar from '../../components/NavBar/NavBar';
-
 import { serverTimestamp } from 'firebase/firestore';
 import styles from './Direct.module.css';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { updateRoomId, updateInRoom } from '../../reducers/userData';
+import { Button, Modal } from 'antd';
 
 const DirectMessage = ({ roomRepository, messageRepository }) => {
+  const imgPath = 'http://localhost:8088/times/resources/upload/';
   const [rooms, setRooms] = useState({});
   const scrollRef = useRef();
   const dispatch = useDispatch();
@@ -16,29 +16,84 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
   const displayName = useSelector(
     (state) => state.userData.catdogtimes_displayName
   );
+  const memberPhoto = useSelector((state) => state.memberInfo.data.memberPhoto);
   const roomId = useSelector((state) => state.userData.catdogtimes_roomId);
   const inRoom = useSelector((state) => state.userData.catdogtimes_inRoom);
   const photoURL = useSelector((state) => state.userData.catdogtimes_photoURL);
-
+  const accessToken = useSelector(
+    (state) => state.userData.catdogtimes_accessToken
+  );
+  const refreshToken = useSelector(
+    (state) => state.userData.catdogtimes_refreshToken
+  );
   const messageRef = useRef();
   const formRef = useRef();
+  const [roomName, setRoomName] = useState('');
+  const [open, setOpen] = useState(false); //팔로 모달
+  const [followlist, setFollowlist] = useState(); //팔로 리스트
+
+  const showModal = () => {
+    setOpen(true);
+    console.log(followlist);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  const followers = () => {
+    console.log(userId);
+    let reqdata = {
+      type: 'following',
+      memberNo: parseInt(userId),
+    };
+    const loadData = async () => {
+      const response = await fetch(`/mypage/followSearch`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ACCESS_TOKEN: accessToken,
+        },
+        body: JSON.stringify(reqdata),
+      });
+      let data = await response.json();
+
+      if (response.status === 401) {
+        console.log(401);
+        const res = await fetch(`/mypage/followSearch`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ACCESS_TOKEN: accessToken,
+            REFRESH_TOKEN: refreshToken,
+          },
+          body: JSON.stringify(reqdata),
+        });
+        data = await res.json();
+      }
+      setFollowlist(data);
+      showModal();
+    };
+    loadData();
+  };
 
   // 방 추가
-  const addRoom = (room) => {
+  const addRoom = (room, pfp, memberNickname) => {
     // photoURL에는 상대방 프로필사진 요
-    roomRepository.saveRoom(userId, room, photoURL);
-    messageRepository.initMessage(room);
+    roomRepository.saveRoom(userId, room, pfp, memberNickname);
+    messageRepository.initMessage(userId, room);
+    dispatch(updateRoomId(room));
+    joinRoom(room);
   };
 
   // 방 입장
   const joinRoom = (room) => {
     console.log(room);
-    roomRepository.getRoom(room, (data) => {
+    roomRepository.getRoom(userId, room, (data) => {
       const event = data;
       if (event === true) {
         dispatch(updateRoomId(room));
         dispatch(updateInRoom(true));
-        messageRepository.initMessage(room);
+        // messageRepository.initMessage(userId, room);
         console.log('direct page room coming');
       }
     });
@@ -52,9 +107,9 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
       content: messageRef.current.value,
       time: serverTimestamp(),
       displayName: displayName,
-      photoURL: '/img/dog1.jpg',
+      photoURL: `${imgPath}${memberPhoto}`,
     };
-    messageRepository.saveMessage(message);
+    messageRepository.saveMessage(userId, message);
     formRef.current.reset();
   };
   const onKeyPress = (event) => {
@@ -67,11 +122,13 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
   };
 
   useEffect(() => {
-    const stopSync = roomRepository.syncDmList((docs) => {
+    console.log('inroom', inRoom);
+
+    const stopSync = roomRepository.syncDmList(userId, (docs) => {
       setRooms(docs);
     });
     return () => stopSync();
-  }, [inRoom, roomRepository]);
+  }, [roomRepository]);
 
   return (
     <div className={styles.DM}>
@@ -83,9 +140,12 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
           <div className={styles.dmListBar}>
             <div className={styles.dmListHeader}>
               <div>
-                Dev_Owon
+                {displayName}
                 <button
-                  onClick={() => joinRoom('chatroom')}
+                  onClick={() => {
+                    followers();
+                    console.log('rooms', rooms);
+                  }}
                   className={styles.newMessageButton}
                 >
                   new message
@@ -99,7 +159,10 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
                     <li
                       key={key}
                       className={styles.room}
-                      onClick={() => joinRoom(rooms[key].roomId)}
+                      onClick={() => {
+                        joinRoom(rooms[key].roomId);
+                        setRoomName(rooms[key].roomName);
+                      }}
                     >
                       <div className={styles.roomInfo}>
                         <img
@@ -109,7 +172,7 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
                           referrerPolicy='no-referrer'
                         />
                         <div className={styles.dmDetail}>
-                          {rooms[key].roomId}
+                          {rooms[key].roomName}
                         </div>
                       </div>
                     </li>
@@ -121,10 +184,67 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
           <div className={styles.chatRoom}>
             <div className={styles.chatHeader}>
               <div className={styles.oppenentUserId}>
-                <button>{roomId}</button>
+                <button>{roomName}</button>
               </div>
             </div>
             <div className={styles.chatBox}>
+              {' '}
+              {followlist === null ? (
+                'NoData'
+              ) : (
+                <Modal
+                  open={open}
+                  onOk={handleCancel}
+                  onCancel={handleCancel}
+                  footer={[]}
+                >
+                  <h3>
+                    {followlist && followlist.length > 0
+                      ? followlist[0].type
+                      : ''}
+                  </h3>
+                  <ul className='followlist'>
+                    {followlist && followlist.length > 0
+                      ? followlist.map((da, i) => (
+                          <li
+                            key={i}
+                            className='d-flex'
+                            style={{ margin: '20px' }}
+                          >
+                            <a href='#' className='d-flex'>
+                              <span className='thum'>
+                                <img
+                                  src={`${imgPath}${da.memberPhoto}`}
+                                  alt={da.memberNickname}
+                                />
+                              </span>
+                              <span className='ptitle'>
+                                {' '}
+                                {da.memberNickname}{' '}
+                              </span>
+                              <Button
+                                key='submit'
+                                type='primary'
+                                style={{
+                                  left: '140px',
+                                  backgroundColor: '#e48663',
+                                }}
+                                onClick={() => {
+                                  const pfp = `${imgPath}${da.memberPhoto}`;
+                                  addRoom(da.memberNo, pfp, da.memberNickname);
+
+                                  setOpen(false);
+                                }}
+                              >
+                                <span style={{ margin: '0' }}>대화 하기</span>
+                              </Button>
+                            </a>
+                          </li>
+                        ))
+                      : 'NoData'}
+                  </ul>
+                </Modal>
+              )}
               <ChatBox messageRepository={messageRepository} />
             </div>
             <div className={styles.messageInput}>

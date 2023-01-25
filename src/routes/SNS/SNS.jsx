@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AsideBox from '../../components/AsideBox/AsideBox';
 import FeedBox from '../../components/FeedBox/FeedBox';
@@ -11,6 +11,7 @@ import {
   updateRefreshToken,
   updateUserId,
 } from '../../reducers/userData';
+import { updateMemberInfo } from '../../reducers/memberInfo';
 
 import './SNS.css';
 import jwtDecode from 'jwt-decode';
@@ -27,7 +28,45 @@ function SNS() {
   const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
+  // 리덕스 저장소의 데이터 변경
+  const addMemberInfo = (resdata) => {
+    dispatch(updateMemberInfo(resdata));
+  };
+
   useEffect(() => {
+    //토큰값 보내고 data 받아오기
+    if (accessToken) {
+      const loadData = async () => {
+        const response = await fetch(`/mypage/memberinfo`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            ACCESS_TOKEN: accessToken,
+          },
+        });
+        let data = await response.json();
+
+        if (response.status === 401) {
+          const res = await fetch(`/mypage/memberinfo`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              ACCESS_TOKEN: accessToken,
+              REFRESH_TOKEN: refreshToken,
+            },
+          });
+          data = await res.json();
+        }
+        console.log(data);
+        addMemberInfo(data);
+      };
+      loadData();
+    } else {
+      return;
+    }
+  }, [accessToken]);
+
+  useLayoutEffect(() => {
     let userAccessToken = params.get('accessToken');
     if (userAccessToken) {
       let words = userAccessToken.split('?');
@@ -46,7 +85,7 @@ function SNS() {
     } else {
       return;
     }
-  }, []);
+  }, [accessToken]);
   return (
     <>
       <div className='SNS'>

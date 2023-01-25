@@ -37,6 +37,7 @@ const WalkModal = ({
   kakaoToolbox,
   isWalking,
   setIsWalking,
+  followlist,
 }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -178,6 +179,7 @@ const WalkModal = ({
 
   const showModal = () => {
     addLocationsDone();
+    console.log(followlist);
     setOpen(true);
   };
 
@@ -391,7 +393,7 @@ const WalkModal = ({
                   border: '1px solid rgba(140, 140, 140, 0.35)',
                 }}
               >
-                <InfiniteScroll
+                {/* <InfiniteScroll
                   dataLength={data.length}
                   next={loadMoreData}
                   hasMore={data.length < 50}
@@ -433,7 +435,54 @@ const WalkModal = ({
                       </List.Item>
                     )}
                   />
-                </InfiniteScroll>
+                </InfiniteScroll> */}
+                <h3>
+                  {followlist && followlist.length > 0
+                    ? followlist[0].type
+                    : ''}
+                </h3>
+                <ul className='followlist'>
+                  {followlist && followlist.length > 0
+                    ? followlist.map((da, i) => (
+                        <li
+                          key={i}
+                          className='d-flex'
+                          style={{ margin: '20px' }}
+                        >
+                          <a
+                            href='#'
+                            className='d-flex'
+                            style={{ position: 'relative' }}
+                          >
+                            <span className='thum'>
+                              <img
+                                src={`${imgPath}${da.memberPhoto}`}
+                                alt={da.memberNickname}
+                              />
+                            </span>
+                            <span className='ptitle'>
+                              {' '}
+                              {da.memberNickname}{' '}
+                            </span>
+                            <Button
+                              key='submit'
+                              type='primary'
+                              style={{
+                                position: 'absolute',
+                                left: '300px',
+                                backgroundColor: '#e48663',
+                              }}
+                              onClick={() => {
+                                console.log('산책신청!');
+                              }}
+                            >
+                              <span style={{ margin: '0' }}>산책 신청</span>
+                            </Button>
+                          </a>
+                        </li>
+                      ))
+                    : 'NoData'}
+                </ul>
               </div>
             </div>
           </Carousel>
@@ -483,7 +532,11 @@ const WalkModal = ({
               <div className={styles.ratingPage}>
                 <span style={{ display: 'block' }}>
                   <span className='ant-rate-text'>루트 평점: </span>
-                  <img src={imgPath + imageSavedName} alt='pfp' />
+                  <img
+                    src={`${imgPath}${imageSavedName}`}
+                    alt='pfp'
+                    style={{ width: '300px', height: '300px' }}
+                  />
                   <Rate
                     tooltips={desc}
                     onChange={setRouteRating}

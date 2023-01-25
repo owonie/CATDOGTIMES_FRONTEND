@@ -58,6 +58,15 @@ const Walk = ({ weatherKey, routeRepository }) => {
   const { location, cancleLocationWatch, error } =
     useWatchLocation(geolocationOptions);
 
+  const [followlist, setFollowlist] = useState(); //팔로 리스트
+
+  const accessToken = useSelector(
+    (state) => state.userData.catdogtimes_accessToken
+  );
+  const refreshToken = useSelector(
+    (state) => state.userData.catdogtimes_refreshToken
+  );
+
   const posmarkerImageUrl =
       'http://pixelart.pe.kr/data/editor/2010/20201016164213_b6e7bde336df07f9a972e6a4f1933c45_6t89.gif',
     posmarkerImageSize = new kakao.maps.Size(55, 55), // 마커 이미지의 크기
@@ -191,6 +200,7 @@ const Walk = ({ weatherKey, routeRepository }) => {
 
   // 맵 및 초기설정 생성
   useEffect(() => {
+    followers();
     if (currentLocation === null) {
       console.log('currentlocation is null');
       return;
@@ -387,6 +397,41 @@ const Walk = ({ weatherKey, routeRepository }) => {
 
     // 산책 중 실시간 위치 드로잉
   }, [location, isWalking]);
+
+  const followers = () => {
+    console.log(userId);
+    let reqdata = {
+      type: 'following',
+      memberNo: parseInt(userId),
+    };
+    const loadData = async () => {
+      const response = await fetch(`/mypage/followSearch`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ACCESS_TOKEN: accessToken,
+        },
+        body: JSON.stringify(reqdata),
+      });
+      let data = await response.json();
+
+      if (response.status === 401) {
+        console.log(401);
+        const res = await fetch(`/mypage/followSearch`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ACCESS_TOKEN: accessToken,
+            REFRESH_TOKEN: refreshToken,
+          },
+          body: JSON.stringify(reqdata),
+        });
+        data = await res.json();
+      }
+      setFollowlist(data);
+    };
+    loadData();
+  };
 
   return (
     <>
@@ -588,6 +633,7 @@ const Walk = ({ weatherKey, routeRepository }) => {
                 kakaoToolbox={kakaoToolbox}
                 isWalking={isWalking}
                 setIsWalking={setIsWalking}
+                followlist={followlist}
               />
             </span>
           </button>

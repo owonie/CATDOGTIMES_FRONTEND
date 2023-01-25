@@ -20,7 +20,7 @@ const ChatBox = ({ messageRepository }) => {
     if (inRoom === false) {
       return;
     }
-    const stopSync = messageRepository.syncMessage(roomId, (docs) => {
+    const stopSync = messageRepository.syncMessage(userId, roomId, (docs) => {
       setMessages(docs);
     });
     return () => stopSync();
