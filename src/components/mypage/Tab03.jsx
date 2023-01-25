@@ -11,7 +11,7 @@ return <>
             <a href="#">
                 <span className="no"> {i+1} </span>
                 <span className="thum">
-                    <img src={`${imgPath}${da.imageOriginalName}`} alt="{da.postContent}" /> 
+                    <img src={`${imgPath}${da.imageSavedName}`} alt="{da.postContent}" /> 
                 </span>
                 <span className="flex column ptxt">
                     <span className="ptitle"> {da.postContent} </span>

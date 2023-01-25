@@ -16,7 +16,7 @@ const Tab01 = ({data}) => {
                     <div className="product-image pr oh lazyload ">
                         <a className="d-block post_img" href="#">
                             <div className="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                data-bgset={`${imgPath}${da.imageOriginalName}`}></div>
+                                data-bgset={`${imgPath}${da.imageSavedName}`}></div>
                                 
                         </a>
 
