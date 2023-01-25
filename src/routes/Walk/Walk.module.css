@@ -297,3 +297,8 @@ button {
   border-radius: 50%;
   border: 1px solid rgb(207, 160, 160);
 }
+#nav {
+  max-width: 245px;
+  border-right: 2px solid rgba(150, 150, 150, 0.15);
+  padding: 32px 15px 15px 32px;
+}

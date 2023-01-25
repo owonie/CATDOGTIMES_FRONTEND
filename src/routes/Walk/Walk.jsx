@@ -621,7 +621,9 @@ const Walk = ({ weatherKey, routeRepository }) => {
             </div>
           </div>
         </div> */}
-        <NavBar />
+        <nav id='nav' className='col'>
+          <NavBar />
+        </nav>
         <div className={styles.walkMap}>
           <button className={styles.button}>
             <span className={styles.span}>
