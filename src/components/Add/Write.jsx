@@ -78,6 +78,8 @@ const Write = () => {
       setLoading(false);
       setOpen(false);
     }, 3000);
+
+    window.location.replace("/post");
   };
   const handleCancel = () => {
     setOpen(false);

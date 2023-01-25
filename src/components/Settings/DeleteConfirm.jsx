@@ -65,6 +65,7 @@ const DeleteConfirm = ({ postId }) => {
       cancelText: "취소",
       onOk() {
         deletePost();
+        window.location.replace("/post");
       },
       onCancel() {
         console.log("Cancel");

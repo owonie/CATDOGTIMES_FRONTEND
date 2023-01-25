@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import "./PullDownSearch.css";
 
 function PullDownSearch({ data }) {
-  console.log(data);
+  const path = "http://localhost:3000/exploreId";
+
+  //이미지 src
   const imgPath = "http://localhost:8088/times/resources/upload/";
-  const path = "http://localhost:3000/explore/";
 
   return (
     <>
       {Object.keys(data).map((key) => (
         <div className="PullDownBox">
-          {console.log(data[key].no)}
-          <a href={path + data[key].id}>
+          <a href={path}>
             <div className="searchUserProfile" onClick="#">
               <img src={imgPath + data[key].photo} alt="user" className="userImg" />
               <div>

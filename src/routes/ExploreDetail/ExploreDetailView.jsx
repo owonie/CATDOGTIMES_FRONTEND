@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DetailReply from "../../components/Comment/ViewDetailComment";
 import "../../components/ViewDetail/ViewDetail.css";
-import { useSelector } from "react-redux";
 
 const ExploreDetailView = ({ id, imgSrc, writerPhoto, writerName, postContent }) => {
-  const [feeds, setFeeds] = useState([]);
   const [posts, setPosts] = useState([
     {
       id: id,
@@ -17,13 +15,6 @@ const ExploreDetailView = ({ id, imgSrc, writerPhoto, writerName, postContent })
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [toMemberNo, setToMemberNo] = useState(-1);
-  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
-  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
-
-  //이미지 src
-  const imgPath = "http://localhost:8088/times/resources/upload/";
-
   const showModal = (e) => {
     setIsOpen(true);
     e.preventDefault();
@@ -32,35 +23,6 @@ const ExploreDetailView = ({ id, imgSrc, writerPhoto, writerName, postContent })
   const hideModal = () => {
     setIsOpen(false);
   };
-
-  useEffect(() => {
-    const loadExplore = async () => {
-      const response = await fetch(`post/explore?toMemberNo=${toMemberNo}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          ACCESS_TOKEN: accessToken,
-        },
-      });
-      let data = await response.json();
-      setFeeds(data);
-      console.log(data);
-
-      if (response.status === 401) {
-        const res = await fetch(`post/explore?toMemberNo=${toMemberNo}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            ACCESS_TOKEN: accessToken,
-            REFRESH_TOKEN: refreshToken,
-          },
-        });
-        data = await res.json();
-      }
-      setFeeds(data);
-    };
-    loadExplore();
-  }, []);
 
   return (
     <>
