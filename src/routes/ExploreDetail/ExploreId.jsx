@@ -66,7 +66,9 @@ const ExploreId = () => {
               />
             </div>
             <div className="userInfo">
-              <div className="userName">{users !== null ? users.memberNickname : "NoData"}</div>
+              <div id="exploreUserName" className="userName">
+                {users !== null ? users.memberNickname : "NoData"}
+              </div>
               <div className="description">님의 게시물입니다.</div>
             </div>
           </div>

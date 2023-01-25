@@ -8,9 +8,7 @@ const imgPath = "http://localhost:8088/times/resources/upload/"; //이미지 src
 
 const RecommendList = ({ recommends }) => {
   console.log(recommends);
-  const appendData = () => {
-    message.success(recommends.length + " 명이 추천목록에 올랐습니다.");
-  };
+  const appendData = () => {};
 
   useEffect(() => {
     appendData();
