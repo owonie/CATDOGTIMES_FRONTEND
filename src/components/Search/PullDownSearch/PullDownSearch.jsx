@@ -3,42 +3,10 @@ import { useSelector } from "react-redux";
 import "./PullDownSearch.css";
 
 function PullDownSearch({ data }) {
-  const imgPath = "http://localhost:8088/times/resources/upload/";
   const path = "http://localhost:3000/exploreId";
 
-  const [feeds, setFeeds] = useState([]);
-  const [toMemberNo, setToMemberNo] = useState(-1);
-  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
-  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
-
-  // useEffect(() => {
-  //   const loadExplore = async () => {
-  //     const response = await fetch(`explore?toMemberNo=${toMemberNo}`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         ACCESS_TOKEN: accessToken,
-  //       },
-  //     });
-  //     let data = await response.json();
-  //     setFeeds(data);
-  //     console.log(data);
-
-  //     if (response.status === 401) {
-  //       const res = await fetch(`explore?toMemberNo=${toMemberNo}`, {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           ACCESS_TOKEN: accessToken,
-  //           REFRESH_TOKEN: refreshToken,
-  //         },
-  //       });
-  //       data = await res.json();
-  //     }
-  //     setFeeds(data);
-  //   };
-  //   loadExplore();
-  // }, []);
+  //이미지 src
+  const imgPath = "http://localhost:8088/times/resources/upload/";
 
   return (
     <>

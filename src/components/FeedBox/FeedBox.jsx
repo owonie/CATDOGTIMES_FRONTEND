@@ -99,7 +99,7 @@ const FeedBox = () => {
             </div>
             <section className="reply">
               <div className="commentContainer">
-                <div className="commentCount">댓글 3개</div>
+                <div className="commentCount">댓글 {feeds[key].replyCount}개</div>
                 <Comment postId={feeds[key].feedId} />
               </div>
               <CommentInputBox postId={feeds[key].feedId} />

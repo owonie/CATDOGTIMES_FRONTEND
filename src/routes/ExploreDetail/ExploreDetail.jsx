@@ -15,7 +15,7 @@ const ExploreDetail = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      const response = await fetch(`post/list`, {
+      const response = await fetch(`post/random`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +25,7 @@ const ExploreDetail = () => {
       let data = await response.json();
       console.log(data);
       if (response.status === 401) {
-        const res = await fetch(`post/list`, {
+        const res = await fetch(`post/random`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

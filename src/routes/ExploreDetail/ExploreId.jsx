@@ -4,54 +4,35 @@ import "./ExploreDetail.css";
 import { useSelector } from "react-redux";
 import NavBar from "../../components/NavBar/NavBar";
 import { Avatar, Image, List } from "antd";
+import axios from "axios";
+import ExploreDetailView from "./ExploreDetailView";
 
 const ExploreId = () => {
   const users = useSelector((state) => {
     return state.memberInfo.data;
   });
 
-  const [feeds, setFeeds] = useState([]);
-  const [toMemberNo, setToMemberNo] = useState(-1);
-
-  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
-  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
-
-  //이미지 src
   const imgPath = "http://localhost:8088/times/resources/upload/";
 
-  //타이틀용 더미데이터
-  const data = [
-    {
-      title: "Ant Design Title 1",
-    },
-  ];
+  let memberNo = "41";
+
+  const [feeds, setFeeds] = useState([]);
 
   useEffect(() => {
-    setToMemberNo(1); //우선 1이라고 해보겠다.
     const loadData = async () => {
-      const response = await fetch(`post/explore?toMemberNo=${toMemberNo}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          ACCESS_TOKEN: accessToken,
-        },
-      });
-      let data = await response.json();
-      setFeeds(data);
-      console.log(feeds);
-      if (response.status === 401) {
-        const res = await fetch(`post/explore?toMemberNo=${toMemberNo}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            ACCESS_TOKEN: accessToken,
-            REFRESH_TOKEN: refreshToken,
+      axios
+        .post("post/searchId", null, {
+          params: {
+            memberNo: memberNo,
           },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setFeeds(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-        data = await res.json();
-      }
-      setFeeds(data);
-      console.log(feeds);
     };
     loadData();
   }, []);
@@ -67,27 +48,37 @@ const ExploreId = () => {
             <Search />
           </div>
           <div id="searchUser">
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  size={{
-                    xs: 80,
-                    sm: 98,
-                    md: 116,
-                    lg: 134,
-                    xl: 152,
-                    xxl: 170,
-                  }}
-                  src={users !== null ? `${imgPath}${users.memberPhoto}` : "`${imgPath}`undefined.jpg"}
-                />
-              }
-              title={users !== null ? users.memberNickname : "NoData"}
-              description="님의 게시물 사진모음입니다."
-            />
+            <div className="userProfile">
+              <List.Item.Meta
+                avatar={
+                  <Avatar
+                    size={{
+                      xs: 80,
+                      sm: 98,
+                      md: 116,
+                      lg: 134,
+                      xl: 152,
+                      xxl: 170,
+                    }}
+                    src={users !== null ? `${imgPath}${users.memberPhoto}` : "`${imgPath}`undefined.jpg"}
+                  />
+                }
+              />
+            </div>
+            <div className="userInfo">
+              <div className="userName">{users !== null ? users.memberNickname : "NoData"}</div>
+              <div className="description">님의 게시물입니다.</div>
+            </div>
           </div>
           <div className="explore__content">
             {Object.keys(feeds).map((key) => (
-              <Image className="randomImg" width={300} preview="false" src={imgPath + feeds[key].imageSavedName} />
+              <ExploreDetailView
+                id={feeds[key].feedId}
+                imgSrc={imgPath + feeds[key].feedImage}
+                writerPhoto={imgPath + feeds[key].writerPhoto}
+                writerName={feeds[key].writerName}
+                postContent={feeds[key].feedContent}
+              />
             ))}
           </div>
         </section>
