@@ -13,6 +13,17 @@ import JoinedWalks from '../../components/mypage/JoinedWalks';
 import { useSelector, useDispatch } from "react-redux";    
 import { updateMemberInfo } from "../../reducers/memberInfo";
 import { Button, Form, Input, InputNumber } from 'antd';
+
+import NavBar from '../../components/NavBar/NavBar';
+import AsideBox from '../../components/AsideBox/AsideBox';
+import '../SNS/SNS.css';
+import {
+    updateAccessToken,
+    updateDisplayName,
+    updateRefreshToken,
+    updateUserId,
+  } from '../../reducers/userData';
+
 const layout = {
     labelCol: {
         span: 8,
@@ -47,6 +58,11 @@ const Mypage = (props) => {
     const onFinish = (values) => {
         console.log(values);
         console.log(memberInfo.memberNo);
+        console.log(values.user.outReasons);
+        if(values.user.outReasons === undefined || values.user.outReasons === null){
+            alert('탈퇴사유를 적어주세요');
+            return false;
+        }
         let outinfo = {
             memberNo :  memberInfo.memberNo,
             outReasons: values.user.outReasons,
@@ -81,7 +97,12 @@ const Mypage = (props) => {
                 //data = await res.json();
             }
             //console.log(data);
-            document.location.href = '/';
+            addMemberInfo(null);
+            dispatch(updateAccessToken(null));
+            dispatch(updateRefreshToken(null));
+            dispatch(updateUserId(null));
+            dispatch(updateDisplayName(null));
+            document.location.href = 'http://localhost:8088/times/member/login';
         };
         loadData();
 
@@ -89,14 +110,16 @@ const Mypage = (props) => {
 return (
 <>
 
-    <div id="nt_wrapper">
-    <Header/>
-        <div id="nt_content" className="mainContent p-5">
-            <div>회원 탈퇴 신청</div>
+    <div id='a' className='SNS'>
+        <nav id='nav' className='col'>
+            <NavBar />
+        </nav>
+        <div id="nt_content" className="mainContent p-5 center">
+            <h3 className="h3 pb-5 pageTitle">회원 탈퇴 신청</h3>
             <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
             
-                <Form.Item name={['user', 'outReasons']} label="탈퇴사유">
-                    <Input.TextArea style={{height:'100px'}} placeholder={"400자 이내로 작성해 주세요"} />
+                <Form.Item name={['user', 'outReasons']} label="탈퇴사유" required >
+                    <Input.TextArea style={{height:'100px', width:'600px'}} placeholder={"400자 이내로 작성해 주세요"} />
                 </Form.Item>
                 <Form.Item
                     wrapperCol={{
@@ -109,12 +132,10 @@ return (
                 </Form.Item>
             </Form>
         </div>
-        <Side  users={memberInfo}/>
-        <Footer/>
+        <aside id='asideBox'>
+            <AsideBox />
+        </aside>
     </div>
-    <Searchbox/>
-    <Mobilemenu/>
-    <Backtobtn/>
 </>
 );
 };

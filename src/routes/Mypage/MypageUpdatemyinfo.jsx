@@ -11,6 +11,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateMemberInfo } from "../../reducers/memberInfo";
 import "./MypageUpdatemyinfo.css";
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../../components/NavBar/NavBar';
+import AsideBox from '../../components/AsideBox/AsideBox';
+import '../SNS/SNS.css';
+import {
+    updateAccessToken,
+    updateDisplayName,
+    updateRefreshToken,
+    updateUserId,
+  } from '../../reducers/userData';
 
 const MypageUpdatemyinfo = (props) => {
   const accessToken = useSelector(
@@ -242,11 +251,13 @@ const MypageUpdatemyinfo = (props) => {
   }
   return (
     <>
-      <div id="nt_wrapper">
-        <Header />
-        <article className="member_info container">
-        <h3 className="h3 pb-5">내정보 수정</h3>
-        <form encType="multipart/form-data" method="POST" onSubmit={updateInfo}> 
+      <div id='a' className='SNS'>
+        <nav id='nav' className='col'>
+          <NavBar />
+        </nav>
+        <article className="member_info p-5 center">
+          <h3 className="h3 pb-5 pageTitle">내정보 수정</h3>
+          <form encType="multipart/form-data" method="POST" onSubmit={updateInfo}> 
         
         {/* <input id="id" value={memberInfo !== null ? memberInfo.memberId : "NoData"} type="hidden"/> */}
         <div className=" pb-5 info_header">
@@ -369,14 +380,12 @@ const MypageUpdatemyinfo = (props) => {
             
           </div>
 
-        </form>
-      </article>
-      <Side users={memberInfo}/>
-        <Footer/>
-    </div>
-    <Searchbox/>
-    <Mobilemenu/>
-      <Backtobtn/>
+          </form>
+        </article>
+        <aside id='asideBox'>
+          <AsideBox />
+        </aside>
+      </div>
     </>
   );
 };
