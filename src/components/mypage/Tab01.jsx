@@ -5,7 +5,7 @@ const Tab01 = ({data}) => {
     const imgPath = "http://localhost:8088/times/resources/upload/";
     return <>
 
-        <h1>내게시물</h1>
+        {/* <h1>내게시물</h1> */}
 
         <div className="myPost row fl_center space_30 ">
             {

@@ -14,6 +14,15 @@ import { updateMemberInfo } from "../../reducers/memberInfo";
 import axios from 'axios';
 import 'antd/dist/antd';
 // import { DatePicker } from 'antd';
+import NavBar from '../../components/NavBar/NavBar';
+import AsideBox from '../../components/AsideBox/AsideBox';
+import '../SNS/SNS.css';
+import {
+    updateAccessToken,
+    updateDisplayName,
+    updateRefreshToken,
+    updateUserId,
+  } from '../../reducers/userData';
 
 const Mypage = (props) => {
   const accessToken = useSelector(
@@ -69,22 +78,26 @@ const Mypage = (props) => {
 
   return (
     <>
-      <div id='nt_wrapper'>
-        <Header />
-        <div id='nt_content' className='mainContent p-5'>
+      <div id='a' className='SNS'>
+        
+        <nav id='nav' className='col'>
+          <NavBar />
+        </nav>
+        
+        <div id='nt_content' className='mainContent p-5 center'>
 
-          <div>Mypage page</div>
+          <h3 className="h3 pb-5 pageTitle">내정보 보기</h3>
           <MainHeader/>
           <TabSection/>
           <Mywalks/>
           <JoinedWalks />
         </div>
-        <Side users={memberInfo} />
-        <Footer />
+        
+        <aside id='asideBox'>
+          <AsideBox />
+        </aside>
       </div>
-      <Searchbox />
-      <Mobilemenu />
-      <Backtobtn />
+
     </>
   );
 };

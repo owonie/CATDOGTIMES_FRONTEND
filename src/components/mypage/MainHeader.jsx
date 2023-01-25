@@ -258,7 +258,7 @@ const MainHeader = (props) => {
             <div className='summ_cnt'>
               <span className='posts'>
                 총게시글수 (
-                <span> {users !== null ? users.postTotal : 'NoData'} </span>)
+                <span>{users !== null ? users.postTotal : 'NoData'}</span>)
               </span>
               <span className='follower' onClick={followers}>
                 팔로워 (

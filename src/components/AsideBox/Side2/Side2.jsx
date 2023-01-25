@@ -1,12 +1,38 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import Ranking from "../Ranking/Ranking";
 import "./Side2.css";
+
+import { useSelector, useDispatch } from "react-redux";    
+import { updateMemberInfo } from "../../../reducers/memberInfo";
+import {
+  updateAccessToken,
+  updateDisplayName,
+  updateRefreshToken,
+  updateUserId,
+} from '../../../reducers/userData';
+
 const Side2 = () => {
   const imgPath = "http://localhost:8088/times/resources/upload/";
   const users = useSelector((state) => {
     return state.memberInfo.data;
   });
+
+  // 리덕스 저장소의 데이터 변경
+  const dispatch = useDispatch();
+  const addMemberInfo = (resdata) => {
+      dispatch(updateMemberInfo(resdata));
+  };
+  
+
+  const logout = (e)=>{
+    e.preventDefault();
+    addMemberInfo(null);
+    dispatch(updateAccessToken(null));
+    dispatch(updateRefreshToken(null));
+    dispatch(updateUserId(null));
+    dispatch(updateDisplayName(null));
+    document.location.href = 'http://localhost:8088/times/member/login';
+  }
 
   return (
     <>
@@ -32,7 +58,7 @@ const Side2 = () => {
                     <a href="./mypageupdate" id="edit" className="d-inline-block p-3">
                       정보수정
                     </a>
-                    <a href="./testlogin" id="logout" className="d-inline-block p-3">
+                    <a href="#" id="logout" className="d-inline-block p-3" onClick={logout}>
                       로그아웃
                     </a>
                   </div>
