@@ -67,9 +67,8 @@ const Walk = ({ weatherKey, routeRepository }) => {
     (state) => state.userData.catdogtimes_refreshToken
   );
 
-  const posmarkerImageUrl =
-      'http://pixelart.pe.kr/data/editor/2010/20201016164213_b6e7bde336df07f9a972e6a4f1933c45_6t89.gif',
-    posmarkerImageSize = new kakao.maps.Size(55, 55), // 마커 이미지의 크기
+  const posmarkerImageUrl = './img/marker_icon2.gif',
+    posmarkerImageSize = new kakao.maps.Size(45, 45), // 마커 이미지의 크기
     posmarkerImageOptions = {
       offset: new kakao.maps.Point(20, 20), // 마커 좌표에 일치시킬 이미지 안의 좌표
     };

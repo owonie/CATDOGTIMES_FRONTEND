@@ -20,6 +20,7 @@ import UploadPicture from '../Add/UploadPicture';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './WalkModal.module.css';
+import { useSelector } from 'react-redux';
 
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
@@ -39,6 +40,13 @@ const WalkModal = ({
   setIsWalking,
   followlist,
 }) => {
+  const accessToken = useSelector(
+    (state) => state.userData.catdogtimes_accessToken
+  );
+  const refreshToken = useSelector(
+    (state) => state.userData.catdogtimes_refreshToken
+  );
+
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState(true);
@@ -77,7 +85,9 @@ const WalkModal = ({
 
   const [routeInfo, setRouteInfo] = useState(null);
   const [routeRating, setRouteRating] = useState(3);
+  const [participantNo, setParticipantNo] = useState();
 
+  const userId = useSelector((state) => state.userData.catdogtimes_userId);
   const desc = ['안좋아요', '별로에요', '보통', '좋아요', '최고!'];
 
   let route = {
@@ -94,6 +104,17 @@ const WalkModal = ({
     routeNo: routeInfo && routeInfo.routeNo,
     routeRatingScore: routeRating,
     memberNo: 1,
+  };
+
+  let userRate = {
+    routeNo: routeInfo && routeInfo.routeNo,
+    routeRatingScore: routeRating,
+    memberNo: 1,
+  };
+
+  let participant = {
+    memberNo: participantNo,
+    partyNo: userId,
   };
 
   const confirm = () => {
@@ -177,6 +198,17 @@ const WalkModal = ({
     new Blob([JSON.stringify(rate)], { type: 'application/json' })
   );
 
+  const userRatingData = new FormData();
+  userRatingData.append(
+    'userRate',
+    new Blob([JSON.stringify(userRate)], { type: 'application/json' })
+  );
+  const participantData = new FormData();
+  participantData.append(
+    'participant',
+    new Blob([JSON.stringify(participant)], { type: 'application/json' })
+  );
+
   const showModal = () => {
     addLocationsDone();
     console.log(followlist);
@@ -199,6 +231,24 @@ const WalkModal = ({
     setTimeout(() => {
       setLoading(false);
       setOpen(false);
+    }, 1000);
+  };
+
+  const handleWalkInvite = () => {
+    console.log('rate:', participant);
+    axios
+      .post('/route/addparticipant', participantData)
+      .then((res) => {
+        console.log('route rating Success');
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
     }, 1000);
   };
 
@@ -393,49 +443,6 @@ const WalkModal = ({
                   border: '1px solid rgba(140, 140, 140, 0.35)',
                 }}
               >
-                {/* <InfiniteScroll
-                  dataLength={data.length}
-                  next={loadMoreData}
-                  hasMore={data.length < 50}
-                  loader={
-                    <Skeleton
-                      avatar
-                      paragraph={{
-                        rows: 1,
-                      }}
-                      active
-                    />
-                  }
-                  endMessage={
-                    <Divider plain>
-                      더 이상 같이 산책할 친구는 없네요 🤐
-                    </Divider>
-                  }
-                  scrollableTarget='scrollableDiv'
-                >
-                  <List
-                    dataSource={data}
-                    renderItem={(item) => (
-                      <List.Item key={item.email}>
-                        <List.Item.Meta
-                          avatar={<Avatar src={item.picture.large} />}
-                          title={
-                            <a href='https://ant.design'>{item.name.last}</a>
-                          }
-                          description={item.email}
-                        />
-                        <Button
-                          className={styles.walkModalBtn}
-                          type='primary'
-                          htmlType='submit'
-                        >
-                          산책신청
-                        </Button>
-                        <div>Content</div>
-                      </List.Item>
-                    )}
-                  />
-                </InfiniteScroll> */}
                 <h3>
                   {followlist && followlist.length > 0
                     ? followlist[0].type
@@ -474,6 +481,9 @@ const WalkModal = ({
                               }}
                               onClick={() => {
                                 console.log('산책신청!');
+                                setParticipantNo(da.memberNo);
+
+                                handleWalkInvite();
                               }}
                             >
                               <span style={{ margin: '0' }}>산책 신청</span>
