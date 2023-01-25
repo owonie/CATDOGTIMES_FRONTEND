@@ -19,7 +19,9 @@
   flex-wrap: wrap;
 }
 
-:where(.css-dev-only-do-not-override-k83k30).ant-upload-wrapper.ant-upload-picture-card-wrapper
+:where(
+    .css-dev-only-do-not-override-k83k30
+  ).ant-upload-wrapper.ant-upload-picture-card-wrapper
   .ant-upload-list.ant-upload-list-picture-card
   .ant-upload-list-item-container {
   display: inline-block;

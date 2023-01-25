@@ -400,7 +400,7 @@ const Walk = ({ weatherKey, routeRepository }) => {
   const followers = () => {
     console.log(userId);
     let reqdata = {
-      type: 'following',
+      type: 'follower',
       memberNo: parseInt(userId),
     };
     const loadData = async () => {

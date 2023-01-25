@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from "react";
-import "./feedbox.css";
-import "../ViewDetail/ViewDetail.css";
-import ViewDetail from "../ViewDetail/ViewDetail";
-import { Navigate } from "react-router-dom";
-import Comment from "../Comment/Comment";
-import Settings from "../Settings/Settings";
-import ShareButton2 from "../Share/Share2";
-import CommentInputBox from "../CommentInputBox/CommentInputBox";
-import { useSelector } from "react-redux";
-import Like from "./Like";
-import Bookmark from "../Bookmark/Bookmark";
+import React, { useEffect, useState } from 'react';
+import './feedbox.css';
+import '../ViewDetail/ViewDetail.css';
+import ViewDetail from '../ViewDetail/ViewDetail';
+import { Navigate } from 'react-router-dom';
+import Comment from '../Comment/Comment';
+import Settings from '../Settings/Settings';
+import ShareButton2 from '../Share/Share2';
+import CommentInputBox from '../CommentInputBox/CommentInputBox';
+import { useSelector } from 'react-redux';
+import Like from './Like';
+import Bookmark from '../Bookmark/Bookmark';
 
 const FeedBox = () => {
   const [feeds, setFeeds] = useState([]);
-  const accessToken = useSelector((state) => state.userData.catdogtimes_accessToken);
-  const refreshToken = useSelector((state) => state.userData.catdogtimes_refreshToken);
+  const accessToken = useSelector(
+    (state) => state.userData.catdogtimes_accessToken
+  );
+  const refreshToken = useSelector(
+    (state) => state.userData.catdogtimes_refreshToken
+  );
 
   //이미지 src
-  const imgPath = "http://localhost:8088/times/resources/upload/";
+  const imgPath = 'http://localhost:8088/times/resources/upload/';
 
   useEffect(() => {
     const loadData = async () => {
       const response = await fetch(`post/list`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           ACCESS_TOKEN: accessToken,
         },
       });
@@ -32,9 +36,9 @@ const FeedBox = () => {
       console.log(data);
       if (response.status === 401) {
         const res = await fetch(`post/list`, {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             ACCESS_TOKEN: accessToken,
             REFRESH_TOKEN: refreshToken,
           },
@@ -57,22 +61,25 @@ const FeedBox = () => {
     <div>
       {Object.keys(feeds).map((key) => (
         <>
-          <section className="feedBox" key={feeds[key].feedId}>
-            <div className="feedTop">
-              <div className="feedTopLeft" onClick={linkClick}>
-                <img src={imgPath + feeds[key].writerPhoto} alt="writer" />
+          <section className='feedBox' key={feeds[key].feedId}>
+            <div className='feedTop'>
+              <div className='feedTopLeft' onClick={linkClick}>
+                <img src={imgPath + feeds[key].writerPhoto} alt='writer' />
                 <div>{feeds[key].writerName}</div>
               </div>
-              <div className="feedTopRight">
-                <Settings feedId={feeds[key].feedId} memberNo={feeds[key].memberNo} />
+              <div className='feedTopRight'>
+                <Settings
+                  feedId={feeds[key].feedId}
+                  memberNo={feeds[key].memberNo}
+                />
               </div>
             </div>
-            <article className="feedMiddleImg">
-              <img src={imgPath + feeds[key].feedImage} alt="feed" />
+            <article className='feedMiddleImg'>
+              <img src={imgPath + feeds[key].feedImage} alt='feed' />
             </article>
-            <div className="feedBottom">
-              <div className="bottomMenu">
-                <div className="bottomMenuLeft">
+            <div className='feedBottom'>
+              <div className='bottomMenu'>
+                <div className='bottomMenuLeft'>
                   <Like postId={feeds[key].feedId} />
                   <ViewDetail
                     id={feeds[key].feedId}
@@ -83,23 +90,26 @@ const FeedBox = () => {
                   />
                   <ShareButton2 />
                 </div>
-                <div className="bottomMenuRight">
+                <div className='bottomMenuRight'>
                   <Bookmark postId={feeds[key].feedId} />
                   {/* <i className="far fa-bookmark fa-lg"></i> */}
                 </div>
               </div>
-              <div className="like">
-                <img src={imgPath + feeds[key].likerPhoto} alt="liker" />
-                <span className="userName">{feeds[key].likerName}</span>님 외 {feeds[key].postLikeCount}명이 좋아합니다
+              <div className='like'>
+                <img src={imgPath + feeds[key].likerPhoto} alt='liker' />
+                <span className='userName'>{feeds[key].likerName}</span>님 외{' '}
+                {feeds[key].postLikeCount}명이 좋아합니다
               </div>
-              <div className="postContent">
-                <span className="writer_nickname">{feeds[key].writerName}</span>
-                <span className="writer_comment">{feeds[key].feedContent}</span>
+              <div className='postContent'>
+                <span className='writer_nickname'>{feeds[key].writerName}</span>
+                <span className='writer_comment'>{feeds[key].feedContent}</span>
               </div>
             </div>
-            <section className="reply">
-              <div className="commentContainer">
-                <div className="commentCount">댓글 {feeds[key].replyCount}개</div>
+            <section className='reply'>
+              <div className='commentContainer'>
+                <div className='commentCount'>
+                  댓글 {feeds[key].replyCount}개
+                </div>
                 <Comment postId={feeds[key].feedId} />
               </div>
               <CommentInputBox postId={feeds[key].feedId} />
