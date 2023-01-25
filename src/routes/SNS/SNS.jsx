@@ -33,6 +33,26 @@ function SNS() {
     dispatch(updateMemberInfo(resdata));
   };
 
+  useLayoutEffect(() => {
+    let userAccessToken = params.get('accessToken');
+    if (userAccessToken) {
+      let words = userAccessToken.split('?');
+      let userRefreshToken = words[1].slice(13);
+
+      console.log('accesstoken', words[0]);
+      console.log('resfeshtoken', userRefreshToken);
+      const decoded = jwtDecode(userAccessToken);
+      console.log('decoded', decoded);
+      dispatch(updateAccessToken(words[0]));
+      dispatch(updateRefreshToken(userRefreshToken));
+      dispatch(updateUserId(decoded.user.id));
+      dispatch(updateDisplayName(decoded.user.name));
+      navigate('/post');
+    } else {
+      return;
+    }
+  }, [accessToken]);
+
   useEffect(() => {
     //토큰값 보내고 data 받아오기
     if (accessToken) {
@@ -66,26 +86,6 @@ function SNS() {
     }
   }, [accessToken]);
 
-  useLayoutEffect(() => {
-    let userAccessToken = params.get('accessToken');
-    if (userAccessToken) {
-      let words = userAccessToken.split('?');
-      let userRefreshToken = words[1].slice(13);
-
-      console.log('accesstoken', words[0]);
-      console.log('resfeshtoken', userRefreshToken);
-      const decoded = jwtDecode(userAccessToken);
-      console.log('decoded', decoded);
-      dispatch(updateAccessToken(words[0]));
-      dispatch(updateRefreshToken(userRefreshToken));
-      dispatch(updateUserId(decoded.user.id));
-      dispatch(updateDisplayName(decoded.user.name));
-
-      navigate('/post');
-    } else {
-      return;
-    }
-  }, [accessToken]);
   return (
     <>
       <div className='SNS'>

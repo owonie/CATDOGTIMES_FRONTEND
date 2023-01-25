@@ -43,7 +43,7 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
   const followers = () => {
     console.log(userId);
     let reqdata = {
-      type: 'following',
+      type: 'follower',
       memberNo: parseInt(userId),
     };
     const loadData = async () => {
@@ -203,14 +203,10 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
                       ? followlist[0].type
                       : ''}
                   </h3>
-                  <ul className='followlist'>
+                  <ul className='followlist' style={{ overflow: 'none ' }}>
                     {followlist && followlist.length > 0
                       ? followlist.map((da, i) => (
-                          <li
-                            key={i}
-                            className='d-flex'
-                            style={{ margin: '20px' }}
-                          >
+                          <li key={i} className='d-flex'>
                             <a href='#' className='d-flex'>
                               <span className='thum'>
                                 <img
@@ -218,15 +214,16 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
                                   alt={da.memberNickname}
                                 />
                               </span>
-                              <span className='ptitle'>
-                                {' '}
-                                {da.memberNickname}{' '}
+                              <span
+                                className='ptitle'
+                                style={{ width: '250px' }}
+                              >
+                                {da.memberNickname}
                               </span>
                               <Button
                                 key='submit'
                                 type='primary'
                                 style={{
-                                  left: '140px',
                                   backgroundColor: '#e48663',
                                 }}
                                 onClick={() => {
@@ -236,7 +233,7 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
                                   setOpen(false);
                                 }}
                               >
-                                <span style={{ margin: '0' }}>대화 하기</span>
+                                <span>대화 하기</span>
                               </Button>
                             </a>
                           </li>

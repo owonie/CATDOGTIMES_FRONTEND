@@ -92,7 +92,7 @@ const WalkModal = ({
 
   let route = {
     routeName: routeName,
-    memberNo: 1,
+    memberNo: userId && userId,
     routeThumbnail: imageSavedName,
     imageSavedName: imageSavedName,
     routePublic: formLayout,
@@ -103,13 +103,13 @@ const WalkModal = ({
   let rate = {
     routeNo: routeInfo && routeInfo.routeNo,
     routeRatingScore: routeRating,
-    memberNo: 1,
+    memberNo: userId && userId,
   };
 
   let userRate = {
     routeNo: routeInfo && routeInfo.routeNo,
     routeRatingScore: routeRating,
-    memberNo: 1,
+    memberNo: userId && userId,
   };
 
   let participant = {
@@ -127,7 +127,7 @@ const WalkModal = ({
     setOpen(false);
     setIsWalking(false);
     handleRating();
-    // navigate('/post');
+    navigate('/post');
   };
 
   const loadMoreData = () => {
@@ -203,11 +203,6 @@ const WalkModal = ({
     'userRate',
     new Blob([JSON.stringify(userRate)], { type: 'application/json' })
   );
-  const participantData = new FormData();
-  participantData.append(
-    'participant',
-    new Blob([JSON.stringify(participant)], { type: 'application/json' })
-  );
 
   const showModal = () => {
     addLocationsDone();
@@ -234,7 +229,16 @@ const WalkModal = ({
     }, 1000);
   };
 
-  const handleWalkInvite = () => {
+  const handleWalkInvite = (memberNo) => {
+    participant = {
+      memberNo: memberNo,
+      partyNo: userId,
+    };
+    const participantData = new FormData();
+    participantData.append(
+      'participant',
+      new Blob([JSON.stringify(participant)], { type: 'application/json' })
+    );
     console.log('rate:', participant);
     axios
       .post('/route/addparticipant', participantData)
@@ -257,7 +261,7 @@ const WalkModal = ({
       .post('/route/addroute', formData)
       .then((res) => {
         axios
-          .get(`/route/routelist?MemberNo=${1}`)
+          .get(`/route/routelist?MemberNo=${userId}`)
           .then((res) => {
             {
               Object.keys(res.data).map((key) => {
@@ -448,7 +452,7 @@ const WalkModal = ({
                     ? followlist[0].type
                     : ''}
                 </h3>
-                <ul className='followlist'>
+                <ul className='followlist' style={{ overflow: 'hidden' }}>
                   {followlist && followlist.length > 0
                     ? followlist.map((da, i) => (
                         <li
@@ -483,7 +487,7 @@ const WalkModal = ({
                                 console.log('산책신청!');
                                 setParticipantNo(da.memberNo);
 
-                                handleWalkInvite();
+                                handleWalkInvite(da.memberNo);
                               }}
                             >
                               <span style={{ margin: '0' }}>산책 신청</span>
@@ -527,7 +531,6 @@ const WalkModal = ({
                   type='primary'
                   loading={loading}
                   style={{ backgroundColor: 'red' }}
-                  onClick={() => {}}
                 >
                   산책종료
                 </Button>
@@ -536,7 +539,49 @@ const WalkModal = ({
           ]}
         >
           <Carousel style={{ marginTop: '30px' }} ref={walkingRef} dots={false}>
-            {walkingEnd != true && <div>산책멤버</div>}
+            {walkingEnd != true && (
+              <div>
+                {' '}
+                <ul className='followlist'>
+                  {followlist && followlist.length > 0
+                    ? followlist.map((da, i) => (
+                        <li
+                          key={i}
+                          className='d-flex'
+                          style={{ margin: '20px' }}
+                        >
+                          <a
+                            href='#'
+                            className='d-flex'
+                            style={{ position: 'relative' }}
+                          >
+                            <span className='thum'>
+                              <img
+                                src={`${imgPath}${da.memberPhoto}`}
+                                alt={da.memberNickname}
+                              />
+                            </span>
+                            <span className='ptitle'>
+                              {' '}
+                              {da.memberNickname}{' '}
+                              <span
+                                style={{
+                                  right: '70px',
+                                  color: 'blue',
+                                  fontWeight: '600',
+                                  position: 'absolute',
+                                }}
+                              >
+                                산책 중
+                              </span>
+                            </span>
+                          </a>
+                        </li>
+                      ))
+                    : 'NoData'}
+                </ul>
+              </div>
+            )}
 
             {walkingEnd && (
               <div className={styles.ratingPage}>
@@ -566,12 +611,46 @@ const WalkModal = ({
               <div>
                 <span style={{ display: 'block' }}>
                   <span className='ant-rate-text'>사용자 평점: </span>
-                  <Rate tooltips={desc} onChange={setValue} value={value} />
-                  {value ? (
-                    <span className='ant-rate-text'>{desc[value - 1]}</span>
-                  ) : (
-                    ''
-                  )}
+                  <ul className='followlist'>
+                    {followlist && followlist.length > 0
+                      ? followlist.map((da, i) => (
+                          <li
+                            key={i}
+                            className='d-flex'
+                            style={{ margin: '10px' }}
+                          >
+                            <a
+                              href='#'
+                              className='d-flex'
+                              style={{ position: 'relative' }}
+                            >
+                              <span className='thum'>
+                                <img
+                                  src={`${imgPath}${da.memberPhoto}`}
+                                  alt={da.memberNickname}
+                                />
+                              </span>
+                              <span className='ptitle'>
+                                {' '}
+                                {da.memberNickname}{' '}
+                                <Rate
+                                  tooltips={desc}
+                                  onChange={setValue}
+                                  value={value}
+                                />
+                                {value ? (
+                                  <span className='ant-rate-text'>
+                                    {desc[value - 1]}
+                                  </span>
+                                ) : (
+                                  ''
+                                )}
+                              </span>
+                            </a>
+                          </li>
+                        ))
+                      : 'NoData'}
+                  </ul>
                 </span>
               </div>
             )}
