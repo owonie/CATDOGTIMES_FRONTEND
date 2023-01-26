@@ -132,7 +132,7 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
 
   return (
     <div className={styles.DM}>
-      <nav className={styles.navbar}>
+      <nav id='nav'>
         <NavBar />
       </nav>
       <section className={styles.center}>
@@ -233,7 +233,9 @@ const DirectMessage = ({ roomRepository, messageRepository }) => {
                                   setOpen(false);
                                 }}
                               >
-                                <span>대화 하기</span>
+                                <span style={{ paddingLeft: '14px' }}>
+                                  대화 하기
+                                </span>
                               </Button>
                             </a>
                           </li>

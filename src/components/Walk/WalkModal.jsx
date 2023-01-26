@@ -495,7 +495,7 @@ const WalkModal = ({
                           </a>
                         </li>
                       ))
-                    : 'NoData'}
+                    : '친구를 추가해주세요!'}
                 </ul>
               </div>
             </div>
@@ -632,19 +632,7 @@ const WalkModal = ({
                               </span>
                               <span className='ptitle'>
                                 {' '}
-                                {da.memberNickname}{' '}
-                                <Rate
-                                  tooltips={desc}
-                                  onChange={setValue}
-                                  value={value}
-                                />
-                                {value ? (
-                                  <span className='ant-rate-text'>
-                                    {desc[value - 1]}
-                                  </span>
-                                ) : (
-                                  ''
-                                )}
+                                {da.memberNickname} <Rate tooltips={desc} />
                               </span>
                             </a>
                           </li>

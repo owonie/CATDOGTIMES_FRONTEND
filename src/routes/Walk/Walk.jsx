@@ -54,7 +54,10 @@ const Walk = ({ weatherKey, routeRepository }) => {
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
-
+  const [locationNo, setLocationNo] = useState({
+    latitue: 36.98654639611907,
+    longitude: 126.91866826115154,
+  });
   const { location, cancleLocationWatch, error } =
     useWatchLocation(geolocationOptions);
 
@@ -174,13 +177,18 @@ const Walk = ({ weatherKey, routeRepository }) => {
   useLayoutEffect(() => {
     const getCurrentLocation = () => {
       // 현재 위치 가져오기
-      navigator.geolocation.getCurrentPosition((position) => {
-        let lat = position.coords.latitude;
-        let lon = position.coords.longitude;
-        setCurrentLocation([lat, lon]);
-        console.log('현재 위치', lat, lon);
-        getWeatherByCurrentLocation(lat, lon);
-      });
+      let lat = 36.98660918457504;
+      let lon = 126.91824978334402;
+      setCurrentLocation([lat, lon]);
+      getWeatherByCurrentLocation(lat, lon);
+
+      // navigator.geolocation.getCurrentPosition((position) => {
+      //   let lat = position.coords.latitude;
+      //   let lon = position.coords.longitude;
+      //   setCurrentLocation([lat, lon]);
+      //   console.log('현재 위치', lat, lon);
+      //   getWeatherByCurrentLocation(lat, lon);
+      // });
     };
 
     // 현재 위치 날씨 API 가져오기
@@ -370,26 +378,26 @@ const Walk = ({ weatherKey, routeRepository }) => {
     if (!kakaoMap) {
       return;
     }
-    if (!userMarker && location) {
+    if (!userMarker && location && currentLocation) {
+      console.log('current:', currentLocation);
       let marker = new kakao.maps.Marker({
         map: kakaoMap,
-        position: new kakao.maps.LatLng(location.latitude, location.longitude),
+        position: new kakao.maps.LatLng(currentLocation[0], currentLocation[1]),
         image: posImage,
-        draggable: true,
       });
       setUserMarker(marker);
       return;
     }
-    userMarker.setPosition(
-      new kakao.maps.LatLng(location.latitude, location.longitude)
-    );
+    // userMarker.setPosition(
+    //   new kakao.maps.LatLng(currentLocation[0], currentLocation[1])
+    // );
 
     const point = { y: location.latitude, x: location.longitude };
     // 산책 중 실 경로 저장
 
     if (isWalking) {
       setRealRoute([...realRoute, point]);
-      userPolyline.setPath(pointsToPath(realRoute));
+      // userPolyline.setPath(pointsToPath(realRoute));
       console.log(pointsToPath(realRoute));
     }
     console.log('위치변경!:', point.y, point.x);
@@ -431,6 +439,35 @@ const Walk = ({ weatherKey, routeRepository }) => {
     };
     loadData();
   };
+  const locations = [
+    [36.98654639611907, 126.91866826115154],
+    [36.98655599063827, 126.91952472916455],
+    [36.98657905566769, 126.92032221270898],
+    [36.986191912907, 126.92080561172766],
+    [36.9854755476264, 126.9208007381171],
+    [36.98467582825499, 126.92079033488257],
+    [36.983862629977445, 126.92083610635326],
+    [36.982761058440424, 126.92084286363055],
+    [36.98172031176167, 126.92085236562646],
+    [36.981080395649, 126.92063401036205],
+    [36.98042228015519, 126.92015173510512],
+  ];
+  // 시연용 useEffect:
+  useEffect(() => {
+    if (isWalking === true && userMarker) {
+      let i = 0;
+      setInterval(() => {
+        if (i == 11) {
+          return;
+        }
+        userMarker.setPosition(
+          new kakao.maps.LatLng(locations[i][0], locations[i][1])
+        );
+
+        i = i + 1;
+      }, 1000);
+    }
+  }, [isWalking]);
 
   return (
     <>
